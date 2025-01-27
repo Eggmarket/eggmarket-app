@@ -11,7 +11,7 @@ export default function IndividualFilters({
   filterValues,
 }) {
   const [selectedFilter, setSelectedFilter] = useState([]);
-  const { provinces, cities } = useOrigins();
+  const {provinces} = useOrigins();
   const [filters, setFilters] = useState(filterValues);
   const filterHandler = (name, value, type) => {
     if (type === "add") {

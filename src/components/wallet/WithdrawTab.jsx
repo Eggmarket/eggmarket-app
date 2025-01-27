@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../UI/Button";
 import Num2persian from "num2persian";
-import { adjustWidthOfInput } from "@/utils/adjustWidthOfInput";
 import { formatPrice } from "@/utils/formatPrice";
+import { Axios } from "@/axios";
+import { toast } from "react-toastify";
 
 const options = [
-  { number: "۱۲۳۴۵۶۷۸۹۱۲۳۴۵۶۷۸۹۱۲۳۴۵۶", bankName: "کشاورزی" },
-  { number: "۱۲۳۴۵۶۷۸۹۱۲۳۴۵۶۷۸۹۱۲۳۴۵۶", bankName: "کشاورزی" },
+  { number: "123456789123456789123456", bankName: "کشاورزی" },
+  { number: "123456789123456789123456", bankName: "صادرات" },
 ];
 
 export default function WithdrawTab() {
@@ -17,6 +18,25 @@ export default function WithdrawTab() {
   const [showMenu, setShowMenu] = useState(false);
   const inputRef = useRef();
   const withdrwRef = useRef();
+
+  async function withdrawRequest() {
+    const response = await Axios.post(
+      `/API/payment-request/add-withdrawal-request`,
+      {
+        amount: Number(withdrawValues.value.replace(/,/g, "")),
+        shaba: withdrawValues.accountInfo.number,
+      }
+    );
+    setWithdrawValues({
+      value: "",
+      accountInfo: { number: "", bankName: "" },
+    });
+    if (response.status === 200) {
+      toast.info("درخواست ثبت شد");
+    } else {
+      toast.error("متاسفانه درخواست ثبت نشد.");
+    }
+  }
 
   useEffect(() => {
     const handler = (e) => {
@@ -145,7 +165,7 @@ export default function WithdrawTab() {
         <Button
           type="button-primary"
           text="ثبت درخواست وجه"
-          onClick={() => {}}
+          onClick={() => withdrawRequest()}
           width="w-full"
           disabled={
             !withdrawValues.value ||

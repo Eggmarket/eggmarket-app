@@ -65,7 +65,7 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
       });
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_EGG_MARKET}API/transactions/purchase`,
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/purchase`,
         {
           method: "POST",
           headers: {
@@ -78,14 +78,12 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
 
       if (res.status === 200) {
         const data = await res.json(); // Parse JSON for success response
-        console.log(data);
         router.push("/buy");
       } else if (res.status === 400) {
         toast.error("موجودی کیف پول شما کافی نیست");
         document.getElementById("modal_buy").close();
       } else if (res.status === 403) {
         const errorData = await res.json(); // Parse the error response
-        console.error("403 Forbidden:", errorData);
         toast.warning(
           `Authorization Error: ${
             errorData.message ||

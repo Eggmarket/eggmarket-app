@@ -13,14 +13,11 @@ export const WalletProvider = ({ children }) => {
 
   async function fetchWallet() {
     await axios
-      .get(
-        `${process.env.NEXT_PUBLIC_NEW_EGGMARKET}/API/transactions/balance`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
+      .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/balance`, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((response) => {
         setWallet(response.data.wallet);
         setLoading(false);

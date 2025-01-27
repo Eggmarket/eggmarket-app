@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import SearchBox from "../UI/SearchBox";
 import Checkbox from "../UI/Checkbox";
 import SelectBadge from "../UI/SelectBadge";
-import { BrandOptions } from "../static";
+import { useBrands } from "@/context/BrandsProvider";
+import ScrollBar from "../UI/ScrollBar";
 
 export default function Brand({ selected, setSelected }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+
+  const { brands } = useBrands();
+
   useEffect(() => {
     if (searchTerm === "") {
-      setSearchResult(BrandOptions);
+      setSearchResult(brands);
     } else {
       setSearchResult(
-        BrandOptions.filter((item) => item.title.includes(searchTerm))
+        brands.filter((brand) => brand.brand_name.startsWith(searchTerm))
       );
     }
   }, [searchTerm]);
@@ -23,10 +27,10 @@ export default function Brand({ selected, setSelected }) {
         id,
         title,
       };
-      setSelected("brand", checked, "add");
+      setSelected("brands", checked, "add");
     } else {
       setSelected(
-        "brand",
+        "brands",
         selected.filter((item) => item.id !== id),
         "replace"
       );
@@ -35,27 +39,25 @@ export default function Brand({ selected, setSelected }) {
 
   const closeHandler = (badge) =>
     setSelected(
-      "brand",
+      "brands",
       selected.filter((item) => item.id !== badge.id),
       "replace"
     );
   return (
-    <div className="pt-4">
+    <div className="flex-1 pt-4">
       <div className="px-8 mb-8">
         <SearchBox
           text="برند"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          setSearchTerm={setSearchTerm}
         />
         <div className="pr-4">
           {selected.length !== 0 ? (
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className="carousel gap-1 mt-8">
               {selected?.map((item) => (
-                <SelectBadge
-                  key={item.id}
-                  badge={item}
-                  onClose={closeHandler}
-                />
+                <div className="carousel-item" key={item.id}>
+                  <SelectBadge badge={item} onClose={closeHandler} />
+                </div>
               ))}
             </div>
           ) : (
@@ -63,16 +65,16 @@ export default function Brand({ selected, setSelected }) {
           )}
         </div>
       </div>
-      <div className="px-8">
+      <ScrollBar>
         {searchResult.map((item) => (
           <Checkbox
             key={item.id}
-            data={item}
+            data={{ id: item.id, title: item.brand_name }}
             onChange={handleChecked}
             checked={selected?.find((s) => s.id === item.id) ? true : false}
           />
         ))}
-      </div>
+      </ScrollBar>
     </div>
   );
 }

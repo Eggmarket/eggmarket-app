@@ -11,9 +11,11 @@ import moment from "jalali-moment";
 import { monthNames } from "../static";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Axios } from "@/axios";
 
 export default function DepositTabs({ updateHandler }) {
   const { push } = useRouter();
+  const j = moment();
   const today = moment().local("fa");
   const [selectedTab, setSelectedTab] = useState(1);
   const [billRegister, setBillRegister] = useState({
@@ -21,32 +23,33 @@ export default function DepositTabs({ updateHandler }) {
     billNumber: "",
     date: {
       day: today.jDate(),
-      month: today.jMonth(),
+      month: monthNames[today.jMonth()],
       year: today.jYear(),
     },
-    imageUrl: "",
   });
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file)); // Create a URL to preview the image
-    }
+    const files = event.target.files;
+
+    // if (file) {
+    setSelectedImage(event.target.files[0]); // Create a URL to preview the image
+    // }
   };
 
   const depositRef = useRef();
+  const imageSelector = useRef();
   const [token, setToken] = useToken();
 
   async function addCredit() {
     setLoading(true);
     await axios
       .post(
-        `${process.env.NEXT_PUBLIC_NEW_EGGMARKET}/API/paymethods/pay`,
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
         {
           paymethod: "sep",
-          amount: Number(`${billRegister.depositValue.replace(/,/g, "")}0`),
+          amount: Number(`${billRegister.depositValue.replace(/,/g, "")}`),
           // "orderid": 1234,
           // callbackurl: "http://localhost:3000/my/wallet",
         },
@@ -67,6 +70,7 @@ export default function DepositTabs({ updateHandler }) {
       })
       .catch((error) => {
         setLoading(false);
+        toast.error("مشکلی در درخواست وجود دارد");
         console.log(error);
       });
 
@@ -110,6 +114,30 @@ export default function DepositTabs({ updateHandler }) {
     //   });
   }
 
+  async function addDepositRequest() {
+    const j = moment(
+      `${billRegister.date.year}-${billRegister.date.month}-${billRegister.date.day}`,
+      "jYYYY-jM-jD"
+    );
+
+    const formData = new FormData();
+    formData.append("amount", billRegister.depositValue.replace(/,/g, ""));
+    formData.append("invoice_number", billRegister.billNumber);
+    formData.append(
+      "invoice_date",
+      new Date(j.format("YYYY-M-D")).getTime() / 1000
+    );
+    formData.append("invoice_pic", selectedImage);
+    const response = await Axios.post(
+      "/API/payment-request/add-deposit-request",
+      formData
+    );
+    if (response.status === 200) {
+      toast.info("فیش شما ثبت شد.");
+    } else {
+      toast.error("فیش شما ثبت نشد.");
+    }
+  }
   return (
     <>
       <form method="post" id="formPay" className="hidden">
@@ -208,25 +236,33 @@ export default function DepositTabs({ updateHandler }) {
                 }
               >
                 <p className="text-default-900 font-black flex-1 text-right">
-                  {billRegister.date.year}/{billRegister.date.month + 1}/
+                  {billRegister.date.year}/
+                  {monthNames.indexOf(billRegister.date.month) + 1}/
                   {billRegister.date.day}
                 </p>
                 <span className="icon-light-linear-Calender-1 text-xl text-[#2D264B]"></span>
               </button>
-              <div className="flex justify-between relative w-full mb-2 gap-1 rounded-xl border border-[#C2C2C2] bg-default-50">
-                <span className="text-default-400 py-3 px-6">
-                  {billRegister.imageUrl
-                    ? billRegister.imageUrl
+              <label
+                className="flex relative w-full mb-2 gap-2 rounded-xl border border-[#C2C2C2] bg-default-50 cursor-pointer"
+                htmlFor="fileInput"
+              >
+                <span className="text-default-400 py-3 px-6 flex-1">
+                  {selectedImage
+                    ? selectedImage.name
                     : " بارگذاری تصویر فیش واریزی"}
                 </span>
-                {/* <input
-                  type="file"
-                  accept="image/"
-                  className="placeholder:text-default-50 placeholder:font-medium bg-tertiary rounded-l-xl px-4"
-                  placeholder="انتخاب تصویر"
-                  onChange={handleImageChange}
-                /> */}
-              </div>
+                <span className="text-default-50 font-medium bg-tertiary rounded-l-xl px-4 leading-[50px]">
+                  انتخاب تصویر
+                </span>
+              </label>
+              <input
+                id="fileInput"
+                type="file"
+                accept="image/"
+                className="hidden"
+                ref={imageSelector}
+                onChange={handleImageChange}
+              />
             </>
           )}
         </div>
@@ -251,13 +287,12 @@ export default function DepositTabs({ updateHandler }) {
           <Button
             type="button-primary"
             text="ثبت"
-            onClick={() => {}}
+            onClick={() => addDepositRequest()}
             width="w-full"
             disabled={
               !billRegister.depositValue ||
               !billRegister.billNumber ||
               !billRegister.date ||
-              !billRegister.imageUrl ||
               billRegister.depositValue === "0"
             }
           />
@@ -271,7 +306,7 @@ export default function DepositTabs({ updateHandler }) {
             ...billRegister,
             date: {
               year: value.year,
-              month: monthNames.findIndex(value.month),
+              month: value.month,
               day: value.day,
             },
           })

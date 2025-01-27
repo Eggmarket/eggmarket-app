@@ -3,10 +3,13 @@ import Button from "../UI/Button";
 import { PrintOptions, QualityOptions, YolkOptions } from "../static";
 import RenderComponent from "./RenderComponent";
 import { useOrigins } from "@/context/OriginsProvider";
+import { useBrands } from "@/context/BrandsProvider";
 
 function AllFilters({ setFilterValues, filterOptions, filterValues }) {
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [filters, setFilters] = useState(filterValues);
+
+  const { brands } = useBrands();
   const { provinces, cities } = useOrigins();
   const filterHandler = (name, value, type) => {
     if (type === "add") {
@@ -46,6 +49,7 @@ function AllFilters({ setFilterValues, filterOptions, filterValues }) {
                     print_types: [],
                     yolk_types: [],
                     qualities: [],
+                    brands: [],
                   });
                   setFilterValues({
                     status: "",
@@ -53,7 +57,7 @@ function AllFilters({ setFilterValues, filterOptions, filterValues }) {
                     print_types: [],
                     yolk_types: [],
                     qualities: [],
-                    pack_types: [],
+                    brands: [],
                   });
                 }}
               >
@@ -178,6 +182,23 @@ function AllFilters({ setFilterValues, filterOptions, filterValues }) {
                                 }
                               }
                             );
+                          case "brands": {
+                            return filterValues[filter.value].map(
+                              (itr, index) => {
+                                if (index === 0) {
+                                  return (
+                                    <span key={index + 1}>{itr.title}</span>
+                                  );
+                                } else {
+                                  return (
+                                    <span
+                                      key={index + 1}
+                                    >{`, ${itr.title}`}</span>
+                                  );
+                                }
+                              }
+                            );
+                          }
                           // case "weight":
                           //   return (
                           //     (filterValues.weight.min !== 8 ||

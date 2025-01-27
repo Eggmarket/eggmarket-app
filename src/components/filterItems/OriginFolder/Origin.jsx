@@ -211,7 +211,7 @@ export default function Origin({ selected, setSelected }) {
   };
 
   return (
-    <>
+    <div className="flex-1">
       <div className="px-8 mb-8">
         <SearchBox
           text="شهر یا استان"
@@ -265,6 +265,6 @@ export default function Origin({ selected, setSelected }) {
           />
         )}
       </ScrollBar>
-    </>
+    </div>
   );
 }

@@ -18,6 +18,7 @@ export default function Page() {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [walletCard, setWalletCard] = useState(false);
+  const [wallectCardWidth, setWalletCardWidth] = useState(0);
 
   const { back } = useRouter();
   const { wallet, loading, reFetchWallet } = useWallet();
@@ -28,10 +29,11 @@ export default function Page() {
     getUserTransactions();
     reFetchWallet();
   };
+
   async function getUserTransactions() {
     setIsLoading(true);
     await axios
-      .get(`${process.env.NEXT_PUBLIC_NEW_EGGMARKET}/API/transactions/list`, {
+      .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/list`, {
         headers: {
           Authorization: token,
         },
@@ -52,8 +54,9 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    console.log(walletCardRef);
-  }, [walletCardRef]);
+    getUserTransactions();
+    setWalletCardWidth(walletCardRef.current?.offsetWidth);
+  }, [wallectCardWidth]);
 
   return (
     <div className="bg-default-50 min-h-screen flex flex-col">
@@ -73,40 +76,44 @@ export default function Page() {
               setWalletCard(!walletCard);
             }}
           >
-            <span
-              className={`absolute ${
-                walletCard
-                  ? "top-11 left-1/2 text-default-500 text-[70px]"
-                  : `top-4 text-[32px] text-default-300 left-[${
-                      walletCardRef.current?.offsetWidth / 2 - 16
-                    }px]`
-              } icon-light-linear-Wallet transition-all duration-300 ease-in-out`}
-            ></span>
-            <p
-              className={`absolute ${
-                walletCard
-                  ? "right-6 top-8"
-                  : `top-14 right-[${
-                      walletCardRef.current?.offsetWidth / 2 - 50
-                    }px]`
-              } text-sm text-default-300 transition-all duration-300 ease-in-out`}
-            >
-              موجودی کیف پول:
-            </p>
-            <div
-              className={`absolute flex items-center gap-1 ${
-                walletCard
-                  ? "left-6 top-8 text-xl font-semibold"
-                  : `top-24 text-[28px] font-medium left-[${
-                      walletCardRef.current?.offsetWidth / 2 - 90
-                    }px] `
-              } transition-all duration-300 ease-in-out`}
-            >
-              <span className="text-default-50">
-                {trimPrice(wallet?.value, ",")}
-              </span>
-              <span className="text-[#C2C2C2] text-xs">تومان</span>
-            </div>
+            {wallectCardWidth ? (
+              <>
+                <span
+                  className={`absolute ${
+                    walletCard
+                      ? "top-11 left-1/2 text-default-500 text-[70px]"
+                      : `top-4 text-[32px] text-default-300 left-[${
+                          wallectCardWidth / 2 - 16
+                        }px]`
+                  } icon-light-linear-Wallet transition-all duration-300 ease-in-out`}
+                ></span>
+                <p
+                  className={`absolute ${
+                    walletCard
+                      ? "right-6 top-8"
+                      : `top-14 right-[${wallectCardWidth / 2 - 50}px]`
+                  } text-sm text-default-300 transition-all duration-300 ease-in-out`}
+                >
+                  موجودی کیف پول:
+                </p>
+                <div
+                  className={`absolute flex items-center gap-1 ${
+                    walletCard
+                      ? "left-6 top-8 text-xl font-semibold"
+                      : `top-24 text-[28px] font-medium left-[${
+                          wallectCardWidth / 2 - 90
+                        }px] `
+                  } transition-all duration-300 ease-in-out`}
+                >
+                  <span className="text-default-50">
+                    {trimPrice(wallet?.value, ",")}
+                  </span>
+                  <span className="text-[#C2C2C2] text-xs">تومان</span>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
 
             {/* <div
             className={`${

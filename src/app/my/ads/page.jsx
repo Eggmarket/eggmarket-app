@@ -19,7 +19,6 @@ export default function Page() {
   const { back } = useRouter();
   const [ads, setAds] = useState([]);
   const [filteredAds, setFilteredAds] = useState([]);
-  const [provinces, setProvinces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [dateFrom, setDateFrom] = useState(null);
@@ -57,20 +56,11 @@ export default function Page() {
         setIsLoading(false);
         setAds(res.data.my_loads);
         setFilteredAds(res.data.my_loads);
-        dateHandler(res.data.my_loads);
       }
     } catch (err) {
       setIsLoading(false);
       console.error("data failed:", err);
     }
-  };
-  const getProvinces = async () => {
-    await axios
-      .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/locations/provinces`)
-      .then((response) => {
-        setProvinces(response.data.provinces);
-      })
-      .catch((error) => {});
   };
   const deleteData = async () => {
     try {
@@ -160,7 +150,6 @@ export default function Page() {
 
   useEffect(() => {
     getData();
-    getProvinces();
   }, []);
 
   useEffect(() => {
@@ -280,7 +269,6 @@ export default function Page() {
                   <MyAdCard
                     key={card.id}
                     card={card}
-                    provinces={provinces}
                     setSelected={setSelected}
                   />
                 </React.Fragment>
@@ -343,7 +331,6 @@ export default function Page() {
         {selected && (
           <EditAdForm
             card={selected}
-            provinces={provinces}
             setSelected={setSelected}
             getData={getData}
           />

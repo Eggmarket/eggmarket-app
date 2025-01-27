@@ -38,7 +38,7 @@ export default function InputField({
           ref={inputRef}
           onChange={onChange}
           type={type}
-          className={`bg-default-50  w-full px-4 h-[50px] text-default-900 font-normal text-base `}
+          className={`bg-default-50 w-full px-4 h-[50px] text-default-900 font-normal text-base`}
           placeholder={placeholder}
         />
       </div>

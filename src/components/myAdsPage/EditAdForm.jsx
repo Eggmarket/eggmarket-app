@@ -7,13 +7,16 @@ import axios from "axios";
 import { useToken } from "../hook/useToken/useToken";
 import InputField from "../UI/InputField";
 import { toast } from "react-toastify";
+import { useOrigins } from "@/context/OriginsProvider";
+import SelectCity from "../UI/SelectCity";
 
-export default function EditAdForm({ card, provinces, setSelected, getData }) {
+export default function EditAdForm({ card, setSelected, getData }) {
   const [profile, setProfile] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isDescOpen, setIsDescOpen] = useState(
     card.description === "" ? false : true
   );
+  const { provinces, cities } = useOrigins();
 
   const {
     register,
@@ -24,7 +27,14 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
     formState: { isValid, isDirty },
   } = useForm({
     defaultValues: {
-      origin: provinces.find((item) => item.id === card.origin_field1),
+      origin: {
+        cityId: cities.find((city) => city.title === card.origin_field2).id,
+        provinceId: card.origin_field1,
+        cityName: card.origin_field2,
+        optionTitle: `${card.origin_field2} - ${
+          provinces.find((province) => province.id === card.origin_field1).title
+        }`,
+      },
       yolk_type: card.yolk_type,
       weight: card.weight,
       quality: card.quality,
@@ -51,6 +61,7 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/loads/edit`,
           {
+            loadID: card.loadID,
             client: "web",
             origin_field1: data.origin.provinceId, //province id
             origin_field2: data.origin.cityName, //city name
@@ -185,7 +196,7 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
             isDirty={isDirty}
             defaultValue={getValues("yolk_type")}
           />
-          <InputSelect
+          <SelectCity
             name="origin"
             label="محل بارگیری"
             options={provinces}

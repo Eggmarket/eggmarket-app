@@ -82,7 +82,7 @@ export default function Page() {
         if (myToken) {
           try {
             const res = await fetch(
-              `${process.env.NEXT_PUBLIC_EGG_MARKET}API/customers/profile`,
+              `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/profile`,
               {
                 method: "POST",
                 headers: {

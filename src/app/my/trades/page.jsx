@@ -145,7 +145,7 @@ export default function Page() {
     setIsFactorLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_EGG_MARKET}API/factors/factor`,
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/factors/factor`,
         {
           id: tradeId,
         },

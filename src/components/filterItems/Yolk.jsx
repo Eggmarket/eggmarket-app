@@ -16,7 +16,7 @@ export default function Yolk({ selected, setSelected }) {
   };
 
   return (
-    <div className="list pr-6 pl-8 pt-4">
+    <div className="flex-1 list pr-6 pl-8 pt-4">
       {YolkOptions.map((option) => (
         <Checkbox
           key={option.id}

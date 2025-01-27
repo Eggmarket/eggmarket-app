@@ -6,8 +6,8 @@ import FullModal from "../Modal/FullModal";
 import Quality from "../filterItems/Quality";
 import Yolk from "../filterItems/Yolk";
 import Print from "../filterItems/Print";
-import OriginFilter from "../filterItems/OriginFilter";
 import Origin from "../filterItems/OriginFolder/Origin";
+import Brand from "../filterItems/Brand";
 
 const filterOptions = [
   {
@@ -39,6 +39,11 @@ const filterOptions = [
     title: "کیفیت",
     value: "qualities",
     renderComponent: Quality,
+  },
+  {
+    title: "برند",
+    value: "brands",
+    renderComponent: Brand,
   },
 ];
 

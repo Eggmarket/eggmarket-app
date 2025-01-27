@@ -11,11 +11,11 @@ import FilterLayout from "@/components/filters/FilterLayout";
 import moment from "jalali-moment";
 import PriceSuggestionModal from "@/components/Modal/PriceSuggestionModal";
 import ShareLoadLinkModal from "@/components/Modal/ShareLoadLinkModal";
+import { useOrigins } from "@/context/OriginsProvider";
 
 export default function Home() {
   let j = moment();
   const [selectedCard, setSelectedCard] = useState("");
-  const [provinces, setProvinces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -25,7 +25,10 @@ export default function Home() {
     print_types: [],
     yolk_types: [],
     qualities: [],
+    brands: [],
   });
+
+  const { provinces } = useOrigins();
 
   async function getLoads(lastID = "") {
     setIsLoading(true);
@@ -37,6 +40,7 @@ export default function Home() {
         yolk_types: filterValues.yolk_types,
         qualities: filterValues.qualities,
         cities: filterValues.origins.map((origin) => String(origin.id)),
+        brands: filterValues.brands,
         origins: [],
         pack_types: [],
         types: [],
@@ -60,20 +64,6 @@ export default function Home() {
   useEffect(() => {
     getLoads();
   }, [filterValues]);
-
-  useEffect(() => {
-    async function getProvinces() {
-      await axios
-        .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/locations/provinces`)
-        .then((response) => {
-          setProvinces(response.data.provinces);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-    getProvinces();
-  }, []);
 
   // useEffect(() => {
   //   let filtered = filteredData;

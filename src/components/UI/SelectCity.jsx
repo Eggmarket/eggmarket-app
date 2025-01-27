@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import CustomSearchSelect from "./CustomSearchSelect";
-import axios from "axios";
 import { useOrigins } from "@/context/OriginsProvider";
 
 export default function SelectCity({

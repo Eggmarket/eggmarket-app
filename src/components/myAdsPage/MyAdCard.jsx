@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import Badge from "../UI/Badge";
 import moment from "jalali-moment";
+import { useOrigins } from "@/context/OriginsProvider";
 
-export default function MyAdCard({ card, provinces, setSelected }) {
+export default function MyAdCard({ card, setSelected }) {
   const [detail, setDetail] = useState({});
+  const { provinces } = useOrigins();
   const {
     description,
     details,

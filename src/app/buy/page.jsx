@@ -32,42 +32,20 @@ export default function Page() {
         },
         {
           name: "تاریخ",
-          text: new Date().toLocaleDateString("fa-IR"),
-          second: new Date().toLocaleTimeString("fa-IR").slice(0, 5),
+          text: JSON.parse(searchParams.get("0[params]")).date.split(' ')[0], //convert
+          second: JSON.parse(searchParams.get("0[params]")).date.split(' ')[1].slice(0,5),
         },
         {
           name: "مبلغ",
-          text: JSON.parse(searchParams.get("0[params]")).Amount,
+          text: JSON.parse(searchParams.get("0[params]")).Amount.substring(
+            0,
+            JSON.parse(searchParams.get("0[params]")).Amount.length - 1
+          ),
           second: "تومان",
         },
       ]);
     }
   }, [searchParams]);
-
-  const lists = [
-    {
-      name: "شماره فاکتور",
-      text: "۱۴۰۳۰۷۱۴۰۰۴-۱",
-    },
-    {
-      name: "شماره پیگیری",
-      text: "۱۲۳۴۵۶۷۸۹۰",
-    },
-    {
-      name: "نوع پرداخت",
-      text: "پرداخت آنلاین",
-    },
-    {
-      name: "تاریخ",
-      text: "۱۴۰۳/۰۴/۱۵",
-      second: "۱۲:۴۷",
-    },
-    {
-      name: "مبلغ",
-      text: "۲۲۲.۷۵۰.۰۰۰",
-      second: "تومان",
-    },
-  ];
 
   return (
     <div className="min-h-screen flex flex-col justify-center gap-7 px-6">

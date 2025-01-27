@@ -21,6 +21,7 @@ export default function CustomSearchSelect({
   useEffect(() => {
     setSearchResult(options);
   }, [options]);
+
   useEffect(() => {
     if (!isDirty && !defaultValue) {
       setSelectedValue("");
@@ -42,6 +43,8 @@ export default function CustomSearchSelect({
   });
 
   useEffect(() => {
+    console.log("here");
+
     register("origin", { required: true });
   }, [register]);
 
@@ -74,7 +77,11 @@ export default function CustomSearchSelect({
           name="search"
           id="search"
           value={
-            showMenu ? searchInput : selectedValue ? selectedValue.title : ""
+            showMenu
+              ? searchInput
+              : selectedValue
+              ? selectedValue.optionTitle
+              : ""
           }
           onChange={(e) => {
             getOptions(e.target.value);
@@ -85,14 +92,14 @@ export default function CustomSearchSelect({
       </div>
       {showMenu && (
         <div className="dropdown-menu alignment--auto max-h-32">
-          {searchResult.map((option) => (
+          {searchResult.map((option, index) => (
             <option
               onClick={() => {
                 setSearchInput(option.optionTitle);
                 setSelectedValue(option);
                 setValue("origin", option, { shouldValidate: true });
               }}
-              key={option.id}
+              key={index}
               value={option.id}
               className={`dropdown-item ${isSelected(option) && "selected"}`}
             >
