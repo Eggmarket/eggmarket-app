@@ -156,7 +156,6 @@ export default function Page() {
         }
       );
       setFactor({ ...response.data });
-
       setIsFactorLoading(false);
     } catch (error) {
       setIsFactorLoading(false);

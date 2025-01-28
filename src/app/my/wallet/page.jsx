@@ -1,5 +1,4 @@
 "use client";
-import MyTransactionCard from "@/components/Cards/MyTransactionCard";
 import { useToken } from "@/components/hook/useToken/useToken";
 import BottomModal from "@/components/Modal/BottomModal";
 import DepositTabs from "@/components/wallet/DepositTabs";
@@ -12,19 +11,16 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import walletTrxIcon from "@/components/svg/walletTrx.svg";
 import Image from "next/image";
-import { useRef } from "react";
 import MyRequestCard from "@/components/Cards/MyRequestCard";
+import WalletCard from "@/components/wallet/WalletCard";
 
 export default function Page() {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [walletCard, setWalletCard] = useState(false);
-  const [wallectCardWidth, setWalletCardWidth] = useState(0);
 
   const { back } = useRouter();
-  const { wallet, loading, reFetchWallet } = useWallet();
+  const { reFetchWallet } = useWallet();
   const [token, setToken] = useToken();
-  const walletCardRef = useRef();
 
   const updateHandler = () => {
     getUserTransactions();
@@ -54,8 +50,7 @@ export default function Page() {
 
   useEffect(() => {
     getUserTransactions();
-    setWalletCardWidth(walletCardRef.current?.offsetWidth);
-  }, [wallectCardWidth]);
+  }, []);
 
   return (
     <div className="bg-default-50 min-h-screen flex flex-col">
@@ -67,144 +62,7 @@ export default function Page() {
         <h3 className="font-semibold text-xl text-default-900">کیف پول</h3>
       </div>
       <div className="flex-1 px-8">
-        {walletCardRef && (
-          <button
-            ref={walletCardRef}
-            className="p-4 w-full rounded-xl bg-gradient-to-r from-tertiary to-purple-900 mb-8 relative h-[156px]"
-            onClick={() => {
-              setWalletCard(!walletCard);
-            }}
-          >
-            {wallectCardWidth ? (
-              <>
-                <span
-                  className={`absolute ${
-                    walletCard
-                      ? "top-11 left-1/2 text-default-500 text-[70px]"
-                      : `top-4 text-[32px] text-default-300 left-[${
-                          wallectCardWidth / 2 - 16
-                        }px]`
-                  } icon-light-linear-Wallet transition-all duration-300 ease-in-out`}
-                ></span>
-                <p
-                  className={`absolute ${
-                    walletCard
-                      ? "right-6 top-8"
-                      : `top-14 right-[${wallectCardWidth / 2 - 50}px]`
-                  } text-sm text-default-300 transition-all duration-300 ease-in-out`}
-                >
-                  موجودی کیف پول:
-                </p>
-                <div
-                  className={`absolute flex items-center gap-1 ${
-                    walletCard
-                      ? "left-6 top-8 text-xl font-semibold"
-                      : `top-24 text-[28px] font-medium left-[${
-                          wallectCardWidth / 2 - 90
-                        }px] `
-                  } transition-all duration-300 ease-in-out`}
-                >
-                  <span className="text-default-50">
-                    {trimPrice(wallet?.value, ",")}
-                  </span>
-                  <span className="text-[#C2C2C2] text-xs">تومان</span>
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-
-            {/* <div
-            className={`${
-              walletCard ? "hidden" : "flex"
-            } flex-col items-center transition-all duration-300 ease-in-out`}
-          >
-            <span className="icon-light-linear-Wallet text-[32px] text-default-300"></span>
-            <p className="text-sm text-default-300 mt-2 mb-4">
-              موجودی کیف پول:
-            </p>
-            <div>
-              <span className="text-default-50">
-                {trimPrice(wallet?.value, ",")}
-              </span>
-              <span className="text-[#C2C2C2] text-xs"> تومان</span>
-            </div>
-          </div>*/}
-            <div
-              className={`${
-                walletCard ? "opacity-100" : "opacity-0"
-              } transition-opacity ease-in-out duration-500 absolute bottom-6 inset-x-6`}
-            >
-              <div className="flex items-center justify-between w-full mb-2">
-                <p className="text-sm text-default-300">بلوکه شده:</p>
-                <p className="flex items-center">
-                  <span className="font-semibold text-xl ml-2 text-primary">
-                    {loading ? (
-                      <span className="loading loading-dots loading-xs"></span>
-                    ) : (
-                      trimPrice(wallet?.suspended, ",")
-                    )}
-                  </span>
-                  <span className="text-xs text-primary">تومان</span>
-                </p>
-              </div>
-              <div className="flex items-center justify-between w-full">
-                <p className="text-sm text-default-300">قدرت خرید:</p>
-                <p className="flex items-center">
-                  <span className="font-semibold text-xl ml-2 text-default-50">
-                    {loading ? (
-                      <span className="loading loading-dots loading-xs"></span>
-                    ) : (
-                      trimPrice(wallet?.balance, ",")
-                    )}
-                  </span>
-                  <span className="text-xs text-[#C2C2C2]">تومان</span>
-                </p>
-              </div>
-            </div>
-          </button>
-        )}
-        {/* <div className="py-6 w-full rounded-xl bg-gradient-to-r from-tertiary to-purple-900 flex flex-col items-center mb-8">
-          <div className="flex items-center justify-between w-full mb-2">
-            <p className="text-sm text-default-300">موجودی کل:</p>
-            <p className="flex items-center">
-              <span className="font-semibold text-xl ml-2 text-default-50">
-                {loading ? (
-                  <span className="loading loading-dots loading-xs"></span>
-                ) : (
-                  trimPrice(wallet?.value, ",")
-                )}
-              </span>
-              <span className="text-xs text-[#C2C2C2]">تومان</span>
-            </p>
-          </div>
-          <div className="flex items-center justify-between w-full mb-2">
-            <p className="text-sm text-default-300">بلوکه شده:</p>
-            <p className="flex items-center">
-              <span className="font-semibold text-xl ml-2 text-primary">
-                {loading ? (
-                  <span className="loading loading-dots loading-xs"></span>
-                ) : (
-                  trimPrice(wallet?.suspended, ",")
-                )}
-              </span>
-              <span className="text-xs text-primary">تومان</span>
-            </p>
-          </div>
-          <div className="flex items-center justify-between w-full">
-            <p className="text-sm text-default-300">قدرت خرید:</p>
-            <p className="flex items-center">
-              <span className="font-semibold text-xl ml-2 text-default-50">
-                {loading ? (
-                  <span className="loading loading-dots loading-xs"></span>
-                ) : (
-                  trimPrice(wallet?.balance, ",")
-                )}
-              </span>
-              <span className="text-xs text-[#C2C2C2]">تومان</span>
-            </p>
-          </div>
-        </div> */}
+        <WalletCard />
         <div className="grid grid-cols-2 gap-4 mb-8">
           <button
             onClick={() => document.getElementById("depositModal").showModal()}
@@ -253,7 +111,7 @@ export default function Page() {
           <p className="text-xs text-default-400 mb-2">
             آخرین درخواست‌های ثبت‌شده
           </p>
-          {loading ? (
+          {isLoading ? (
             <div className="flex justify-center">
               <span className="loading loading-spinner loading-lg"></span>
             </div>

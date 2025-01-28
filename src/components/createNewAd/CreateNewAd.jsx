@@ -39,7 +39,11 @@ export default function CreateNewAd({ profile }) {
 
   const weight = register("weight", { required: true, pattern: /^[0-9]+$/ });
   const brand = register("brand", { required: true });
-  const count = register("count", { required: true, pattern: /^[0-9]+$/ });
+  const count = register("count", {
+    required: true,
+    pattern: /^[0-9]+$/,
+    min: 180,
+  });
   const price = register("price", { required: false, pattern: /^[0-9]+$/ });
   const description = register("description", { required: false });
 

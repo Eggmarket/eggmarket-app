@@ -4,6 +4,8 @@ import Badge from "../UI/Badge";
 import { useOrigins } from "@/context/OriginsProvider";
 import axios from "axios";
 import { useToken } from "../hook/useToken/useToken";
+import { toast } from "react-toastify";
+import { Axios } from "@/axios";
 
 const billData = [
   { title: "کد رهگیری", value: "۱۴۰۳۰۹۹۰۹۱۳۰۴۰۷۳۷۳۵۴۹۱۰۰۰۹۴۰۷" },
@@ -18,6 +20,18 @@ const billData = [
 
 export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
   const { provinces } = useOrigins();
+  const [token, setToken] = useToken();
+
+  const completePayment = async () => {
+    const response = await Axios.post(`/API/transactions/complete-payment`, {
+      factor_id: card.id,
+    });
+    if (response.status === 200) {
+      toast.info("پرداخت نهایی شما انجام شد.");
+    }
+  };
+
+ 
 
   return (
     <div className="bg-default-50 cardShadow border border-default-200 py-3 rounded-lg mb-4">
@@ -39,10 +53,10 @@ export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
         <div>
           <p className="text-primary text-xs font-bold">
             ({card.status === 0 && "نهایی شده"}
-            {card.status === 1 && "پرداخت علی الحساب"}
-            {card.status === 2 && "پرداخت تسویه"}
-            {card.status === 3 && "اطلاعات ارسال"}
-            {card.status === 4 && "تایید تخلیه"})
+            {card.status === 1 && "در انتظار وزن کشی"}
+            {card.status === 2 && "در انتظار پرداخت نهایی"}
+            {card.status === 3 && "در انتظار اطلاعات باربری"}
+            {card.status === 4 && "در انتظار تایید تخلیه"})
           </p>
         </div>
       </div>
@@ -90,6 +104,7 @@ export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
             setSelectedTrade(card);
             document.getElementById(`unDoneTradeBillModal`).showModal();
             getFactor(card.id);
+            completePayment();
           }}
         >
           مشاهده فاکتور و پرداخت

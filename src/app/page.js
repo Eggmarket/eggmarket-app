@@ -65,43 +65,6 @@ export default function Home() {
     getLoads();
   }, [filterValues]);
 
-  // useEffect(() => {
-  //   let filtered = filteredData;
-  //   if (filterValues.available) {
-  //     filtered = filtered.filter((item) => item.status !== "sold");
-  //   } else if (filterValues.brand.length > 0) {
-  //     filtered = filtered.filter((item) => {
-  //       let brand = item.details.find(
-  //         (item) => item.title === "نام مجموعه"
-  //       )?.value;
-  //       if (BrandOptions.find((i) => i.title === brand)) return item;
-  //     });
-  //   } else if (
-  //     filterValues.weight.min !== 8 ||
-  //     filterValues.weight.max !== 14
-  //   ) {
-  //     filtered = filtered.filter((item) => {
-  //       let weight = item.details.find(
-  //         (item) => item.title === "وزن کارتن"
-  //       )?.value;
-  //       if (
-  //         Number(weight) > filterValues.weight.min &&
-  //         Number(weight) < filterValues.weight.max
-  //       )
-  //         return item;
-  //     });
-  //   } else {
-  //     filtered = data;
-  //   }
-  //   setFilteredData(filtered);
-  // }, [
-  //   data,
-  //   filterValues.available,
-  //   filterValues.brand,
-  //   filterValues.weight.min,
-  //   filterValues.weight.max,
-  // ]);
-
   return (
     <main>
       <div className="sticky top-0 h-[55px] z-10 px-2 bg-surface-secondary filterShadow">

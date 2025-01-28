@@ -11,8 +11,6 @@ export const BrandsProvider = ({ children }) => {
     await axios
       .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/loads/get_brands`)
       .then((response) => {
-        console.log(response);
-
         setBrands(response.data);
       })
       .catch((error) => {

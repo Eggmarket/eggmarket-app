@@ -4,9 +4,10 @@ import Button from "@/components/UI/Button";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import border from "@/image/border.svg";
-import { useReceipt } from "@/store/productDetail";
 import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas-pro";
+import { Axios } from "@/axios";
+import { toast } from "react-toastify";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -15,6 +16,8 @@ export default function Page() {
   const router = useRouter();
 
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("");
+
   useEffect(() => {
     if (searchParams.get("0[status]") === "1") {
       setData([
@@ -32,8 +35,10 @@ export default function Page() {
         },
         {
           name: "تاریخ",
-          text: JSON.parse(searchParams.get("0[params]")).date.split(' ')[0], //convert
-          second: JSON.parse(searchParams.get("0[params]")).date.split(' ')[1].slice(0,5),
+          text: JSON.parse(searchParams.get("0[params]")).date.split(" ")[0], //convert
+          second: JSON.parse(searchParams.get("0[params]"))
+            .date.split(" ")[1]
+            .slice(0, 5),
         },
         {
           name: "مبلغ",
@@ -44,11 +49,63 @@ export default function Page() {
           second: "تومان",
         },
       ]);
+    } else {
+      setStatus("error");
     }
   }, [searchParams]);
 
+  const prePurchaseLoad = async () => {
+    const response = await Axios.post("/API/transactions/purchase", {
+      load_id: Number(localStorage.getItem("prePurcahsedId")),
+    });
+    if (response.status === 200) {
+      toast.info("بار با موفقیت پیش خرید شد");
+      localStorage.removeItem("paymentStatus");
+      localStorage.removeItem("prePurcahsedId");
+    } else {
+      // Handle other errors
+      console.error("Error occurred:", response);
+      toast.warning("Unexpected error occurred. Please try again.");
+    }
+  };
+
+  const onlinePay = async () => {
+    const response = await Axios.post(
+      `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
+      {
+        paymethod: "sep",
+        amount: 200000000,
+      }
+    );
+    if (response.status === 200) {
+      toast.info(response.data[0].message);
+      const payForm = document.getElementById("formPay");
+      const toeknInput = document.getElementById("tokenInput");
+      payForm.setAttribute("action", response.data[0].params.actionURL);
+      toeknInput.setAttribute("value", response.data[0].params.Token);
+      document.getElementById("submitBtn").click();
+      localStorage.removeItem("paymentStatus");
+      localStorage.setItem("paymentStatus", "done");
+    } else {
+      toast.error("مشکلی در درخواست وجود دارد");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const local = localStorage.getItem("paymentStatus");
+    if (local === "done") {
+      prePurchaseLoad();
+    }
+    setStatus(localStorage.getItem("paymentStatus"));
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col justify-center gap-7 px-6">
+      <form method="post" id="formPay" className="hidden">
+        <input type="hidden" name="Token" id="tokenInput" />
+        <button id="submitBtn"></button>
+      </form>
       <div
         ref={captureRef}
         className="relative bg-[#F7F7F7] w-full rounded-tl-2xl rounded-tr-2xl border-solid border-t border-x border-[#C2C2C2]"
@@ -101,35 +158,43 @@ export default function Page() {
           </>
         )}
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          text={"ذخیره"}
-          type={
-            "w-full text-tertiary border-solid border-[2px] border-tertiary"
-          }
-          onClick={() => {
-            // addReceipt(lists);
-            const element = captureRef.current;
-            html2canvas(element, {
-              useCORS: true,
-              allowTaint: false,
-            }).then((canvas) => {
-              const link = document.createElement("a");
-              link.href = canvas.toDataURL("image/png");
-              link.download = "screenshot.png";
-              link.click();
-            });
-            // removeAllReceipt()
-          }}
-        />
-        <Button
-          text={"بازگشت به آگهی‌ها"}
-          type={
-            "w-full text-tertiary border-solid border-[2px] border-tertiary"
-          }
-          onClick={() => router.push("/")}
-        />
-      </div>
+      {status === "second" ? (
+        <>
+          <p className="text-sm">
+            شما اولین پرداخت علی الحساب برای این بار را انجام دادید. برای انجام
+            پرداخت دوم و پیش خرید بار کلیک کنید.
+          </p>
+          <Button
+            text="پرداخت آنلاین"
+            type="w-full text-tertiary border-solid border-[2px] border-tertiary"
+            onClick={() => onlinePay()}
+          />
+        </>
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            text="ذخیره"
+            type="w-full text-tertiary border-solid border-[2px] border-tertiary"
+            onClick={() => {
+              const element = captureRef.current;
+              html2canvas(element, {
+                useCORS: true,
+                allowTaint: false,
+              }).then((canvas) => {
+                const link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "screenshot.png";
+                link.click();
+              });
+            }}
+          />
+          <Button
+            text="بازگشت به آگهی‌ها"
+            type="w-full text-tertiary border-solid border-[2px] border-tertiary"
+            onClick={() => router.push("/")}
+          />
+        </div>
+      )}
     </div>
   );
 }

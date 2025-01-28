@@ -2,8 +2,20 @@ import React from "react";
 import Badge from "../UI/Badge";
 import Button from "../UI/Button";
 import DisapprovalLoadModal from "../Modal/DisapprovalLoadModal";
+import { Axios } from "@/axios";
+import { toast } from "react-toastify";
 
 function AcceptDeliverCard() {
+  const acceptDelivery = async () => {
+    const response = await Axios.post(`/API/transactions/accept-delivery`, {
+      factor_id: 3,
+    });
+    if (response.status === 200) {
+      toast.info(" تحویل تایید شد.");
+    } else {
+      toast.error(response.data.message);
+    }
+  };
   return (
     <div className="bg-default-50 cardShadow border border-default-200 py-3 rounded-lg mb-4">
       <div className="flex items-center justify-between px-4 pb-2">
@@ -60,7 +72,7 @@ function AcceptDeliverCard() {
           type="button-primary-2"
           text="تأیید می‌کنم"
           width="w-full"
-          onClick={() => {}}
+          onClick={() => acceptDelivery()}
         ></Button>
         <Button
           type="button-primary-error"
