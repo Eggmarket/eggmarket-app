@@ -5,10 +5,37 @@ import { useState } from "react";
 import { useRef } from "react";
 import { formatPrice } from "@/utils/formatPrice";
 import BottomModal from "./BottomModal";
+import axios from "axios";
+import { useToken } from "../hook/useToken/useToken";
+import { toast } from "react-toastify";
 
 function PriceSuggestionModal({ selectedCard, setSelectedCard = null }) {
   const [suggestedPrice, setSuggestedPrice] = useState("");
   const suggestedPriceRef = useRef();
+  const [token, setToken] = useToken();
+
+  const addPrice = async () => {
+    await axios
+      .post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/price-offer/add`,
+        {
+          load_id: selectedCard,
+          amount: Number(`${suggestedPrice.replace(/,/g, "")}`),
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        document.getElementById("priceSuggestionModal").close();
+        toast.info("قیمت پیشنهادی شما ثبت شد.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <BottomModal
       id="priceSuggestionModal"
@@ -78,7 +105,7 @@ function PriceSuggestionModal({ selectedCard, setSelectedCard = null }) {
           text="ثبت قیمت پیشنهادی"
           width="w-full"
           disabled={!suggestedPrice}
-          onClick={() => {}}
+          onClick={() => addPrice()}
         />
       </div>
     </BottomModal>

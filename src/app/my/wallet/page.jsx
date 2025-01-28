@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import walletTrxIcon from "@/components/svg/walletTrx.svg";
 import Image from "next/image";
 import { useRef } from "react";
+import MyRequestCard from "@/components/Cards/MyRequestCard";
 
 export default function Page() {
   const [transactions, setTransactions] = useState([]);
@@ -33,15 +34,13 @@ export default function Page() {
   async function getUserTransactions() {
     setIsLoading(true);
     await axios
-      .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/list`, {
+      .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/payment-request/list`, {
         headers: {
           Authorization: token,
         },
       })
       .then((response) => {
-        setTransactions(
-          response.data.filter((item) => item.reason === 4 || item.reason === 3)
-        );
+        setTransactions(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -265,9 +264,7 @@ export default function Page() {
           ) : (
             transactions
               .slice(0, 3)
-              .map((card, index) => (
-                <MyTransactionCard key={index} item={card} />
-              ))
+              .map((card, index) => <MyRequestCard key={index} item={card} />)
           )}
         </div>
       </div>

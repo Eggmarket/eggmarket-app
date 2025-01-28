@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import excelIcon from "@/components/svg/excelIcon.svg";
+import MyRequestCard from "@/components/Cards/MyRequestCard";
 
 export default function Page() {
   const { back } = useRouter();
@@ -31,7 +32,7 @@ export default function Page() {
     async function getUserTransactions() {
       setIsLoading(true);
       await axios
-        .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/list`, {
+        .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/payment-request/list`, {
           headers: {
             Authorization: token,
           },
@@ -97,7 +98,7 @@ export default function Page() {
                       <hr className="w-full border-default-300" />
                     </div>
                   )} */}
-                  <MyTransactionCard item={card} />
+                  <MyRequestCard item={card} />
                 </React.Fragment>
               );
             })}
