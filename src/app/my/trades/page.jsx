@@ -300,6 +300,7 @@ export default function Page() {
                   if (card.status === 4) {
                     return (
                       <AcceptDeliverCard
+                        key={card.id}
                         factor={card}
                         getUserDoneTrades={getUserDoneTrades}
                         getUserPendingTrades={getUserPendingTrades}
