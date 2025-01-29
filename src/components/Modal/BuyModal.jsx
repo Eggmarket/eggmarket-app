@@ -61,33 +61,26 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
   ];
 
   const payFromWallet = async () => {
-    try {
-      const response = await Axios.post("/API/transactions/purchase", {
-        load_id: product.load,
-      });
-      if (response.status === 200) {
-        toast.info("پرداخت از کیف پول انجام شد.");
-        router.push("/my/trades");
-      } else if (response.status === 400) {
-        toast.error("موجودی کیف پول شما کافی نیست");
-        document.getElementById("modal_buy").close();
-      } else if (response.status === 403) {
-        const errorData = await response.json(); // Parse the error response
-        toast.warning(
-          `Authorization Error: ${
-            errorData.message ||
-            "You are not authorized to perform this action."
-          }`
-        );
-      } else {
-        // Handle other errors
-        console.error("Error occurred:", response);
-        toast.warning("Unexpected error occurred. Please try again.");
-      }
-    } catch (error) {
-      // Catch unexpected errors
-      console.error("Unexpected error:", error);
-      toast.error(`مشکلی در سامانه وجود دارد`);
+    const response = await Axios.post("/API/transactions/purchase", {
+      load_id: product.load,
+    });
+    if (response.status === 200) {
+      toast.info("پرداخت از کیف پول انجام شد.");
+      router.push("/my/trades");
+    } else if (response.status === 400) {
+      toast.error("موجودی کیف پول شما کافی نیست");
+      document.getElementById("modal_buy").close();
+    } else if (response.status === 403) {
+      const errorData = await response.json(); // Parse the error response
+      toast.error(
+        `Authorization Error: ${
+          errorData.message || "You are not authorized to perform this action."
+        }`
+      );
+    } else {
+      // Handle other errors
+      console.error("Error occurred:", response);
+      toast.error("Unexpected error occurred. Please try again.");
     }
   };
 

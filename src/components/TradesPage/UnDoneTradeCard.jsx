@@ -28,10 +28,10 @@ export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
     });
     if (response.status === 200) {
       toast.info("پرداخت نهایی شما انجام شد.");
+    } else {
+      toast.error(response.data.message);
     }
   };
-
- 
 
   return (
     <div className="bg-default-50 cardShadow border border-default-200 py-3 rounded-lg mb-4">
