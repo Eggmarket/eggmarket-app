@@ -31,11 +31,15 @@ export default function Page() {
     async function getUserTransactions() {
       setIsLoading(true);
       await axios
-        .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/list`, {
-          headers: {
-            Authorization: token,
-          },
-        })
+        .post(
+          `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/list`,
+          { per_page: 1000 },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
         .then((response) => {
           setTransactions(
             response.data.filter(

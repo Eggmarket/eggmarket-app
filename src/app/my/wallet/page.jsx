@@ -30,13 +30,19 @@ export default function Page() {
   async function getUserTransactions() {
     setIsLoading(true);
     await axios
-      .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/payment-request/list`, {
-        headers: {
-          Authorization: token,
+      .post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/payment-request/list`,
+        {
+          per_page: 1000,
         },
-      })
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((response) => {
-        setTransactions(response.data);
+        setTransactions(response.data.reverse());
         setIsLoading(false);
       })
       .catch((error) => {
@@ -44,9 +50,6 @@ export default function Page() {
         setIsLoading(false);
       });
   }
-  useEffect(() => {
-    getUserTransactions();
-  }, []);
 
   useEffect(() => {
     getUserTransactions();

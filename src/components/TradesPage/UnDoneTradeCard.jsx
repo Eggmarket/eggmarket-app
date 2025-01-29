@@ -20,18 +20,6 @@ const billData = [
 
 export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
   const { provinces } = useOrigins();
-  const [token, setToken] = useToken();
-
-  const completePayment = async () => {
-    const response = await Axios.post(`/API/transactions/complete-payment`, {
-      factor_id: card.id,
-    });
-    if (response.status === 200) {
-      toast.info("پرداخت نهایی شما انجام شد.");
-    } else {
-      toast.error(response.data.message);
-    }
-  };
 
   return (
     <div className="bg-default-50 cardShadow border border-default-200 py-3 rounded-lg mb-4">
@@ -98,17 +86,29 @@ export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
         </p>
       </div>
       <div className="px-4">
-        <button
-          className="bg-green-100 rounded-xl w-full h-12 text-default-50 font-bold"
-          onClick={() => {
-            setSelectedTrade(card);
-            document.getElementById(`unDoneTradeBillModal`).showModal();
-            getFactor(card.id);
-            completePayment();
-          }}
-        >
-          مشاهده فاکتور و پرداخت
-        </button>
+        {card.status === 1 ? (
+          <button
+            className="bg-green-100 rounded-xl w-full h-12 text-default-50 font-bold"
+            onClick={() => {
+              setSelectedTrade(card);
+              document.getElementById(`unDoneTradeBillModal`).showModal();
+              getFactor(card.id);
+            }}
+          >
+            مشاهده فاکتور اولیه
+          </button>
+        ) : (
+          <button
+            className="bg-green-100 rounded-xl w-full h-12 text-default-50 font-bold"
+            onClick={() => {
+              setSelectedTrade(card);
+              document.getElementById(`unDoneTradeBillModal`).showModal();
+              getFactor(card.id);
+            }}
+          >
+            مشاهده فاکتور نهایی و پرداخت
+          </button>
+        )}
       </div>
     </div>
   );

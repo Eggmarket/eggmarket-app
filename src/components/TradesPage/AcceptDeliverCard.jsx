@@ -5,13 +5,19 @@ import DisapprovalLoadModal from "../Modal/DisapprovalLoadModal";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
 
-function AcceptDeliverCard() {
+function AcceptDeliverCard({
+  factor,
+  getUserPendingTrades,
+  getUserDoneTrades,
+}) {
   const acceptDelivery = async () => {
     const response = await Axios.post(`/API/transactions/accept-delivery`, {
-      factor_id: 3,
+      factor_id: factor.id,
     });
     if (response.status === 200) {
       toast.info(" تحویل تایید شد.");
+      getUserPendingTrades();
+      getUserDoneTrades();
     } else {
       toast.error(response.data.message);
     }

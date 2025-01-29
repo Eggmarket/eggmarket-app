@@ -75,6 +75,7 @@ export default function RootLayout({ children }) {
                     "/my/transactions",
                     "/my/wallet",
                     "/my/wallet/transactions",
+                    "/my/wallet/requests",
                     "/my/security",
                     "/my/security/set-password",
                     "/my/security/change-password",

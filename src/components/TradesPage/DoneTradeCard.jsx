@@ -28,7 +28,8 @@ export default function DoneTradeCard({ card, setSelectedTrade, getFactor }) {
             className="flex gap-1 items-center border border-tertiary rounded-3xl font-semibold text-sm py-1 px-3"
             onClick={() => {
               setSelectedTrade(card);
-              getFactor(card.id, "finalTradeBillModal");
+              document.getElementById(`unDoneTradeBillModal`).showModal();
+              getFactor(card.id);
             }}
           >
             <span className="icon-light-linear-Document-Justify-Right-1 text-base text-tertiary"></span>

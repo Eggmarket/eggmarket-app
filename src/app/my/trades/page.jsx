@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import DoneTradeCard from "@/components/TradesPage/DoneTradeCard";
 import DoneTradeFactorModal from "@/components/TradesPage/DoneTradeFactorModal";
 import UnDoneTradeFactorModal from "@/components/TradesPage/UnDoneTradeFactorModal";
+import moment from "jalali-moment";
 
 const items = [
   {
@@ -51,59 +52,59 @@ export default function Page() {
     return () => window.removeEventListener("scroll", listenToScroll);
   }, []);
 
+  async function getUserDoneTrades() {
+    setDoneLoading(true);
+    await axios
+      .post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/factors`,
+        {
+          page_num: 1,
+          per_page: 1000,
+          imperfect: false,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        setDonetrades(response.data);
+        setDoneFiltered(response.data);
+        setDoneLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setDoneLoading(false);
+      });
+  }
+  async function getUserPendingTrades() {
+    setPendingLoading(true);
+    await axios
+      .post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/factors`,
+        {
+          page_num: 1,
+          per_page: 1000,
+          imperfect: true,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        setPendingTrades(response.data);
+        setPendingFiltered(response.data);
+        setPendingLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setPendingLoading(false);
+      });
+  }
   useEffect(() => {
-    async function getUserDoneTrades() {
-      setDoneLoading(true);
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/factors`,
-          {
-            page_num: 1,
-            per_page: 10,
-            imperfect: false,
-          },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .then((response) => {
-          setDonetrades(response.data);
-          setDoneFiltered(response.data);
-          setDoneLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setDoneLoading(false);
-        });
-    }
-    async function getUserPendingTrades() {
-      setPendingLoading(true);
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/transactions/factors`,
-          {
-            page_num: 1,
-            per_page: 10,
-            imperfect: true,
-          },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .then((response) => {
-          setPendingTrades(response.data);
-          setPendingFiltered(response.data);
-          setPendingLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setPendingLoading(false);
-        });
-    }
     getUserDoneTrades();
     getUserPendingTrades();
   }, []);
@@ -169,6 +170,19 @@ export default function Page() {
       [data.id]: e.target.checked,
     }));
   };
+
+  function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var year = a.getFullYear();
+    var month = a.getMonth() + 1;
+    var day = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+
+    const j = moment(`${year}/${month}/${day}`);
+    const date = j.format("jYYYY/jMM/jDD");
+    return date;
+  }
 
   return (
     <div className="min-h-screen bg-surface-secondary">
@@ -282,15 +296,44 @@ export default function Page() {
               </div>
             ) : (
               <>
-                {pendingFiltered.map((card) => (
-                  <UnDoneTradeCard
-                    key={card.id}
-                    card={card}
-                    setSelectedTrade={setSelectedTrade}
-                    getFactor={getFactor}
-                  />
-                ))}
-                <AcceptDeliverCard />
+                {pendingFiltered.map((card) => {
+                  if (card.status === 4) {
+                    return (
+                      <AcceptDeliverCard
+                        factor={card}
+                        getUserDoneTrades={getUserDoneTrades}
+                        getUserPendingTrades={getUserPendingTrades}
+                      />
+                    );
+                  } else if (card.status === 3) {
+                    return (
+                      <UnDoneTradeCard
+                        key={card.id}
+                        card={card}
+                        setSelectedTrade={setSelectedTrade}
+                        getFactor={getFactor}
+                      />
+                    );
+                  } else if (card.status === 2) {
+                    return (
+                      <UnDoneTradeCard
+                        key={card.id}
+                        card={card}
+                        setSelectedTrade={setSelectedTrade}
+                        getFactor={getFactor}
+                      />
+                    );
+                  } else if (card.status === 1) {
+                    return (
+                      <UnDoneTradeCard
+                        key={card.id}
+                        card={card}
+                        setSelectedTrade={setSelectedTrade}
+                        getFactor={getFactor}
+                      />
+                    );
+                  }
+                })}
               </>
             )
           ) : doneLoading ? (
@@ -307,14 +350,12 @@ export default function Page() {
               {doneFiltered.map((card, index, arr) => {
                 let isEqual = false;
                 if (index !== 0) {
-                  let previous = new Date(arr[index - 1].time);
-                  previous = new Intl.DateTimeFormat("fa-IR").format(previous);
-                  let current = new Date(card.time);
-                  current = new Intl.DateTimeFormat("fa-IR").format(current);
-                  isEqual = current === previous;
+                  let previous = timeConverter(arr[index - 1].time);
+                  let current = timeConverter(card.time);
+                  isEqual = current.date === previous.date;
                 }
-                let date = new Date(card.time);
-                date = new Intl.DateTimeFormat("fa-IR").format(date).split("-");
+                let date = timeConverter(card.time);
+                date = date.split("/");
                 return (
                   <React.Fragment key={card.id}>
                     {!isEqual && (
@@ -354,6 +395,8 @@ export default function Page() {
       />
       <UnDoneTradeFactorModal
         setSelectedTrade={setSelectedTrade}
+        getUserDoneTrades={getUserDoneTrades}
+        getUserPendingTrades={getUserPendingTrades}
         factor={factor}
       />
     </div>

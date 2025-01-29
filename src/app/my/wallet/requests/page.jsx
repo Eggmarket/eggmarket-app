@@ -32,14 +32,20 @@ export default function Page() {
     async function getUserTransactions() {
       setIsLoading(true);
       await axios
-        .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/payment-request/list`, {
-          headers: {
-            Authorization: token,
+        .post(
+          `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/payment-request/list`,
+          {
+            per_page: 1000,
           },
-        })
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
         .then((response) => {
-          setTransactions(response.data);
-          setFilteredData(response.data);
+          setTransactions(response.data.reverse());
+          setFilteredData(response.data.reverse());
           setIsLoading(false);
         })
         .catch((error) => {
@@ -67,8 +73,7 @@ export default function Page() {
             document.getElementById("walletTransactionModal").showModal()
           }
           className="icon-light-linear-Filter-1 text-2xl text-purple-900 ml-4"
-        >
-        </button>
+        ></button>
       </div>
       <div className="pb-8">
         {isLoading ? (
