@@ -6,7 +6,6 @@ import BuyModal from "@/components/Modal/BuyModal";
 import PriceSuggestionModal from "@/components/Modal/PriceSuggestionModal";
 import ShareLoadLinkModal from "@/components/Modal/ShareLoadLinkModal";
 import Button from "@/components/UI/Button";
-import axios from "axios";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -134,4 +133,4 @@ function Page() {
   );
 }
 
-export default page;
+export default Page;

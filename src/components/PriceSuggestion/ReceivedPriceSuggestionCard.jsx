@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PriceSuggestionHeader from "./PriceSuggestionHeader";
 import { trimPrice } from "@/utils/trimPrice";
+import { Axios } from "@/axios";
 
 const data = [
   {
@@ -15,15 +16,33 @@ const data = [
   },
 ];
 
-function ReceivedPriceSuggestionCard() {
+function ReceivedPriceSuggestionCard({ request }) {
+  const [loadRequests, setLoadRequests] = useState([]);
+
+  const getLoadRequests = async () => {
+    const res = await Axios.post(`/API/price-offer/get-load-requests`, {
+      per_page: 1000,
+      load_id: request,
+    });
+    if (res.status === 200) {
+      setLoadRequests(res.data);
+    } else {
+      console.log(res);
+    }
+  };
+
+  useEffect(() => {
+    getLoadRequests();
+  }, []);
+
   return (
     <div className="bg-default-50 rounded-xl cardShadow">
       <PriceSuggestionHeader />
       <div className="mt-6 space-y-6">
-        {data.map((suggest, index) => (
+        {loadRequests.map((request, index) => (
           <div key={index} className="px-6 pb-6 last:border-none line">
             <p>
-              <span className="text-xs font-semibold text-default-700">
+              {/* <span className="text-xs font-semibold text-default-700">
                 پیشنهاد {index + 1} - مقصد:{" "}
               </span>
               <span className="text-default-900 text-base">
@@ -31,13 +50,13 @@ function ReceivedPriceSuggestionCard() {
               </span>{" "}
               <span className="text-default-500 text-xs">
                 ({suggest.destination})
-              </span>
+              </span> */}
             </p>
             <div className="mt-4 flex items-center gap-2">
               <p className="text-default-700 text-xs">
                 قیمت:{" "}
                 <span className="text-xl text-default-900 font-semibold">
-                  {trimPrice(suggest.price)}
+                  {trimPrice(request.amount)}
                 </span>{" "}
                 <span className="text-default-500">تومان</span>
               </p>

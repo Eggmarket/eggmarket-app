@@ -1,5 +1,3 @@
-import { useToken } from "./components/hook/useToken/useToken";
-
 const { default: axios } = require("axios");
 
 export const Axios = axios.create({

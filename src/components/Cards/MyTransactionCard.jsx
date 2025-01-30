@@ -20,7 +20,10 @@ export default function MyTransactionCard({ item }) {
             : ""}
         </span>
         <span className="text-10px text-default-500">
-          {dateFormat.getHours()}:{dateFormat.getMinutes()} -{" "}
+          {dateFormat.getHours() === 0
+            ? `${dateFormat.getHours()}0`
+            : dateFormat.getHours()}
+          :{String(dateFormat.getMinutes())} -{" "}
           {dateFormat.toLocaleDateString("fa-IR")}
         </span>
       </div>

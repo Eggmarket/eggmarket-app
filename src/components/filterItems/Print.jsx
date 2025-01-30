@@ -16,7 +16,7 @@ export default function Print({ selected, setSelected }) {
   };
 
   return (
-    <div className="flex-1 list pr-6 pl-8 pt-4">
+    <div className="flex-1 list pr-6 pl-8 pt-4 bg-white">
       {PrintOptions.map((option, index) => (
         <Checkbox
           key={index}

@@ -32,8 +32,8 @@ export default function Page() {
           }
         )
         .then((response) => {
-          setTransactions(response.data);
-          setFilteredTransactions(response.data);
+          setTransactions(response.data.reverse());
+          setFilteredTransactions(response.data.reverse());
           setIsLoading(false);
         })
         .catch((error) => {
