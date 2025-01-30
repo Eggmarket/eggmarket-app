@@ -58,10 +58,10 @@ function WeightBasedTable({ weightsPrice, weights }) {
                     {weights.find((item) => item.id === weight.type_id).title}
                   </td>
                   <td className="text-sm border-l border-r border-default-200">
-                    {weight?.price_1 ? trimPrice(weight?.price_1) : "--"}
+                    {weight?.price_1 !== '0' ? trimPrice(weight?.price_1) : "--"}
                   </td>
                   <td className="text-sm">
-                    {weight?.price_2 ? trimPrice(weight?.price_2) : "--"}
+                    {weight?.price_2 !== '0' ? trimPrice(weight?.price_2) : "--"}
                   </td>
                 </tr>
               ))

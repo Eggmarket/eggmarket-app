@@ -9,6 +9,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import excelIcon from "@/components/svg/excelIcon.svg";
+import HistoryModal from "@/components/Modal/HistoryModal";
+import BottomModal from "@/components/Modal/BottomModal";
+import Button from "@/components/UI/Button";
 
 export default function Page() {
   const { back } = useRouter();
@@ -25,6 +28,10 @@ export default function Page() {
   const [transactions, setTransactions] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [excelDate, setExcelDate] = useState({
+    from: "",
+    to: "",
+  });
   const [token, setToken] = useToken();
 
   useEffect(() => {
@@ -74,7 +81,11 @@ export default function Page() {
           </h3>
         </div>
         <div className="flex gap-2 items-center ml-4">
-          <button>
+          <button
+            onClick={() =>
+              document.getElementById("excelExportSettingModal").showModal()
+            }
+          >
             <Image src={excelIcon} height={24} width={24} alt="excel icon" />
           </button>
           <button
@@ -144,6 +155,81 @@ export default function Page() {
           transactions={transactions}
         />
       </FullModal>
+
+      <BottomModal id="excelExportSettingModal">
+        <form
+          method="dialog"
+          className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300"
+        >
+          <h3 className="text-sm text-tertiary">خروجی اکسل</h3>
+          <button className="btn btn-sm btn-circle btn-ghost">
+            <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
+          </button>
+        </form>
+        <div className="p-4">
+          <p className="text-sm text-default-600 mb-2">
+            بازه زمانی خروجی اکسل را مشخص کنید
+          </p>
+          <div className="flex gap-4 mb-8">
+            <button
+              onClick={() =>
+                document.getElementById("dateFromExcelModal").showModal()
+              }
+              className={`mt-2 w-full h-[50px] border border-[#C2C2C2] rounded-xl pr-4 pl-3 flex-1 flex justify-between items-center ${
+                excelDate?.from ? "bg-inherit" : "bg-surface-secondary"
+              }`}
+            >
+              <span className="text-sm text-default-500">از:</span>
+              <p className="font-medium text-default-900 text-base">
+                {excelDate.from
+                  ? `${excelDate.from.year}/${
+                      monthNames.indexOf(excelDate.from.month) + 1
+                    }/${excelDate.from.day}`
+                  : ""}
+              </p>
+              <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
+            </button>
+            <button
+              onClick={() =>
+                document.getElementById("dateToExcelModal").showModal()
+              }
+              className={`mt-2 w-full h-[50px] border border-[#C2C2C2] rounded-xl pr-4 pl-3 flex-1 flex justify-between items-center ${
+                excelDate.to ? "bg-inherit" : "bg-surface-secondary"
+              }`}
+            >
+              <span className="text-sm text-default-500">تا:</span>
+              <p className="font-medium text-default-900 text-base">
+                {excelDate.to
+                  ? `${excelDate.to.year}/${
+                      monthNames.indexOf(excelDate.to.month) + 1
+                    }/${excelDate.to.day}`
+                  : ""}
+              </p>
+              <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
+            </button>
+          </div>
+          <Button
+            type="button-primary-2"
+            text="دانلود"
+            width="w-full"
+            disabled={
+              excelDate.from === "" || excelDate.to === "" ? true : false
+            }
+            onClick={() => {
+              document.getElementById("excelExportSettingModal").close();
+            }}
+          />
+        </div>
+      </BottomModal>
+
+      <HistoryModal
+        id="dateFromExcelModal"
+        setDateValue={(data) => setExcelDate({ ...excelDate, from: data })}
+      />
+      <HistoryModal
+        id="dateToExcelModal"
+        setDateValue={(data) => setExcelDate({ ...excelDate, to: data })}
+      />
     </div>
   );
 }

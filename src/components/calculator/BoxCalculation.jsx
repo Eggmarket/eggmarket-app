@@ -1,7 +1,9 @@
 "use client";
 import { formatPrice } from "@/utils/formatPrice";
-import React from "react";
+import React, { useState } from "react";
 import { useRef } from "react";
+import CalculateResultModal from "./CalculateResultModal";
+import { calculateBoxResult } from "./calculateBoxResult";
 
 const formItems = [
   {
@@ -30,9 +32,25 @@ const formItems = [
   },
 ];
 
-export default function BoxCalculation({ values, setValues, source = "" }) {
+export default function BoxCalculation({ source }) {
   const feeRef = useRef(null);
   const weightRef = useRef(null);
+
+  const [boxValues, setBoxValues] = useState({
+    price: "",
+    weight: "",
+    quantity: "",
+    fee: "",
+  });
+
+  const [finalValue, setFinalValue] = useState({
+    basePrice: "",
+    overallPrice: "",
+    boxPrice: "",
+    bulkPrice: "",
+    eggPrice: "",
+  });
+
   return (
     <>
       <div className="px-6">
@@ -62,9 +80,9 @@ export default function BoxCalculation({ values, setValues, source = "" }) {
                     id={`boxCalculation${value}`}
                     placeholder={placeholder}
                     name={value}
-                    value={values[value]}
+                    value={boxValues[value]}
                     onChange={(e) =>
-                      setValues({ ...values, [value]: e.target.value })
+                      setBoxValues({ ...boxValues, [value]: e.target.value })
                     }
                     className="placeholder:text-lg placeholder:text-default-400 w-full bg-inherit outline-none text-default-900"
                   />
@@ -75,18 +93,18 @@ export default function BoxCalculation({ values, setValues, source = "" }) {
                     ref={index === 0 ? weightRef : feeRef}
                     className="absolute invisible text-default-900 text-lg"
                   >
-                    {values[value] || ""}
+                    {boxValues[value] || ""}
                   </span>
                   <input
                     type="text"
                     id={`boxCalculation${value}`}
                     placeholder={placeholder}
                     name={value}
-                    value={values[value]}
+                    value={boxValues[value]}
                     className="placeholder:text-lg placeholder:text-default-400 bg-inherit box-content outline-none text-lg"
                     style={{
                       width: `${
-                        values[value]
+                        boxValues[value]
                           ? `${
                               index === 0
                                 ? weightRef.current?.offsetWidth + 15
@@ -99,22 +117,22 @@ export default function BoxCalculation({ values, setValues, source = "" }) {
                     onChange={(e) => {
                       if (index === 0 || index === 3) {
                         const formattedValue = formatPrice(e.target.value);
-                        setValues({ ...values, [value]: formattedValue });
+                        setBoxValues({ ...boxValues, [value]: formattedValue });
                       } else {
-                        setValues({ ...values, [value]: e.target.value });
+                        setBoxValues({ ...boxValues, [value]: e.target.value });
                       }
                     }}
                   />
-                  {((index === 0 && values[value]) ||
-                    (index === 3 && values[value])) && (
+                  {((index === 0 && boxValues[value]) ||
+                    (index === 3 && boxValues[value])) && (
                     <span className="text-sm text-default-400">تومان</span>
                   )}
                 </div>
               )}
-              {values[value] && (
+              {boxValues[value] && (
                 <button
                   className="btn btn-xs btn-circle btn-ghost"
-                  onClick={() => setValues({ ...values, [value]: "" })}
+                  onClick={() => setBoxValues({ ...boxValues, [value]: "" })}
                 >
                   <span className="icon-light-bold-Close text-xl text-[#2D264B]"></span>
                 </button>
@@ -125,24 +143,25 @@ export default function BoxCalculation({ values, setValues, source = "" }) {
       </div>
       <div className="flex gap-3 px-6 py-4">
         <button
-          onClick={() =>
-            document.getElementById("calculateResultModal").showModal()
-          }
+          onClick={() => {
+            document.getElementById("calculateResultModal").showModal();
+            setFinalValue(calculateBoxResult(boxValues));
+          }}
           className={`button ${
             source === "landing"
               ? "button-primary-2 flex-1"
               : "button-primary w-3/5"
           }  ${
-            values.price !== "" &&
-            values.weight !== "" &&
-            values.quantity !== ""
+            boxValues.price !== "" &&
+            boxValues.weight !== "" &&
+            boxValues.quantity !== ""
               ? ""
               : "disabled"
           }`}
           disabled={
-            values.price !== "" &&
-            values.weight !== "" &&
-            values.quantity !== ""
+            boxValues.price !== "" &&
+            boxValues.weight !== "" &&
+            boxValues.quantity !== ""
               ? false
               : true
           }
@@ -153,7 +172,7 @@ export default function BoxCalculation({ values, setValues, source = "" }) {
           className={`border border-default-700 text-default-700 font-medium rounded-xl ${(source =
             "landing" ? "flex-1" : "w-2/5")}`}
           onClick={() =>
-            setValues({
+            setBoxValues({
               price: "",
               weight: "",
               quantity: "",
@@ -164,6 +183,7 @@ export default function BoxCalculation({ values, setValues, source = "" }) {
           پاک کردن فرم
         </button>
       </div>
+      <CalculateResultModal finalValue={finalValue} source="box" />
     </>
   );
 }

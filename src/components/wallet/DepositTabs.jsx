@@ -13,8 +13,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Axios } from "@/axios";
 
-export default function DepositTabs({ updateHandler }) {
-  const { push } = useRouter();
+export default function DepositTabs({}) {
   const j = moment();
   const today = moment().local("fa");
   const [selectedTab, setSelectedTab] = useState(1);
@@ -31,8 +30,9 @@ export default function DepositTabs({ updateHandler }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
-    const files = event.target.files;
-
+    document.getElementById("frame").src = URL.createObjectURL(
+      event.target.files[0]
+    );
     // if (file) {
     setSelectedImage(event.target.files[0]); // Create a URL to preview the image
     // }
@@ -138,6 +138,7 @@ export default function DepositTabs({ updateHandler }) {
       toast.error("فیش شما ثبت نشد.");
     }
   }
+
   return (
     <>
       <form method="post" id="formPay" className="hidden">
@@ -145,7 +146,10 @@ export default function DepositTabs({ updateHandler }) {
         <button id="submitBtn"></button>
       </form>
       <div className="pt-4 flex-1 bg-surface-secondary">
-        <div role="tablist" className="tabs flex tabs-lifted *:text-base">
+        <div
+          role="tablist"
+          className="tabs flex tabs-lifted text-xs tabs-custom"
+        >
           <a
             role="tab"
             className={`tab flex-1 text-default-500 [--tab-border-color:#F5F5F5] ${
@@ -176,12 +180,12 @@ export default function DepositTabs({ updateHandler }) {
           </a>
         </div>
         <div
-          className={`py-6 px-4 bg-default-50 rounded-b-xl h-full min-h-[304px] ${
+          className={`pt-10 px-8 bg-default-50 rounded-b-xl h-full min-h-[454px] ${
             selectedTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
           }`}
         >
           {selectedTab === 1 ? (
-            <div className="px-8 pt-10 bg-default-50 ">
+            <>
               <p className="text-default-700 text-sm mb-4">
                 مبلغ مورد نظر برای افزایش موجودی را وارد کنید
               </p>
@@ -196,7 +200,7 @@ export default function DepositTabs({ updateHandler }) {
                     billRegister.depositValue.replace(/,/g, "") * 10
                   )} ریال`}
               </p>
-            </div>
+            </>
           ) : (
             <>
               <DepositValueDiv
@@ -230,7 +234,7 @@ export default function DepositTabs({ updateHandler }) {
                 )}
               </div>
               <button
-                className="flex items-center relative w-full mb-4 gap-1 rounded-xl border border-[#C2C2C2] bg-default-50 px-4 focus-within:border-tertiary h-[50px] "
+                className="flex items-center relative w-full mb-4 gap-1 rounded-xl border border-[#C2C2C2] bg-default-50 px-4 focus-within:border-tertiary h-[50px]"
                 onClick={() =>
                   document.getElementById("depositByBillDate").showModal()
                 }
@@ -243,17 +247,31 @@ export default function DepositTabs({ updateHandler }) {
                 <span className="icon-light-linear-Calender-1 text-xl text-[#2D264B]"></span>
               </button>
               <label
-                className="flex relative w-full mb-2 gap-2 rounded-xl border border-[#C2C2C2] bg-default-50 cursor-pointer"
+                className="flex flex-col relative w-full mb-2 rounded-xl border border-[#C2C2C2] bg-default-50 cursor-pointer h-[200px] p-4"
                 htmlFor="fileInput"
               >
-                <span className="text-default-400 py-3 px-6 flex-1">
+                <span className="text-default-400 mb-8">
                   {selectedImage
                     ? selectedImage.name
                     : " بارگذاری تصویر فیش واریزی"}
                 </span>
-                <span className="text-default-50 font-medium bg-tertiary rounded-l-xl px-4 leading-[50px]">
-                  انتخاب تصویر
-                </span>
+                <img
+                  id="frame"
+                  src=""
+                  width="100px"
+                  height="100px"
+                  className={selectedImage ? "block self-center" : "hidden"}
+                />
+                <div
+                  className={`relative self-center ${
+                    selectedImage ? "hidden" : "block"
+                  }`}
+                >
+                  <span className="icon-light-linear-Camera-1 text-6xl  text-default-400"></span>
+                  <span className="text-default-400 text-6xl absolute -top-5 -left-8">
+                    +
+                  </span>
+                </div>
               </label>
               <input
                 id="fileInput"
@@ -263,6 +281,7 @@ export default function DepositTabs({ updateHandler }) {
                 ref={imageSelector}
                 onChange={handleImageChange}
               />
+              {/*  */}
             </>
           )}
         </div>

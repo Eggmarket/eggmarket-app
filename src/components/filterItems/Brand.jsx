@@ -44,7 +44,7 @@ export default function Brand({ selected, setSelected }) {
       "replace"
     );
   return (
-    <div className="flex-1 pt-4 bg-white">
+    <div className="flex-1 pt-4 bg-default-50">
       <div className="px-8 mb-8">
         <SearchBox
           text="برند"

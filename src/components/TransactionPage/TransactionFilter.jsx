@@ -4,7 +4,6 @@ import { monthNames } from "../static";
 import HistoryModal from "../Modal/HistoryModal";
 import TransFilterSelect from "../UI/TransFilterSelect";
 import Checkbox from "../UI/Checkbox";
-import moment from "jalali-moment";
 import compareDate from "@/utils/compareDate";
 import { formatPrice } from "@/utils/formatPrice";
 
@@ -116,7 +115,7 @@ export default function TransactionFilter({
                 filters.priceFrom ? "" : "bg-surface-secondary"
               }`}
             >
-              <span className="text-sm text-default-500 ml-6">از: </span>
+              <span className="text-sm text-default-500 ml-2">از: </span>
               <input
                 id="priceFrom"
                 className="font-medium text-default-900 bg-inherit w-full"
@@ -139,7 +138,7 @@ export default function TransactionFilter({
                 filters.priceTo ? "" : "bg-surface-secondary"
               }`}
             >
-              <span className="text-sm text-default-500 ml-6">تا:</span>
+              <span className="text-sm text-default-500 ml-2">تا:</span>
               <input
                 id="priceTo"
                 className="font-medium text-default-900 bg-inherit w-full"

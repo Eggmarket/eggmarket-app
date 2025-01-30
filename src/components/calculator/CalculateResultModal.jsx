@@ -3,14 +3,14 @@ import BottomModal from "../Modal/BottomModal";
 import { trimPrice } from "@/utils/trimPrice";
 import { handleSaveAsImage } from "@/utils/handleSaveAsImage";
 
-function CalculateResultModal({ finalValue }) {
+function CalculateResultModal({ finalValue, source }) {
   const tableRef = useRef();
 
   return (
     <BottomModal id="calculateResultModal">
       <form
         method="dialog"
-        className="flex-0 flex justify-between items-center py-3 px-6 border-b border-default-300 bg-default-50"
+        className="flex-0 flex justify-between items-center px-6 border-b border-default-300 bg-default-50 h-[46px]"
       >
         <h3 className="text-sm text-tertiary">قیمت تمام شده</h3>
         <button className="btn btn-sm btn-circle btn-ghost">
@@ -25,17 +25,19 @@ function CalculateResultModal({ finalValue }) {
                 قیمت پایه وزنی
               </div>
               <div className="text-lg text-[#0F0F0FCC] w-3/5">
-                {trimPrice(finalValue.weightBasePrice)}
+                {trimPrice(finalValue.basePrice)}
               </div>
             </div>
-            <div className="*:leading-[44px] *:text-center last:border-b-0">
-              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300">
-                قیمت کل
+            {source === "box" && (
+              <div className="*:leading-[44px] *:text-center last:border-b-0">
+                <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300">
+                  قیمت کل
+                </div>
+                <div className="text-lg text-[#0F0F0FCC] w-3/5">
+                  {trimPrice(finalValue.overallPrice)}
+                </div>
               </div>
-              <div className="text-lg text-[#0F0F0FCC] w-3/5">
-                {trimPrice(finalValue.overallPrice)}
-              </div>
-            </div>
+            )}
             <div className="*:leading-[44px] *:text-center last:border-b-0">
               <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300">
                 قیمت هر کارتن

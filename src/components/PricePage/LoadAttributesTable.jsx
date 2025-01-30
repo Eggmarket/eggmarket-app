@@ -35,9 +35,11 @@ function LoadAttributesTable({ attrLoad, citiesPrice }) {
               >
                 <td className="text-xs">{attribute.title}</td>
                 <td className="border-l border-r border-default-200">
-                  {city?.price_1 ? trimPrice(city?.price_1) : "--"}
+                  {city?.price_1 !== "0" ? trimPrice(city?.price_1) : "--"}
                 </td>
-                <td>{city?.price_2 ? trimPrice(city?.price_2) : "--"}</td>
+                <td>
+                  {city?.price_2 !== "0" ? trimPrice(city?.price_2) : "--"}
+                </td>
               </tr>
             );
           })}

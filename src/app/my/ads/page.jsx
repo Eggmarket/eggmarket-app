@@ -156,12 +156,12 @@ export default function Page() {
     let tempData = ads;
     if (dateFrom) {
       tempData = tempData.filter((item) =>
-        compareDate(item.reg_date, dateFrom, "from")
+        compareDate(item.reg_date_timestamp, dateFrom, "from")
       );
     }
     if (dateTo) {
       tempData = tempData.filter((item) =>
-        compareDate(item.reg_date, dateTo, "to")
+        compareDate(item.reg_date_timestamp, dateTo, "to")
       );
     }
     setFilteredAds(tempData);
@@ -191,7 +191,7 @@ export default function Page() {
           </button>
         )}
       </div>
-      <div className={`px-6 dateFilter relative ${isVisible ? "" : "hide"}`}>
+      <div className={`px-6 dateFilter relative `}>
         <p className="text-sm text-default-500 mb-2">تاریخ</p>
         <div className="flex gap-4">
           <button

@@ -48,22 +48,8 @@ const filterOptions = [
 ];
 
 export default function FilterLayout({ filterValues, setFilterValues }) {
-  // const [filters, setFilters] = useState(filterValues);
-  // const filterHandler = (name, value, type) => {
-  //   if (type === "add") {
-  //     setFilters((prev) => ({
-  //       ...prev,
-  //       [name]: [...filters[name], value],
-  //     }));
-  //   } else {
-  //     setFilters((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
   return (
-    <div className="flex items-center gap-1 py-3">
+    <div className="flex items-center gap-1 py-3 px-1">
       <button
         className="relative flex justify-center gap-1 items-center rounded-lg bg-tertiary px-2 py-1.5"
         onClick={() => document.getElementById(`allFiltersModal`).showModal()}

@@ -9,6 +9,7 @@ import InputField from "../UI/InputField";
 import { useToken } from "../hook/useToken/useToken";
 import BottomModal from "../Modal/BottomModal";
 import SelectCity from "../UI/SelectCity";
+import PriceInput from "./PriceInput";
 
 export default function CreateNewAd({ profile }) {
   const router = useRouter();
@@ -37,7 +38,10 @@ export default function CreateNewAd({ profile }) {
 
   const [token, setToken] = useToken();
 
-  const weight = register("weight", { required: true, pattern: /^[0-9]+$/ });
+  const weight = register("weight", {
+    required: true,
+    pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
+  });
   const brand = register("brand", { required: true });
   const count = register("count", {
     required: true,
@@ -104,7 +108,7 @@ export default function CreateNewAd({ profile }) {
     >
       <form
         method="dialog"
-        className="flex-0 flex justify-between items-center py-3 px-4 border-b border-default-300 bg-surface-secondary"
+        className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300 bg-surface-secondary"
       >
         <h3 className="text-sm text-tertiary">ثبت آگهی جدید</h3>
         <button className="btn btn-sm btn-circle btn-ghost">
@@ -125,6 +129,7 @@ export default function CreateNewAd({ profile }) {
                 placeholder="مثلا ۱۲.۵"
                 space="col-span-1"
                 type="number"
+                step="0.01"
               />
               <InputField
                 name={count.name}
@@ -183,7 +188,8 @@ export default function CreateNewAd({ profile }) {
                 defaultValue={getValues("origin")}
                 isSearch={true}
               />
-              <InputField
+              <PriceInput />
+              {/* <InputField
                 name={price.name}
                 onChange={price.onChange}
                 inputRef={price.ref}
@@ -193,7 +199,7 @@ export default function CreateNewAd({ profile }) {
                 placeholder="مثلا ۴۵,۰۰۰"
                 space="col-span-2"
                 type="number"
-              />
+              /> */}
               {isDescOpen ? (
                 <InputField
                   name={description.name}

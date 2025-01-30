@@ -48,7 +48,10 @@ export default function EditAdForm({ card, setSelected, getData }) {
 
   const [token, setToken] = useToken();
 
-  const weight = register("weight", { required: true, pattern: /^[0-9]+$/ });
+  const weight = register("weight", {
+    required: true,
+    pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
+  });
   const count = register("count", { required: true, pattern: /^[0-9]+$/ });
   const brand = register("brand", { required: true });
   const price = register("price", { required: false, pattern: /^[0-9]+$/ });
@@ -139,6 +142,7 @@ export default function EditAdForm({ card, setSelected, getData }) {
             placeholder="مثلا 12.5"
             space="col-span-1"
             type="number"
+            step="0.1"
           />
           <InputField
             name={count.name}

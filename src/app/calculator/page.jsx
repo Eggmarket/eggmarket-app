@@ -1,21 +1,15 @@
 "use client";
 import BoxCalculation from "@/components/calculator/BoxCalculation";
 import { calculateBoxResult } from "@/components/calculator/calculateBoxResult";
+import { calculateEggResult } from "@/components/calculator/calculateEggResult";
 import CalculateResultModal from "@/components/calculator/CalculateResultModal";
 import EggCalcaulation from "@/components/calculator/EggCalcaulation";
-import { trimPrice } from "@/utils/trimPrice";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function Page() {
   const { back } = useRouter();
   const [activeTab, setActiveTab] = useState(1);
-  const [boxValues, setBoxValues] = useState({
-    price: "",
-    weight: "",
-    quantity: "",
-    fee: "",
-  });
 
   const [eggValues, setEggValues] = useState({
     weight: "",
@@ -28,16 +22,15 @@ export default function Page() {
   });
 
   const [finalValue, setFinalValue] = useState({
-    weightBasePrice: "",
-    overallPrice: "",
+    basePrice: "",
     boxPrice: "",
     bulkPrice: "",
     eggPrice: "",
   });
 
   useEffect(() => {
-    setFinalValue(calculateBoxResult(boxValues));
-  }, [boxValues]);
+    setFinalValue(calculateEggResult(eggValues, 46000));
+  }, [eggValues]);
 
   return (
     <div className="px-4 pt-8 pb-20 h-screen flex flex-col">
@@ -51,7 +44,10 @@ export default function Page() {
         </div>
       </div>
       <div className="flex-1 flex flex-col h-full">
-        <div role="tablist" className="tabs tabs-lifted flex">
+        <div
+          role="tablist"
+          className="tabs tabs-lifted flex text-sm tabs-custom"
+        >
           <a
             role="tab"
             className={`flex-1 tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] text-xs sm:text-sm ${
@@ -81,13 +77,14 @@ export default function Page() {
           }`}
         >
           {activeTab === 1 ? (
-            <BoxCalculation values={boxValues} setValues={setBoxValues} />
+            <BoxCalculation />
           ) : (
             <EggCalcaulation values={eggValues} setValues={setEggValues} />
           )}
         </div>
       </div>
-      <CalculateResultModal finalValue={finalValue} />
+
+      <CalculateResultModal finalValue={finalValue} source="egg" />
     </div>
   );
 }

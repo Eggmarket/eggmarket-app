@@ -16,7 +16,7 @@ function RenderComponent({
       <MyComponent selected={filters[value]} setSelected={filterHandler} />
       <form
         method="dialog"
-        className="bg-white bottom-0 inset-x-0 border-t-default-300 w-full flex gap-3 px-6 py-4 z-10"
+        className="bg-default-50 bottom-0 inset-x-0 border-t-default-300 w-full flex gap-3 px-6 py-4 z-10"
       >
         <Button
           type="button-primary"

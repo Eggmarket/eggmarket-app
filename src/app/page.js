@@ -149,7 +149,7 @@ export default function Home() {
           </>
         )}
         <a
-          className="block"
+          className="block mt-4"
           referrerpolicy="origin"
           target="_blank"
           href="https://trustseal.enamad.ir/?id=529943&Code=E1c61yzJVW0wh3FeKLpQxVX7WxEEIkFB"
@@ -158,7 +158,7 @@ export default function Home() {
             referrerpolicy="origin"
             src="https://trustseal.enamad.ir/logo.aspx?id=529943&Code=E1c61yzJVW0wh3FeKLpQxVX7WxEEIkFB"
             alt=""
-            className="cursor-pointer size-24"
+            className="cursor-pointer size-24 mx-auto"
             code="E1c61yzJVW0wh3FeKLpQxVX7WxEEIkFB"
           />
         </a>

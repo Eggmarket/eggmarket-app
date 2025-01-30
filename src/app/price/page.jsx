@@ -102,7 +102,7 @@ export default function Page() {
 
   return (
     <div className="relative max-w-[440px]">
-      <div className="sticky top-0 bg-surface-secondary p-4 z-10">
+      <div className="sticky top-0 p-4 z-10">
         <div className="flex items-center justify-between bg-default-50 px-3 border border-[rgb(194,194,194)] rounded-xl h-12 py-1">
           <DatePicker
             visibleDate={visibleDate}
@@ -114,7 +114,10 @@ export default function Page() {
         </div>
       </div>
       <div className="px-4 mb-16">
-        <div role="tablist" className="tabs tabs-lifted *:text-base ">
+        <div
+          role="tablist"
+          className="tabs tabs-lifted *:text-base tabs-custom"
+        >
           <a
             role="tab"
             className={`tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] ${

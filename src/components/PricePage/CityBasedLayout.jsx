@@ -1,7 +1,5 @@
-import { trimPrice } from "@/utils/trimPrice";
-import Image from "next/image";
+
 import React, { useState } from "react";
-import noPriceIcon from "@/components/svg/icon-no-price.svg";
 import CityPriceModal from "../Modal/CityPriceModal";
 import CityBasedTable from "./CityBasedTable";
 

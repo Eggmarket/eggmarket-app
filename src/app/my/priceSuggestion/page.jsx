@@ -50,7 +50,7 @@ export default function Page() {
         <h3 className="font-semibold text-xl text-default-900">پیشنهاد قیمت</h3>
       </div>
       <div className="flex flex-col pb-4">
-        <div role="tablist" className="tabs tabs-lifted flex px-4">
+        <div role="tablist" className="tabs tabs-lifted flex px-4 tabs-custom">
           <a
             role="tab"
             className={`flex-1 tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] text-sm ${

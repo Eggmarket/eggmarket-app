@@ -124,13 +124,43 @@ function CityPriceModal({ defaultDate, selectedCity, setSelectedCity }) {
               </thead>
               <tbody className="bg-white *:border-b *:border-default-200">
                 <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
-                  <td>11</td>
+                  <td>13</td>
+                  <td className="border-r border-default-200">
+                    {trimPrice(50000)}
+                  </td>
+                </tr>
+                <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
+                  <td>12.5</td>
+                  <td className="border-r border-default-200">
+                    {trimPrice(50000)}
+                  </td>
+                </tr>
+                <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
+                  <td>12</td>
+                  <td className="border-r border-default-200">
+                    {trimPrice(50000)}
+                  </td>
+                </tr>
+                <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
+                  <td>11.5</td>
                   <td className="border-r border-default-200">
                     {trimPrice(50000)}
                   </td>
                 </tr>
                 <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
                   <td>11</td>
+                  <td className="border-r border-default-200">
+                    {trimPrice(50000)}
+                  </td>
+                </tr>
+                <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
+                  <td>10.5</td>
+                  <td className="border-r border-default-200">
+                    {trimPrice(50000)}
+                  </td>
+                </tr>
+                <tr className="last:border-0 hover:cursor-pointer *:rounded-b-lg *:h-[36px] *:py-0 *:px-1">
+                  <td>10</td>
                   <td className="border-r border-default-200">
                     {trimPrice(50000)}
                   </td>

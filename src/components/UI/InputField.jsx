@@ -12,6 +12,7 @@ export default function InputField({
   name,
   space,
   type,
+  step,
 }) {
   return (
     <div
@@ -40,6 +41,7 @@ export default function InputField({
           type={type}
           className={`bg-default-50 w-full px-4 h-[50px] text-default-900 font-normal text-base`}
           placeholder={placeholder}
+          step={step}
         />
       </div>
     </div>

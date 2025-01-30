@@ -60,10 +60,14 @@ function CityBasedTable({ cities, citiesPrice, setSelectedCity, source = "" }) {
                 >
                   <td>{city.title}</td>
                   <td className="border-l border-r border-default-200">
-                    {cityPrice?.price_1 ? trimPrice(cityPrice?.price_1) : "--"}
+                    {cityPrice?.price_1 !== "0"
+                      ? trimPrice(cityPrice?.price_1)
+                      : "--"}
                   </td>
                   <td>
-                    {cityPrice?.price_2 ? trimPrice(cityPrice?.price_2) : "--"}
+                    {cityPrice?.price_2 !== "0"
+                      ? trimPrice(cityPrice?.price_2)
+                      : "--"}
                   </td>
                 </tr>
               );

@@ -1,27 +1,14 @@
 "use client";
-import MyTransactionCard from "@/components/Cards/MyTransactionCard";
 import { useToken } from "@/components/hook/useToken/useToken";
 import FullModal from "@/components/Modal/FullModal";
-import { monthNames } from "@/components/static";
 import TransactionFilter from "@/components/TransactionPage/TransactionFilter";
 import axios from "axios";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import excelIcon from "@/components/svg/excelIcon.svg";
 import MyRequestCard from "@/components/Cards/MyRequestCard";
 
 export default function Page() {
   const { back } = useRouter();
-  // const [filterValues, setFilterValues] = useState({
-  //   dateFrom: "",
-  //   dateTo: "",
-  //   priceFrom: "",
-  //   priceTo: "",
-  //   deposit: true,
-  //   withdraw: true,
-  //   filter: [1, 2], // 1 is for deposit and 2 is for withdraw
-  // });
 
   const [transactions, setTransactions] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -44,8 +31,10 @@ export default function Page() {
           }
         )
         .then((response) => {
-          setTransactions(response.data.reverse());
-          setFilteredData(response.data.reverse());
+          const data = response.data.reverse();
+
+          setTransactions(data);
+          setFilteredData(data);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -86,27 +75,9 @@ export default function Page() {
           </p>
         ) : (
           <div className="px-4">
-            {filteredData.map((card, index, arr) => {
-              // const prevCard = arr[index - 1];
-              // const prevMonth = Number(prevCard?.time.split("-")[1]);
-              // const prevYear = Number(prevCard?.time.split("-")[0]);
-              // const curMonth = Number(card.time.split("-")[1]);
-              // const curYear = Number(card.time.split("-")[0]);
-              return (
-                <React.Fragment key={card.id}>
-                  {/* {(prevMonth !== curMonth || prevYear !== curYear) && (
-                    <div className="flex items-center justify-center gap-4 mt-4 mb-2">
-                      <hr className="w-full border-default-300" />
-                      <p className="text-xs text-default-500 basis-1 text-nowrap">
-                        {monthNames[curMonth - 1]} {curYear}
-                      </p>
-                      <hr className="w-full border-default-300" />
-                    </div>
-                  )} */}
-                  <MyRequestCard item={card} />
-                </React.Fragment>
-              );
-            })}
+            {filteredData.map((card, index) => (
+              <MyRequestCard item={card} key={index} />
+            ))}
           </div>
         )}
       </div>

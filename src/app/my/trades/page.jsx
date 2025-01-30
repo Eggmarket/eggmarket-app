@@ -210,7 +210,7 @@ export default function Page() {
           </button>
         )}
       </div>
-      <div className={`px-6 tradeFilter relative ${isVisible ? "" : "hide"}`}>
+      <div className={`px-6 tradeFilter relative`}>
         <p className="text-sm text-default-500 mb-2">تاریخ</p>
         <div className="flex gap-4">
           <button
@@ -254,8 +254,11 @@ export default function Page() {
           ))}
         </div>
       </div>
-      <div className="px-4 mb-16">
-        <div role="tablist" className="tabs tabs-lifted *:text-base flex">
+      <div className="px-4 mb-4">
+        <div
+          role="tablist"
+          className="tabs tabs-lifted *:text-base flex tabs-custom"
+        >
           <a
             role="tab"
             className={`tab text-default-500 [--tab-border-color:#F5F5F5] flex-1 [--tab-border: 0px] ${
@@ -296,6 +299,45 @@ export default function Page() {
               </div>
             ) : (
               <>
+                {pendingFiltered.map((card) => {
+                  if (card.status === 4) {
+                    return (
+                      <AcceptDeliverCard
+                        key={card.id}
+                        factor={card}
+                        getUserDoneTrades={getUserDoneTrades}
+                        getUserPendingTrades={getUserPendingTrades}
+                      />
+                    );
+                  } else if (card.status === 3) {
+                    return (
+                      <UnDoneTradeCard
+                        key={card.id}
+                        card={card}
+                        setSelectedTrade={setSelectedTrade}
+                        getFactor={getFactor}
+                      />
+                    );
+                  } else if (card.status === 2) {
+                    return (
+                      <UnDoneTradeCard
+                        key={card.id}
+                        card={card}
+                        setSelectedTrade={setSelectedTrade}
+                        getFactor={getFactor}
+                      />
+                    );
+                  } else if (card.status === 1) {
+                    return (
+                      <UnDoneTradeCard
+                        key={card.id}
+                        card={card}
+                        setSelectedTrade={setSelectedTrade}
+                        getFactor={getFactor}
+                      />
+                    );
+                  }
+                })}
                 {pendingFiltered.map((card) => {
                   if (card.status === 4) {
                     return (

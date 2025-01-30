@@ -3,7 +3,7 @@ import MultiRangeSlider from "../UI/MultirangeSlider";
 
 export default function Weight({ selected, setSelected }) {
   return (
-    <div className="flex-1 pt-5 flex flex-col gap-5 items-center bg-white">
+    <div className="flex-1 pt-5 flex flex-col gap-5 items-center bg-default-50">
       <div className="flex gap-4 items-center">
         <p className="text-base font-semibold text-default-500">از</p>
         <input
