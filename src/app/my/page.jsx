@@ -109,13 +109,8 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    console.log("provider", userProfile);
-  }, [userProfile]);
-
-  useEffect(() => {
     // console.log(Object.entries(profile).length === 0 ? "true" : "false");
     sessionStorage.clear("current-password");
-    console.log("new token", myToken);
   }, [myToken]);
   return (
     // <div className="p-4 flex flex-col items-center max-w-full w-[440px]">
@@ -159,7 +154,7 @@ export default function Page() {
     //         }
     //     </ul>
     // </div>
-    <div className="p-4 flex flex-col items-center max-w-full w-[440px]">
+    <div className="p-4 flex flex-col items-center max-w-full w-[440px] pb-[50px]">
       <div className="w-full">
         <div className="h-[132px] border-solid border-[2px] border-default-400 rounded-xl grid grid-rows-[79px_4px_1fr] overflow-hidden">
           <Link

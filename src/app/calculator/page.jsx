@@ -33,7 +33,7 @@ export default function Page() {
   }, [eggValues]);
 
   return (
-    <div className="px-4 pt-8 pb-20 h-screen flex flex-col">
+    <div className="px-4 pt-8 pb-20 flex flex-col">
       <div className="w-full flex justify-between items-center mb-6">
         <div className="flex gap-4 justify-start items-center">
           <button

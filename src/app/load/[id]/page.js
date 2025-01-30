@@ -65,48 +65,38 @@ const load = {
 };
 
 function Page() {
-  // const [load, setLoad] = useState("");
+  const [load, setLoad] = useState("");
   const [provinces, setProvinces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [token, setToken] = useToken();
 
-  // useEffect(() => {
-  //   async function fetchLoad() {
-  //     await axios
-  //       .post(
-  //         `${process.env.NEXT_PUBLIC_EGG_MARKET}API/loads/load`,
-  //         {
-  //           loadID: id,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: token,
-  //           },
-  //         }
-  //       )
-  //       .then((response) => {
-  //         console.log(response);
-  //         setLoad(response.data.load);
-  //         setIsLoading(false);
-  //       })
-  //       .catch((error) => {
-  //         setIsLoading(false);
-  //       });
-  //   }
-  //   async function getProvinces() {
-  //     await axios
-  //       .get(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/locations/provinces`)
-  //       .then((response) => {
-  //         setProvinces(response.data.provinces);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  //   getProvinces();
-  //   fetchLoad();
-  // }, []);
+  useEffect(() => {
+    async function fetchLoad() {
+      await axios
+        .post(
+          `${process.env.NEXT_PUBLIC_EGG_MARKET}API/loads/load`,
+          {
+            loadID: id,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          setLoad(response.data.load);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    }
+
+    fetchLoad();
+  }, []);
   return (
     <div className="p-4">
       {!load ? (

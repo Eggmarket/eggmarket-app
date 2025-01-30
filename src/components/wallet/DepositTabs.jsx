@@ -180,7 +180,7 @@ export default function DepositTabs({}) {
           </a>
         </div>
         <div
-          className={`pt-10 px-8 bg-default-50 rounded-b-xl h-full min-h-[454px] ${
+          className={`pt-10 pb-2 px-8 bg-default-50 rounded-b-xl h-full min-h-[400px] ${
             selectedTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
           }`}
         >
@@ -247,28 +247,34 @@ export default function DepositTabs({}) {
                 <span className="icon-light-linear-Calender-1 text-xl text-[#2D264B]"></span>
               </button>
               <label
-                className="flex flex-col relative w-full mb-2 rounded-xl border border-[#C2C2C2] bg-default-50 cursor-pointer h-[200px] p-4"
+                className={`flex items-center ${
+                  selectedImage ? "justify-center" : "justify-between"
+                } relative w-full mb-2 rounded-xl border border-[#C2C2C2] bg-default-50 cursor-pointer h-[100px] py-2.5 px-4`}
                 htmlFor="fileInput"
               >
-                <span className="text-default-400 mb-8">
-                  {selectedImage
-                    ? selectedImage.name
-                    : " بارگذاری تصویر فیش واریزی"}
+                <span
+                  className={`text-default-400 ${
+                    selectedImage ? "hidden" : "block"
+                  }`}
+                >
+                  بارگذاری تصویر فیش واریزی
                 </span>
                 <img
                   id="frame"
                   src=""
-                  width="100px"
-                  height="100px"
-                  className={selectedImage ? "block self-center" : "hidden"}
+                  className={
+                    selectedImage
+                      ? "block self-center aspect-square max-h-20 justify-self-center"
+                      : "hidden"
+                  }
                 />
                 <div
                   className={`relative self-center ${
                     selectedImage ? "hidden" : "block"
                   }`}
                 >
-                  <span className="icon-light-linear-Camera-1 text-6xl  text-default-400"></span>
-                  <span className="text-default-400 text-6xl absolute -top-5 -left-8">
+                  <span className="icon-light-linear-Camera-1 text-2xl text-tertiary"></span>
+                  <span className="text-tertiary text-2xl absolute -top-4 -right-4">
                     +
                   </span>
                 </div>
@@ -288,7 +294,7 @@ export default function DepositTabs({}) {
       </div>
       <form
         method="dialog"
-        className="flex-0 bg-white border-t-default-300 modalShadow px-6 py-4 w-full"
+        className="flex-0 bg-default-50 border-t-default-300 modalShadow px-6 py-4 w-full"
       >
         {selectedTab === 1 ? (
           <Button

@@ -141,8 +141,8 @@ export default function Page() {
           className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300"
         >
           <h3 className="text-sm text-tertiary">افزایش موجودی</h3>
-          <button className="btn btn-sm btn-circle btn-ghost">
-            <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
+          <button className="btn btn-xs btn-circle btn-ghost">
+            <span className="icon-light-bold-Close text-xl text-[#2D264B]"></span>
           </button>
         </form>
         <DepositTabs updateHandler={updateHandler} />

@@ -112,7 +112,9 @@ export default function BoxCalculation({ source }) {
                             }px`
                           : "100%"
                       }`,
-                      maxWidth: "calc(100% - 36px)",
+                      maxWidth: `${
+                        boxValues[value] ? '"calc(100% - 36px)"' : ""
+                      }`,
                     }}
                     onChange={(e) => {
                       if (index === 0 || index === 3) {

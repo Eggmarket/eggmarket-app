@@ -110,7 +110,9 @@ export default function Page() {
         ref={captureRef}
         className="relative bg-[#F7F7F7] w-full rounded-tl-2xl rounded-tr-2xl border-solid border-t border-x border-[#C2C2C2]"
       >
-        <span className="icon-Share absolute top-4 right-4 text-xl text-default-500 cursor-pointer"></span>
+        <button onClick={() => navigator.share()}>
+          <span className="icon-Share absolute top-4 right-4 text-xl text-default-500 cursor-pointer"></span>
+        </button>
         <Image
           className="absolute top-[100%] inset-x-0 w-full"
           src={border}
