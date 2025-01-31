@@ -421,9 +421,12 @@
   .fullModal .scroll-container {
     height: 57vh;
   }
-  .addLoad .scroll-container,
-  #modal_buy .scroll-container {
+  .addLoad .scroll-container {
     height: 70vh;
+  }
+
+  #modal_buy .scroll-container {
+    height: 40vh;
   }
 
   .editLoad .scroll-container {
