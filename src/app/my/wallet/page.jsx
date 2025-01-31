@@ -175,9 +175,10 @@ export default function Page() {
         <DepositTabs
           billRegister={billRegister}
           setBillRegister={setBillRegister}
+          updateHandler={updateHandler}
         />
       </BottomModal>
-      <WithdrawTab />
+      <WithdrawTab updateHandler={updateHandler} />
     </div>
   );
 }

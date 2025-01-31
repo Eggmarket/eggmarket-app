@@ -115,12 +115,15 @@ export default function CreateNewAd({ profile }) {
         setIsDescOpen(false);
       }}
     >
-      <div className="flex justify-between items-center py-2 px-4 border-b border-default-300 bg-surface-secondary">
+      <form
+        method="dialog"
+        className="flex justify-between items-center py-2 px-4 border-b border-default-300 bg-surface-secondary"
+      >
         <h3 className="text-sm text-tertiary">ثبت آگهی جدید</h3>
-        <form method="dialog" className="h-6 w-6">
+        <button className="h-6 w-6">
           <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
-        </form>
-      </div>
+        </button>
+      </form>
       <div className="bg-surface-secondary addLoad">
         <form onSubmit={handleSubmit(onSubmit)}>
           <ScrollBar>

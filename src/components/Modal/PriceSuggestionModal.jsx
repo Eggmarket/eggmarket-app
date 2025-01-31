@@ -24,7 +24,7 @@ function PriceSuggestionModal({
       .post(
         `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/price-offer/add`,
         {
-          load_id: selectedCard,
+          load_id: selectedCard.loadID,
           amount: Number(`${suggestedPrice.replace(/,/g, "")}`),
         },
         {

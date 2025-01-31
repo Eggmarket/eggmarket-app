@@ -12,7 +12,11 @@ import { monthNames } from "../static";
 import axios from "axios";
 import { Axios } from "@/axios";
 
-export default function DepositTabs({ billRegister, setBillRegister }) {
+export default function DepositTabs({
+  billRegister,
+  setBillRegister,
+  updateHandler,
+}) {
   const j = moment();
   const today = moment().local("fa");
   const [selectedTab, setSelectedTab] = useState(1);
@@ -83,8 +87,21 @@ export default function DepositTabs({ billRegister, setBillRegister }) {
       "/API/payment-request/add-deposit-request",
       formData
     );
+    setBillRegister({
+      depositValue: "",
+      billNumber: "",
+      date: {
+        day: today.jDate(),
+        month: monthNames[today.jMonth()],
+        year: today.jYear(),
+      },
+      selectedImage: "",
+    });
     if (response.status === 200) {
+      updateHandler();
       toast.info("فیش شما ثبت شد.");
+    } else if (response.status === 400) {
+      toast.warning(response.data[0]);
     } else {
       toast.error("فیش شما ثبت نشد.");
     }

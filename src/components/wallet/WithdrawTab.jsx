@@ -11,7 +11,7 @@ const options = [
   { number: "123456789123456789123456", bankName: "صادرات" },
 ];
 
-export default function WithdrawTab() {
+export default function WithdrawTab({ updateHandler }) {
   const [withdrawValues, setWithdrawValues] = useState({
     value: "",
     accountInfo: { number: "", bankName: "" },
@@ -34,6 +34,9 @@ export default function WithdrawTab() {
     });
     if (response.status === 200) {
       toast.info("درخواست ثبت شد");
+      updateHandler();
+    } else if (response.status === 400) {
+      toast.warning(response.data[0]);
     } else {
       toast.error("متاسفانه درخواست ثبت نشد.");
     }
