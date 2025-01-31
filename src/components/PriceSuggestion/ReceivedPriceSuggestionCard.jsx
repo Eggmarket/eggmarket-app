@@ -37,7 +37,7 @@ function ReceivedPriceSuggestionCard({ request }) {
 
   return (
     <div className="bg-default-50 rounded-xl cardShadow">
-      <PriceSuggestionHeader />
+      <PriceSuggestionHeader id={request} />
       <div className="mt-6 space-y-6">
         {loadRequests.map((request, index) => (
           <div key={index} className="px-6 pb-6 last:border-none line">

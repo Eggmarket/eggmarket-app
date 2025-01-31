@@ -309,64 +309,7 @@ export default function Page() {
                         getUserPendingTrades={getUserPendingTrades}
                       />
                     );
-                  } else if (card.status === 3) {
-                    return (
-                      <UnDoneTradeCard
-                        key={card.id}
-                        card={card}
-                        setSelectedTrade={setSelectedTrade}
-                        getFactor={getFactor}
-                      />
-                    );
-                  } else if (card.status === 2) {
-                    return (
-                      <UnDoneTradeCard
-                        key={card.id}
-                        card={card}
-                        setSelectedTrade={setSelectedTrade}
-                        getFactor={getFactor}
-                      />
-                    );
-                  } else if (card.status === 1) {
-                    return (
-                      <UnDoneTradeCard
-                        key={card.id}
-                        card={card}
-                        setSelectedTrade={setSelectedTrade}
-                        getFactor={getFactor}
-                      />
-                    );
-                  }
-                })}
-                {pendingFiltered.map((card) => {
-                  if (card.status === 4) {
-                    return (
-                      <AcceptDeliverCard
-                        key={card.id}
-                        factor={card}
-                        getUserDoneTrades={getUserDoneTrades}
-                        getUserPendingTrades={getUserPendingTrades}
-                      />
-                    );
-                  } else if (card.status === 3) {
-                    return (
-                      <UnDoneTradeCard
-                        key={card.id}
-                        card={card}
-                        setSelectedTrade={setSelectedTrade}
-                        getFactor={getFactor}
-                      />
-                    );
-                  } else if (card.status === 2) {
-                    return (
-                      <UnDoneTradeCard
-                        key={card.id}
-                        card={card}
-                        setSelectedTrade={setSelectedTrade}
-                        getFactor={getFactor}
-                      />
-                    );
-                  } else if (card.status === 1) {
+                  } else {
                     return (
                       <UnDoneTradeCard
                         key={card.id}

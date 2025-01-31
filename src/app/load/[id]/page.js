@@ -1,11 +1,14 @@
 "use client";
 import Loading from "@/app/loading";
+import { Axios } from "@/axios";
 import SaleCard from "@/components/Homepage/SaleCard";
 import { useToken } from "@/components/hook/useToken/useToken";
 import BuyModal from "@/components/Modal/BuyModal";
 import PriceSuggestionModal from "@/components/Modal/PriceSuggestionModal";
 import ShareLoadLinkModal from "@/components/Modal/ShareLoadLinkModal";
 import Button from "@/components/UI/Button";
+import { useOrigins } from "@/context/OriginsProvider";
+import axios from "axios";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -66,33 +69,23 @@ const load = {
 
 function Page() {
   const [load, setLoad] = useState("");
-  const [provinces, setProvinces] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
-  const [token, setToken] = useToken();
+  const { provinces } = useOrigins();
 
   useEffect(() => {
     async function fetchLoad() {
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_EGG_MARKET}API/loads/load`,
-          {
-            loadID: id,
-          },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response);
-          setLoad(response.data.load);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setIsLoading(false);
-        });
+      const response = await Axios.post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}API/loads/load`,
+        {
+          loadID: Number(id),
+        }
+      );
+      if (response.status === 200) {
+        console.log(response);
+        setLoad(response.data.load);
+      } else {
+        console.log(response);
+      }
     }
 
     fetchLoad();

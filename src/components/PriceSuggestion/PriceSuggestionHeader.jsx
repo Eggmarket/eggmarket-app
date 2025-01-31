@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-export default function PriceSuggestionHeader() {
+export default function PriceSuggestionHeader({ id }) {
   return (
     <div className="relative">
       <div className="bg-gradient-to-b from-[#FCFCFC] to-[#D3D3D3] px-6 py-3 rounded-t-lg">
@@ -9,7 +9,10 @@ export default function PriceSuggestionHeader() {
           <p className="text-default-500 text-xs">
             برند <span className="text-tertiary text-sm">چکاوک کاشان</span>
           </p>
-          <Link href="/load/${id}" className="underline text-xs text-default-500">
+          <Link
+            href={`/load/${id}`}
+            className="underline text-xs text-default-500"
+          >
             رفتن به آگهی
           </Link>
         </div>

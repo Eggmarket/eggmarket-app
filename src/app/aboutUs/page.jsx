@@ -5,7 +5,7 @@ import React from "react";
 function Page() {
   const { back } = useRouter();
   return (
-    <div className="min-h-screen bg-default-50">
+    <div className="bg-default-50">
       <div className="sticky top-0 bg-inherit p-6 z-10 flex gap-4 justify-start items-center">
         <button
           className="icon-light-bold-Right-1 text-2xl"
@@ -15,7 +15,7 @@ function Page() {
           درباره اگمارکت
         </h3>
       </div>
-      <div className="px-6 py-4">
+      <div className="pb-[100px] px-6 py-4">
         <h1 className="font-semibold">
           محصولی از شرکت سامانه پیروزه دیبا با مدیریت مهدی قمی پور
         </h1>

@@ -207,6 +207,8 @@ export default function Page() {
                 ? "#"
                 : list.href === "aboutUs"
                 ? "/aboutUs"
+                : list.href === "policy"
+                ? "/policy"
                 : `/my/${list.href}`
             }
             key={index + 1}

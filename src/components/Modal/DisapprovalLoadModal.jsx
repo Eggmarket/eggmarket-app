@@ -23,14 +23,14 @@ function DisapprovalLoadModal() {
     <BottomModal id="DisapprovalLoadModal" onClose={() => {}}>
       <form
         method="dialog"
-        className="flex-0 flex justify-between items-center py-3 px-6 border-b border-default-300 bg-default-50"
+        className="flex justify-between items-center px-6 border-b border-default-300 bg-default-50 py-2"
       >
         <h3 className="text-sm text-tertiary">گزارش عدم تطابق بار</h3>
-        <button className="btn btn-sm btn-circle btn-ghost">
-          <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
+        <button className="btn btn-xs btn-circle btn-ghost">
+          <span className="icon-light-bold-Close text-xl text-[#2D264B]"></span>
         </button>
       </form>
-      <div className="mt-4 px-4">
+      <div className="mt-4 px-4 overflow-y-auto">
         <p className="font-medium mb-1">
           کدام مشخصات بار اعلامی با بار تحویلی یکسان نیست؟
         </p>
@@ -39,7 +39,10 @@ function DisapprovalLoadModal() {
         </p>
         <div className="flex flex-col gap-6 mb-4 py-2">
           {checkBoxItems.map((item, index) => (
-            <label key={index} className="label cursor-pointer gap-4 justify-start p-0">
+            <label
+              key={index}
+              className="label cursor-pointer gap-4 justify-start p-0"
+            >
               <input
                 checked={selectedAttr.find((attr) => attr.id === item.id)}
                 onChange={(e) => {
@@ -126,7 +129,7 @@ function DisapprovalLoadModal() {
           </div>
         </div>
       </div>
-      <form method="dialog" className="flex gap-4 px-4 py-3">
+      <form method="dialog" className="sticky bottom-0 flex gap-4 px-4 py-3 bg-white inset-x-0">
         <Button type="button-primary" text="ثبت" width="w-3/5" />
         <Button type="button-primary-error" text="بستن" width="w-2/5" />
       </form>

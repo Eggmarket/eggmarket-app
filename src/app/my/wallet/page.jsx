@@ -57,7 +57,7 @@ export default function Page() {
 
   return (
     <div className="bg-default-50 min-h-screen flex flex-col">
-      <div className="flex-0 sticky top-0 bg-inherit w-full mb-2 p-8 gap-4 flex justify-start items-center">
+      <div className="flex-0 sticky top-0 bg-default-50 w-full mb-2 p-8 gap-4 flex justify-start items-center z-50">
         <button
           className="icon-light-bold-Right-1 text-2xl"
           onClick={() => back()}

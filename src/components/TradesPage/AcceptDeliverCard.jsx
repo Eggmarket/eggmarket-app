@@ -27,9 +27,9 @@ function AcceptDeliverCard({
       <div className="flex items-center justify-between px-4 pb-2">
         <p>
           <span className="text-default-500 text-xs ml-1">برند</span>
-          {/* <span className="text-default-700 text-sm">
-                          {detail.brand}
-                        </span> */}
+          <span className="text-default-700 text-sm">
+            {factor.load.owner_name}
+          </span>
         </p>
         <div>
           <p className="text-primary text-xs font-bold">تایید تخلیه</p>

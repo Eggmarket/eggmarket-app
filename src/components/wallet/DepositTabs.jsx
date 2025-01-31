@@ -180,7 +180,7 @@ export default function DepositTabs({}) {
           </a>
         </div>
         <div
-          className={`pt-10 pb-2 px-8 bg-default-50 rounded-b-xl h-full min-h-[400px] ${
+          className={`pt-10 pb-2 px-8 bg-default-50 rounded-b-xl h-full min-h-[360px] ${
             selectedTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
           }`}
         >
