@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../UI/Button";
 import { useRouter } from "next/navigation";
 import { useProductDetail } from "@/store/productDetail";
@@ -10,62 +10,21 @@ import { trimPrice } from "@/utils/trimPrice";
 import BottomModal from "./BottomModal";
 import ScrollBar from "../UI/ScrollBar";
 import { Axios } from "@/axios";
+import { useOrigins } from "@/context/OriginsProvider";
 
 const BuyModal = ({ load, setSelectedCard = null }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const product = useProductDetail((state) => state.product);
-  const [myToken, setToken] = useToken();
-  // const weight =
-  //   load.details?.find((item) => item.title === "وزن کارتن")?.value || "";
-  // const quantity =
-  //   load.details?.find((item) => item.title === "تعداد کارتن")?.value || "";
-  // const price =
-  //   load.details?.find((item) => item.title === "قیمت")?.value || "";
-  const lists = [
-    {
-      name: "کد رهگیری",
-      text: "--",
-    },
-    {
-      name: "شماره بارنامه",
-      text: "--",
-    },
-    {
-      name: "شماره ماشین",
-      text: "--",
-    },
-    {
-      name: "شماره تماس راننده",
-      text: "--",
-    },
-    {
-      name: "شماره فاکتور",
-      text: "۱۴۰۳۰۷۱۴۰۰۴-۱",
-    },
-    {
-      name: "مقصد",
-      text: "تهران",
-      second: "(تهران)",
-    },
-    {
-      name: "فی بار",
-      text: "۴۹,۵۰۰",
-      second: "تومان",
-    },
-    {
-      name: "مبلغ کل",
-      text: "۲۵۷,۵۰۰,۰۰۰",
-      second: "تومان",
-    },
-  ];
+  const [list, setList] = useState("");
+  const { provinces } = useOrigins();
 
   const payFromWallet = async () => {
     const response = await Axios.post("/API/transactions/purchase", {
-      load_id: product.load,
+      load_id: load.loadID,
     });
     if (response.status === 200) {
-      toast.info("پرداخت از کیف پول انجام شد.");
+      toast.info("بار شما خریداری شد.");
       router.push("/my/trades");
     } else if (response.status === 400) {
       toast.error("موجودی کیف پول شما کافی نیست");
@@ -116,6 +75,43 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
     }
   };
 
+  useEffect(() => {
+    load &&
+      setList([
+        {
+          name: "شماره فاکتور",
+          text: "۱۴۰۳۰۷۱۴۰۰۴-۱",
+        },
+        {
+          name: "مقصد",
+          text: product.details?.city,
+          second: provinces.find(
+            (province) => province.id === load.origin_field1
+          ).title,
+        },
+        {
+          name: "فی بار",
+          text: load.details.find((item) => item.title === "قیمت")
+            ? load.details.find((item) => item.title === "قیمت").value
+            : "توافقی",
+          second: "تومان",
+        },
+        {
+          name: "مبلغ کل",
+          text: load.details.find((item) => item.title === "قیمت")
+            ? trimPrice(
+                Number(
+                  load.details.find((item) => item.title === "قیمت").value
+                ) *
+                  Number(product.details?.quantity) *
+                  Number(product.details?.weight)
+              )
+            : "",
+          second: "تومان",
+        },
+      ]);
+  }, [load]);
+
   return (
     <BottomModal
       id="modal_buy"
@@ -139,39 +135,38 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
               <div className="py-[6px]">
                 {
                   <p className="font-medium">
-                    {`${product.details?.city} | ${product.details?.weight}`}
+                    {product.details?.weight}
                     <span className="text-xs text-default-500">
-                      {" "}
                       کیلو
                     </span> | {product.details?.quantity}
                     <span className="text-xs text-default-500">
-                      {" "}
                       کارتن
-                    </span> | {product.details?.city}{" "}
+                    </span> | {product.details?.city}
                     <span className="text-xs text-default-500">
                       ({product.details?.city})
                     </span>
                   </p>
                 }
               </div>
-              {lists.map((list, index) => (
-                <li
-                  key={index + 1}
-                  className="flex justify-between items-center h-9"
-                >
-                  <p className="text-sm font-normal text-default-500">
-                    {list.name}
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <p className="font-semibold text-default-900">
-                      {list.text}
-                    </p>
+              {list &&
+                list.map((item, index) => (
+                  <li
+                    key={index + 1}
+                    className="flex justify-between items-center h-9"
+                  >
                     <p className="text-sm font-normal text-default-500">
-                      {list.second}
+                      {item.name}
                     </p>
-                  </div>
-                </li>
-              ))}
+                    <div className="flex items-center gap-1">
+                      <p className="font-semibold text-default-900">
+                        {item.text}
+                      </p>
+                      <p className="text-sm font-normal text-default-500">
+                        {item.second}
+                      </p>
+                    </div>
+                  </li>
+                ))}
             </ul>
             <div className="mt-1 mx-4 h-[109px] bg-tertiary rounded-xl flex flex-col items-center justify-center gap-2 pb-2 pt-4">
               <p className="text-sm font-normal text-default-300">

@@ -23,7 +23,10 @@ export default function Page() {
       per_page: 1000,
     });
     if (res.status === 200) {
-      setSentRequests(res.data);
+      const unique = [
+        ...new Set(res.data.reverse().map((item) => item.load_id)),
+      ];
+      setSentRequests(unique);
     } else {
       console.log(res);
     }
@@ -34,7 +37,9 @@ export default function Page() {
       per_page: 1000,
     });
     if (res.status === 200) {
-      const unique = [...new Set(res.data.map((item) => item.load_id))];
+      const unique = [
+        ...new Set(res.data.reverse().map((item) => item.load_id)),
+      ];
       setRecievedRequests(unique);
     } else {
       console.log(res);

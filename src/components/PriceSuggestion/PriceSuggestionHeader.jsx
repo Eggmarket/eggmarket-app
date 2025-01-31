@@ -4,7 +4,7 @@ import React from "react";
 export default function PriceSuggestionHeader({ id }) {
   return (
     <div className="relative">
-      <div className="bg-gradient-to-b from-[#FCFCFC] to-[#D3D3D3] px-6 py-3 rounded-t-lg">
+      <div className="bg-gradient-to-b from-[#FCFCFC] to-[#D3D3D3] px-4 sm:px-6 py-3 rounded-t-lg">
         <div className="flex justify-between items-center mb-5">
           <p className="text-default-500 text-xs">
             برند <span className="text-tertiary text-sm">چکاوک کاشان</span>

@@ -278,7 +278,7 @@ export default function Page() {
       <BottomModal id="editAdModal" onClose={() => setSelected("")}>
         <form
           method="dialog"
-          className="flex-0 flex justify-between items-center py-4 px-6 border-b border-default-300"
+          className="flex-0 flex justify-between items-center py-2 px-6 border-b border-default-300"
         >
           <h3 className="text-sm text-tertiary">ویرایش آگهی</h3>
           <button

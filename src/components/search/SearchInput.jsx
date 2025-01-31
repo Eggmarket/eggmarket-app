@@ -7,39 +7,39 @@ const SearchInput = () => {
   const [datas, setDatas] = useState([]);
   const [input, setInput] = useState("");
 
-  const API = process.env.NEXT_PUBLIC_API_URL
+  // const API = process.env.NEXT_PUBLIC_API_URL
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${API}/api`);
-        const data = await response.json();
-        setDatas(data || []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`${API}/api`);
+  //       const data = await response.json();
+  //       setDatas(data || []);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
       await fetch(`${API}/api`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(input)
-      })
-      if (!datas.includes(input) && input !== '') {
+        body: JSON.stringify(input),
+      });
+      if (!datas.includes(input) && input !== "") {
         if (datas.length < 10) {
           setDatas([...datas, input]);
         } else {
-          datas.shift()
+          datas.shift();
           setDatas([...datas, input]);
         }
       }
-      setInput('');
+      setInput("");
     }
   };
 
@@ -185,7 +185,7 @@ const SearchInput = () => {
                 <div className="h-px mt-[14px] bg-default-300 w-full"></div>
               </>
             )}
-          </div >
+          </div>
         ))}
         {[
           {
@@ -219,7 +219,10 @@ const SearchInput = () => {
             </div>
             <div className="mt-2 flex">
               {list.filters.map((filter, index) => (
-                <p key={index + 1} className="text-default-700 text-sm font-normal">
+                <p
+                  key={index + 1}
+                  className="text-default-700 text-sm font-normal"
+                >
                   {filter}
                   {index < list.filters.length - 1 && " -"}
                 </p>
@@ -227,7 +230,7 @@ const SearchInput = () => {
             </div>
           </div>
         ))}
-      </div >
+      </div>
     </>
   );
 };

@@ -20,15 +20,8 @@ export default function SaleCard({
   const [token, setToken] = useToken();
   const router = useRouter();
 
-  const {
-    loadID,
-    description,
-    details,
-    origin_field2,
-    reg_date,
-    reg_just_date,
-    status,
-  } = load;
+  const { loadID, description, details, origin_field2, reg_date, status } =
+    load;
 
   const today = moment().locale("fa");
 
@@ -150,14 +143,10 @@ export default function SaleCard({
                   type="button-primary"
                   text="خرید"
                   width="flex-1"
-                  // disabled={
-                  //   detail.price && detail.price !== "توافقی" ? false : true
-                  // }
                   onClick={() => {
                     if (token) {
-                      setSelectedCard !== null && setSelectedCard(loadID);
+                      setSelectedCard !== null && setSelectedCard(load);
                       document.getElementById("modal_buy").showModal();
-                      // const all = detail
                       addProduct({ details: detail, load: load.loadID });
                     } else {
                       router.push("/auth/register");
@@ -169,8 +158,14 @@ export default function SaleCard({
                   text="پیشنهاد قیمت"
                   width="flex-1"
                   onClick={() => {
-                    setSelectedCard !== null && setSelectedCard(loadID);
-                    document.getElementById("priceSuggestionModal").showModal();
+                    if (token) {
+                      setSelectedCard !== null && setSelectedCard(load);
+                      document
+                        .getElementById("priceSuggestionModal")
+                        .showModal();
+                    } else {
+                      router.push("/auth/register");
+                    }
                   }}
                 />
               </>

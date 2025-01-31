@@ -3,19 +3,6 @@ import PriceSuggestionHeader from "./PriceSuggestionHeader";
 import { trimPrice } from "@/utils/trimPrice";
 import { Axios } from "@/axios";
 
-const data = [
-  {
-    id: "1",
-    destination: "قم",
-    price: "45000",
-  },
-  {
-    id: "1",
-    destination: "تهران",
-    price: "47000",
-  },
-];
-
 function ReceivedPriceSuggestionCard({ request }) {
   const [loadRequests, setLoadRequests] = useState([]);
 
@@ -55,19 +42,19 @@ function ReceivedPriceSuggestionCard({ request }) {
             <div className="mt-4 flex items-center gap-2">
               <p className="text-default-700 text-xs">
                 قیمت:{" "}
-                <span className="text-xl text-default-900 font-semibold">
+                <span className="text-base sm:text-xl text-default-900 font-semibold">
                   {trimPrice(request.amount)}
                 </span>{" "}
-                <span className="text-default-500">تومان</span>
+                <span className="text-sm sm:text-base text-default-500">تومان</span>
               </p>
               <div className="flex gap-3 flex-1">
-                <button className="p-1 whitespace-nowrap flex-1 h-11 flex justify-center items-center gap-1 border border-success rounded-xl">
+                <button className="p-1 whitespace-nowrap flex-1 h-8 sm:h-11 flex justify-center items-center gap-1 border border-success rounded-xl">
                   <span className="icon-light-linear-Tick text-lg text-success"></span>
-                  <p className="font-bold text-success">انتخاب</p>
+                  <p className="text-sm sm:text-base font-bold text-success">انتخاب</p>
                 </button>
-                <button className="p-1 whitespace-nowrap flex-1 h-11 flex justify-center items-center gap-1 border border-danger-900 rounded-xl">
+                <button className="p-1 whitespace-nowrap flex-1 h-8 sm:h-11 flex justify-center items-center gap-1 border border-danger-900 rounded-xl">
                   <span className="icon-light-linear-Tick text-lg text-danger-900"></span>
-                  <p className="font-bold text-danger-900">رد کردن</p>
+                  <p className="text-sm sm:text-base font-bold text-danger-900">رد کردن</p>
                 </button>
               </div>
             </div>

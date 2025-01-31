@@ -129,42 +129,46 @@ export default function EditAdForm({ card, setSelected, getData }) {
   }, []);
 
   return (
-    <form className="editLoad py-2" onSubmit={handleSubmit(onSubmit)}>
-      <ScrollBar>
-        <div className="grid grid-cols-2 grid-row-6 gap-x-6 gap-y-4">
-          <InputField
-            name={weight.name}
-            onChange={weight.onChange}
-            inputRef={weight.ref}
-            label="وزن کارتن"
-            smallText="(کیلوگرم)"
-            required={true}
-            placeholder="مثلا 12.5"
-            space="col-span-1"
-            type="number"
-            step="0.1"
-          />
-          <InputField
-            name={count.name}
-            onChange={count.onChange}
-            inputRef={count.ref}
-            label="تعداد کارتن"
-            smallText="(کیلوگرم)"
-            required={true}
-            placeholder="مثلا 360"
-            space="col-span-1"
-            type="number"
-          />
-          <InputField
-            name={brand.name}
-            onChange={brand.onChange}
-            inputRef={brand.ref}
-            label="برند"
-            required={true}
-            placeholder="مثلا چکاوک"
-            space="col-span-1"
-          />
-          {/* <InputSelect
+    <>
+      <form
+        className="editLoadSmall sm:editLoad py-2"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <ScrollBar>
+          <div className="grid grid-cols-2 grid-row-6 gap-x-6 gap-y-4">
+            <InputField
+              name={weight.name}
+              onChange={weight.onChange}
+              inputRef={weight.ref}
+              label="وزن کارتن"
+              smallText="(کیلوگرم)"
+              required={true}
+              placeholder="مثلا 12.5"
+              space="col-span-1"
+              type="number"
+              step="0.1"
+            />
+            <InputField
+              name={count.name}
+              onChange={count.onChange}
+              inputRef={count.ref}
+              label="تعداد کارتن"
+              smallText="(کیلوگرم)"
+              required={true}
+              placeholder="مثلا 360"
+              space="col-span-1"
+              type="number"
+            />
+            <InputField
+              name={brand.name}
+              onChange={brand.onChange}
+              inputRef={brand.ref}
+              label="برند"
+              required={true}
+              placeholder="مثلا چکاوک"
+              space="col-span-1"
+            />
+            {/* <InputSelect
             name="pack_type"
             label="بسته بندی"
             options={PackOptions}
@@ -173,84 +177,85 @@ export default function EditAdForm({ card, setSelected, getData }) {
             isDirty={isDirty}
             defaultValue={getValues("pack_type")}
           /> */}
-          <InputSelect
-            name="quality"
-            label="کیفیت"
-            options={QualityOptions}
-            register={register}
-            setValue={setValue}
-            isDirty={isDirty}
-            defaultValue={getValues("quality")}
-          />
-          <InputSelect
-            name="print_type"
-            label="پرینت"
-            options={PrintOptions}
-            register={register}
-            setValue={setValue}
-            isDirty={isDirty}
-            defaultValue={getValues("print_type")}
-          />
-          <InputSelect
-            name="yolk_type"
-            label="نوع زرده"
-            options={YolkOptions}
-            register={register}
-            setValue={setValue}
-            isDirty={isDirty}
-            defaultValue={getValues("yolk_type")}
-          />
-          <SelectCity
-            name="origin"
-            label="محل بارگیری"
-            options={provinces}
-            register={register}
-            setValue={setValue}
-            space="col-span-2"
-            isSearch={true}
-            isDirty={isDirty}
-            defaultValue={getValues("origin")}
-          />
-          <InputField
-            name={price.name}
-            onChange={price.onChange}
-            inputRef={price.ref}
-            label="قیمت"
-            smallText="(تومان)"
-            required={false}
-            space="col-span-2"
-            type="number"
-          />
-          {isDescOpen ? (
+            <InputSelect
+              name="quality"
+              label="کیفیت"
+              options={QualityOptions}
+              register={register}
+              setValue={setValue}
+              isDirty={isDirty}
+              defaultValue={getValues("quality")}
+            />
+            <InputSelect
+              name="print_type"
+              label="پرینت"
+              options={PrintOptions}
+              register={register}
+              setValue={setValue}
+              isDirty={isDirty}
+              defaultValue={getValues("print_type")}
+            />
+            <InputSelect
+              name="yolk_type"
+              label="نوع زرده"
+              options={YolkOptions}
+              register={register}
+              setValue={setValue}
+              isDirty={isDirty}
+              defaultValue={getValues("yolk_type")}
+            />
+            <SelectCity
+              name="origin"
+              label="محل بارگیری"
+              options={provinces}
+              register={register}
+              setValue={setValue}
+              space="col-span-2"
+              isSearch={true}
+              isDirty={isDirty}
+              defaultValue={getValues("origin")}
+            />
             <InputField
-              name={description.name}
-              onChange={description.onChange}
-              inputRef={description.ref}
-              label="توضیحات"
+              name={price.name}
+              onChange={price.onChange}
+              inputRef={price.ref}
+              label="قیمت"
+              smallText="(تومان)"
               required={false}
               space="col-span-2"
-              type="text"
+              type="number"
             />
-          ) : (
-            <button
-              className="col-span-2 text-xs text-tertiary text-start"
-              onClick={() => setIsDescOpen(true)}
-            >
-              افزودن توضیحات...
-            </button>
-          )}
+            {isDescOpen ? (
+              <InputField
+                name={description.name}
+                onChange={description.onChange}
+                inputRef={description.ref}
+                label="توضیحات"
+                required={false}
+                space="col-span-2"
+                type="text"
+              />
+            ) : (
+              <button
+                className="col-span-2 text-xs text-tertiary text-start"
+                onClick={() => setIsDescOpen(true)}
+              >
+                افزودن توضیحات...
+              </button>
+            )}
+          </div>
+        </ScrollBar>
+        <div className="sticky bottom-0 bg-white border-t-default-300 px-6 py-2 sm:py-4 w-full">
+          <button
+            className={`button button-primary w-full ${
+              isLoading ? "isLoading" : ""
+            } ${isValid ? "" : "disabled"} ${isDirty ? "" : "disabled"}`}
+            disabled={!isValid || isLoading || !isDirty ? true : false}
+          >
+            ویرایش آگهی
+          </button>
         </div>
-      </ScrollBar>
-      <div className="bg-white border-t-default-300 px-6 py-4 w-full">
-        <button
-          className={`button button-primary w-full ${
-            isLoading ? "isLoading" : ""
-          } ${isValid ? "" : "disabled"} ${isDirty ? "" : "disabled"}`}
-          disabled={!isValid || isLoading || !isDirty ? true : false}
-        >
-          ویرایش آگهی
-        </button>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }

@@ -429,6 +429,10 @@
   .editLoad .scroll-container {
     height: 68vh;
   }
+  
+  .editLoadSmall .scroll-container {
+    height: 300px;
+  }
 
   .scroll-container {
     overflow: hidden;
