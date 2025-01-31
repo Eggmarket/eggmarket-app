@@ -30,7 +30,7 @@ function CalculateResultModal({ finalValue, source }) {
             </div>
             {source === "box" && (
               <div className="*:leading-[44px] *:text-center last:border-b-0">
-                <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300">
+                <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300 text-xs sm:text-lg">
                   قیمت کل
                 </div>
                 <div className="text-lg text-[#0F0F0FCC] w-3/5">
@@ -39,7 +39,7 @@ function CalculateResultModal({ finalValue, source }) {
               </div>
             )}
             <div className="*:leading-[44px] *:text-center last:border-b-0">
-              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300">
+              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300 text-xs sm:text-lg">
                 قیمت هر کارتن
               </div>
               <div className="text-xl font-bold text-defualt-900 w-3/5">
@@ -47,7 +47,7 @@ function CalculateResultModal({ finalValue, source }) {
               </div>
             </div>
             <div className="*:leading-[44px] *:text-center last:border-b-0">
-              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300">
+              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300 text-xs sm:text-lg">
                 قیمت هر شانه
               </div>
               <div className="text-lg text-[#0F0F0FCC] w-3/5">
@@ -55,7 +55,7 @@ function CalculateResultModal({ finalValue, source }) {
               </div>
             </div>
             <div className="*:leading-[44px] *:text-center last:border-b-0">
-              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300 rounded-br-lg">
+              <div className="text-default-900 w-2/5 bg-[#F1EFF5] border-l border-default-300 text-xs sm:text-lg rounded-br-lg">
                 قیمت هر تخم‌مرغ
               </div>
               <div className="text-lg text-[#0F0F0FCC] w-3/5">

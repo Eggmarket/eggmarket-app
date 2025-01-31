@@ -61,7 +61,7 @@ export default function BoxCalculation({ source }) {
           >
             <label
               htmlFor={value}
-              className={`text-default-900 font-medium ${
+              className={`flex-1 text-default-900 text-sm sm:text-base font-medium ${
                 source === "landing" ? "flex-1" : ""
               }`}
             >
@@ -69,7 +69,7 @@ export default function BoxCalculation({ source }) {
               {required && <span className="text-xs text-[#D33C30]">*</span>}
             </label>
             <div
-              className={`flex items-center gap-1 border border-[#C2C2C2] rounded-xl px-4 focus-within:border-tertiary h-[52px] box-border ${
+              className={`flex-1 flex items-center gap-1 border border-[#C2C2C2] rounded-xl px-2 sm:px-4 focus-within:border-tertiary h-[52px] box-border ${
                 source === "landing" ? "flex-1" : "w-3/5"
               }`}
             >
@@ -84,7 +84,7 @@ export default function BoxCalculation({ source }) {
                     onChange={(e) =>
                       setBoxValues({ ...boxValues, [value]: e.target.value })
                     }
-                    className="placeholder:text-lg placeholder:text-default-400 w-full bg-inherit outline-none text-default-900"
+                    className="placeholder:text-sm sm:placeholder:text-lg placeholder:text-default-400 w-full bg-inherit outline-none text-default-900 text-sm sm:text-lg"
                   />
                 </div>
               ) : (
@@ -101,7 +101,7 @@ export default function BoxCalculation({ source }) {
                     placeholder={placeholder}
                     name={value}
                     value={boxValues[value]}
-                    className="placeholder:text-lg placeholder:text-default-400 bg-inherit box-content outline-none text-lg"
+                    className="placeholder:text-sm sm:placeholder:text-lg placeholder:text-default-400 bg-inherit box-content outline-none text-sm sm:text-lg"
                     style={{
                       width: `${
                         boxValues[value]
@@ -127,7 +127,7 @@ export default function BoxCalculation({ source }) {
                   />
                   {((index === 0 && boxValues[value]) ||
                     (index === 3 && boxValues[value])) && (
-                    <span className="text-sm text-default-400">تومان</span>
+                    <span className="text-10px sm:text-sm text-default-400">تومان</span>
                   )}
                 </div>
               )}
@@ -136,7 +136,7 @@ export default function BoxCalculation({ source }) {
                   className="btn btn-xs btn-circle btn-ghost"
                   onClick={() => setBoxValues({ ...boxValues, [value]: "" })}
                 >
-                  <span className="icon-light-bold-Close text-xl text-[#2D264B]"></span>
+                  <span className="icon-light-bold-Close text-sm sm:text-xl text-[#2D264B]"></span>
                 </button>
               )}
             </div>
@@ -171,7 +171,7 @@ export default function BoxCalculation({ source }) {
           محاسبه
         </button>
         <button
-          className={`border border-default-700 text-default-700 font-medium rounded-xl ${(source =
+          className={`border border-default-700 text-sm sm:text-base text-default-700 font-medium rounded-xl ${(source =
             "landing" ? "flex-1" : "w-2/5")}`}
           onClick={() =>
             setBoxValues({

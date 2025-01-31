@@ -154,9 +154,9 @@ export default function Page() {
     //         }
     //     </ul>
     // </div>
-    <div className="p-4 flex flex-col items-center max-w-full w-[440px] pb-[50px]">
+    <div className="p-4 flex flex-col items-center max-w-full w-[440px] pb-[60px]">
       <div className="w-full">
-        <div className="h-[132px] border-solid border-[2px] border-default-400 rounded-xl grid grid-rows-[79px_4px_1fr] overflow-hidden">
+        <div className="min-h-[132px] border-solid border-[2px] border-default-400 rounded-xl grid grid-rows-[79px_4px_1fr] overflow-hidden">
           <Link
             href="/my/profile"
             className="pr-3 pl-2 flex items-center justify-between bg-gradient"
@@ -181,10 +181,10 @@ export default function Page() {
           >
             <div className="flex items-center gap-3">
               <span className="icon-light-outline-Wallet text-2xl"></span>
-              <p className="text-default-700">کیف پول</p>
+              <p className="text-sm sm:text-base text-default-700">کیف پول</p>
             </div>
             <div className="flex items-center gap-3">
-              <p className="text-xl font-semibold text-default-900">
+              <p className="text-base sm:text-xl font-semibold text-default-900">
                 {loading ? (
                   <span className="loading loading-dots loading-xs"></span>
                 ) : (
@@ -232,7 +232,6 @@ export default function Page() {
                   );
                   setToken(null);
                   localStorage.removeItem("token");
-                  console.log(res.status);
                   try {
                     await fetch(`http://localhost:3000/api/token`, {
                       method: "DELETE",
@@ -249,7 +248,7 @@ export default function Page() {
               }
             }}
           >
-            <span className={`${list.icon} text-2xl text-default-700`}></span>
+            <span className={`${list.icon} text-xl sm:text-2xl text-default-700`}></span>
             <p className="mr-3 font-medium text-default-700">{list.text}</p>
             {index < lists.length - 1 && (
               <span className="mr-auto icon-light-linear-Left-2 text-2xl"></span>

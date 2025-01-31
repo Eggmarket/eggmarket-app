@@ -170,6 +170,7 @@ export default function Home() {
       <PriceSuggestionModal
         setSelectedCard={setSelectedCard}
         selectedCard={selectedCard}
+        source="add"
       />
       <BuyModal load={selectedCard} setSelectedCard={setSelectedCard} />
     </main>

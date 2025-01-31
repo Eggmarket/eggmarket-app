@@ -12,8 +12,6 @@ export default function compareDate(itemTime, sentFilterDate, source) {
     "jYYYY/jMM/jDD"
   );
   const currentFilterDate = filterDate.format("jYYYY/jMM/jDD");
-  console.log(currentFormatedDate);
-  console.log(currentFilterDate);
 
   if (source === "from") return currentFormatedDate >= currentFilterDate;
   if (source === "to") return currentFormatedDate <= currentFilterDate;

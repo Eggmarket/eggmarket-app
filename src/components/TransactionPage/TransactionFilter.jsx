@@ -25,12 +25,12 @@ export default function TransactionFilter({
     let tempData = transactions;
     if (filters.dateFrom) {
       tempData = tempData.filter((item) =>
-        compareDate(item.time, filters.dateFrom, "from")
+        compareDate(item.updated_at, filters.dateFrom, "from")
       );
     }
     if (filters.dateTo) {
       tempData = tempData.filter((item) =>
-        compareDate(item.time, filters.dateTo, "to")
+        compareDate(item.updated_at, filters.dateTo, "to")
       );
     }
     if (filters.priceFrom.replace(/,/g, "")) {
@@ -62,7 +62,7 @@ export default function TransactionFilter({
         </h3>
       </div>
       <div className="flex-1">
-        <div className="grid grid-cols-2 items-end grid-rows-3 gap-x-4 gap-y-8 px-6">
+        <div className="grid grid-cols-2 items-end gap-x-4 gap-y-8 px-6">
           <div className="col-span-1">
             <label htmlFor="date" className="text-sm text-default-500">
               تاریخ

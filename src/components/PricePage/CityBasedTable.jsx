@@ -10,14 +10,14 @@ function CityBasedTable({ cities, citiesPrice, setSelectedCity, source = "" }) {
         {/* head */}
         <thead className="text-sm text-default-900 font-normal bg-default-100 ">
           <tr className="border-b border-default-200 *:h-[42px] *:py-0 *:px-1">
-            <th className="text-xs">شهرها</th>
-            <th className="border-l border-r border-default-200 text-xs">
+            <th className="text-xs text-wrap">شهرها</th>
+            <th className="border-l border-r border-default-200 text-xs text-wrap">
               قیمت اولیه{" "}
               <span className="text-[10px] text-default-700 font-light">
                 (تومان)
               </span>
             </th>
-            <th className="text-xs">
+            <th className="text-xs text-wrap">
               قیمت نهایی{" "}
               <span className="text-[10px] text-default-700 font-light">
                 (تومان)

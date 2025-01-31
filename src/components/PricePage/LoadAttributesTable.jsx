@@ -8,14 +8,14 @@ function LoadAttributesTable({ attrLoad, citiesPrice }) {
         {/* head */}
         <thead className="text-xs text-default-900 font-normal bg-default-100">
           <tr className="border-b border-default-200 *:h-[42px] *:py-0 *:px-1">
-            <th className="text-xs">ویژگی‌های بار</th>
-            <th className="border-l border-r border-default-200 text-xs">
+            <th className="text-xs text-wrap">ویژگی‌های بار</th>
+            <th className="border-l border-r border-default-200 text-xs text-wrap">
               کمترین قیمت{" "}
               <span className="text-[10px] text-default-700 font-light">
                 (تومان)
               </span>
             </th>
-            <th className="text-xs">
+            <th className="text-xs text-wrap">
               بیشترین قیمت{" "}
               <span className="text-[10px] text-default-700 font-light">
                 (تومان)

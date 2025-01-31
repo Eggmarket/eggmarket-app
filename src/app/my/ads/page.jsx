@@ -92,47 +92,7 @@ export default function Page() {
     setIsDeleteLoading(true);
     deleteData();
   };
-  // const dateHandler = (data) => {
-  //   if (dateFrom && dateTo) {
-  //     const to = `${dateTo.year}/${monthNames.indexOf(dateTo.month) + 1}/${
-  //       dateTo.day
-  //     }`;
-  //     const from = `${dateFrom.year}/${
-  //       monthNames.indexOf(dateFrom.month) + 1
-  //     }/${dateFrom.day}`;
-  //     setFiltereData(
-  //       data.filter((item) => {
-  //         if (loadDateMaker(item.reg_date) >= from && loadDate <= to) {
-  //           return item;
-  //         }
-  //       })
-  //     );
-  //   } else if (dateFrom && !dateTo) {
-  //     const from = `${dateFrom.year}/${
-  //       monthNames.indexOf(dateFrom.month) + 1
-  //     }/${dateFrom.day}`;
-  //     setFiltereData(
-  //       data.filter((item) => {
-  //         if (loadDateMaker(item.reg_date) >= from) {
-  //           return item;
-  //         }
-  //       })
-  //     );
-  //   } else if (!dateFrom && dateTo) {
-  //     const to = `${dateTo.year}/${monthNames.indexOf(dateTo.month) + 1}/${
-  //       dateTo.day
-  //     }`;
-  //     setFiltereData(
-  //       data.filter((item) => {
-  //         if (loadDateMaker(item.reg_date) <= to) {
-  //           return item;
-  //         }
-  //       })
-  //     );
-  //   } else {
-  //     setFiltereData(data);
-  //   }
-  // };
+ 
   const listenToScroll = () => {
     let heightToHideFrom = 10;
     const winScroll =

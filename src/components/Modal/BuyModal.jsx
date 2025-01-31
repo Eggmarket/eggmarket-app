@@ -133,75 +133,81 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
         <button className="icon-light-bold-Close text-2xl"></button>
       </form>
       {product && (
-        <div className="px-6">
-          <ul className="flex flex-col gap-2 mt-2">
-            <div className="py-[6px]">
-              {
-                <p className="font-medium">
-                  {`${product.details?.city} | ${product.details?.weight}`}
-                  <span className="text-xs text-default-500"> کیلو</span> |{" "}
-                  {product.details?.quantity}
-                  <span className="text-xs text-default-500">
-                    {" "}
-                    کارتن
-                  </span> | {product.details?.city}{" "}
-                  <span className="text-xs text-default-500">
-                    ({product.details?.city})
-                  </span>
-                </p>
-              }
-            </div>
-            {lists.map((list, index) => (
-              <li
-                key={index + 1}
-                className="flex justify-between items-center h-9"
-              >
-                <p className="text-sm font-normal text-default-500">
-                  {list.name}
-                </p>
-                <div className="flex items-center gap-1">
-                  <p className="font-semibold text-default-900">{list.text}</p>
-                  <p className="text-sm font-normal text-default-500">
-                    {list.second}
+        <>
+          <ScrollBar>
+            <ul className="flex flex-col gap-2 mt-2">
+              <div className="py-[6px]">
+                {
+                  <p className="font-medium">
+                    {`${product.details?.city} | ${product.details?.weight}`}
+                    <span className="text-xs text-default-500">
+                      {" "}
+                      کیلو
+                    </span> | {product.details?.quantity}
+                    <span className="text-xs text-default-500">
+                      {" "}
+                      کارتن
+                    </span> | {product.details?.city}{" "}
+                    <span className="text-xs text-default-500">
+                      ({product.details?.city})
+                    </span>
                   </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-1 mx-4 h-[109px] bg-tertiary rounded-xl flex flex-col items-center justify-center gap-2 pb-2 pt-4">
-            <p className="text-sm font-normal text-default-300">
-              مبلغ علی‌الحساب پرداختی
-            </p>
-            <div className="flex items-center gap-2">
-              <p className="text-[32px] text-default-50 font-semibold">
-                {Number(product.details?.quantity) >= 180 &&
-                Number(product.details?.quantity) < 360 ? (
-                  trimPrice(100000000, ",")
-                ) : Number(product.details?.quantity) >= 360 &&
-                  Number(product.details?.quantity) < 700 ? (
-                  trimPrice(200000000, ",")
-                ) : (
-                  <>
-                    <p className="text-center">{trimPrice(400000000, ",")}</p>
-                    <p className="text-center text-xs font-thin">
-                      پرداخت آنلاین در دو پرداخت 200 میلیون تومانی
+                }
+              </div>
+              {lists.map((list, index) => (
+                <li
+                  key={index + 1}
+                  className="flex justify-between items-center h-9"
+                >
+                  <p className="text-sm font-normal text-default-500">
+                    {list.name}
+                  </p>
+                  <div className="flex items-center gap-1">
+                    <p className="font-semibold text-default-900">
+                      {list.text}
                     </p>
-                  </>
-                )}
+                    <p className="text-sm font-normal text-default-500">
+                      {list.second}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-1 mx-4 h-[109px] bg-tertiary rounded-xl flex flex-col items-center justify-center gap-2 pb-2 pt-4">
+              <p className="text-sm font-normal text-default-300">
+                مبلغ علی‌الحساب پرداختی
               </p>
+              <div className="flex items-center gap-2">
+                <p className="text-[32px] text-default-50 font-semibold">
+                  {Number(product.details?.quantity) >= 180 &&
+                  Number(product.details?.quantity) < 360 ? (
+                    trimPrice(100000000, ",")
+                  ) : Number(product.details?.quantity) >= 360 &&
+                    Number(product.details?.quantity) < 700 ? (
+                    trimPrice(200000000, ",")
+                  ) : (
+                    <>
+                      <p className="text-center">{trimPrice(400000000, ",")}</p>
+                      <p className="text-center text-xs font-thin">
+                        پرداخت آنلاین در دو پرداخت 200 میلیون تومانی
+                      </p>
+                    </>
+                  )}
+                </p>
+              </div>
             </div>
-          </div>
-          <ul className="flex flex-col gap-2 mt-5 text-default-500 font-normal text-xs">
-            <li className="flex items-center gap-2">
-              <span className="text-[6px] icon-light-bold-Record-input"></span>
-              بعد از بارگیری و اعلام وزن باسکول، مبلغ دقیق تعیین می‌گردد.
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-[6px] icon-light-bold-Record-input"></span>
-              کم و زیاد شدن ۱۰۰ گرمی وزن بار، طبق عرف بازار پذیرفته شده است.
-            </li>
-          </ul>
-          <div className="grid grid-cols-2 items-center justify-center gap-4 mt-5 pb-4">
+            <ul className="flex flex-col gap-2 mt-5 text-default-500 font-normal text-xs">
+              <li className="flex items-center gap-2">
+                <span className="text-[6px] icon-light-bold-Record-input"></span>
+                بعد از بارگیری و اعلام وزن باسکول، مبلغ دقیق تعیین می‌گردد.
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-[6px] icon-light-bold-Record-input"></span>
+                کم و زیاد شدن ۱۰۰ گرمی وزن بار، طبق عرف بازار پذیرفته شده است.
+              </li>
+            </ul>
+          </ScrollBar>
+          <div className="px-4 grid grid-cols-2 items-center justify-center gap-4 mt-5 pb-4">
             <Button
               text="پرداخت آنلاین"
               disabled={isLoading ? true : false}
@@ -217,7 +223,7 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
               <Button text="لغو" type="w-full text-danger-900" />
             </form>
           </div>
-        </div>
+        </>
       )}
     </BottomModal>
   );

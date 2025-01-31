@@ -4,6 +4,7 @@ import Num2persian from "num2persian";
 import { formatPrice } from "@/utils/formatPrice";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
+import BottomModal from "../Modal/BottomModal";
 
 const options = [
   { number: "123456789123456789123456", bankName: "کشاورزی" },
@@ -52,7 +53,24 @@ export default function WithdrawTab() {
   });
 
   return (
-    <>
+    <BottomModal
+      id="withdrawModal"
+      onClose={() => {
+        setWithdrawValues({
+          value: "",
+          accountInfo: { number: "", bankName: "" },
+        });
+      }}
+    >
+      <form
+        method="dialog"
+        className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300"
+      >
+        <h3 className="text-sm text-tertiary">نقد کردن موجودی</h3>
+        <button className="btn btn-sm btn-circle btn-ghost">
+          <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
+        </button>
+      </form>
       <div className="p-8">
         <div className="mb-8">
           <p className="text-default-700 text-sm mb-4">
@@ -174,6 +192,6 @@ export default function WithdrawTab() {
           }
         />
       </form>
-    </>
+    </BottomModal>
   );
 }

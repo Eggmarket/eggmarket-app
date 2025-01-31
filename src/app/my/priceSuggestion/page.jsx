@@ -1,9 +1,14 @@
 "use client";
 import { Axios } from "@/axios";
+import BottomModal from "@/components/Modal/BottomModal";
+import PriceSuggestionModal from "@/components/Modal/PriceSuggestionModal";
 import ReceivedPriceSuggestionCard from "@/components/PriceSuggestion/ReceivedPriceSuggestionCard";
 import SentPriceSuggestionCard from "@/components/PriceSuggestion/SentPriceSuggestionCard";
+import Button from "@/components/UI/Button";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 // import priceSuggestion from "../../../components/svg/priceSuggestion";
 
 export default function Page() {
@@ -11,6 +16,7 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState(1);
   const [sentRequests, setSentRequests] = useState([]);
   const [recievedRequests, setRecievedRequests] = useState([]);
+  const [selectedCard, setSelectedCard] = useState("");
 
   const getSentRequests = async () => {
     const res = await Axios.post(`/API/price-offer/get-my-requests`, {
@@ -32,6 +38,32 @@ export default function Page() {
       setRecievedRequests(unique);
     } else {
       console.log(res);
+    }
+  };
+
+  const deleteData = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/loads/delete`,
+        {
+          loadID: selectedCard.load_id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      if (response.status === 200) {
+        getData();
+        setSelectedCard("");
+        document.getElementById("deleteAdModal").close();
+        toast.info("قیمت با موفقیت حذف شد.", { autoClose: 2000 });
+      }
+    } catch (error) {
+      s;
+      console.log(error);
     }
   };
 
@@ -89,12 +121,53 @@ export default function Page() {
           ) : (
             <div className="space-y-6">
               {sentRequests.map((request, index) => (
-                <SentPriceSuggestionCard key={index} request={request} />
+                <SentPriceSuggestionCard
+                  key={index}
+                  request={request}
+                  setSelectedCard={setSelectedCard}
+                />
               ))}
             </div>
           )}
         </div>
       </div>
+      <PriceSuggestionModal
+        setSelectedCard={setSelectedCard}
+        selectedCard={selectedCard}
+      />
+      <BottomModal
+        id="deletePriceSuggestionModal"
+        onClose={() => setSelectedCard("")}
+      >
+        <form
+          method="dialog"
+          className="flex-0 flex justify-between items-center py-4 px-6 border-b border-default-300"
+        >
+          <h3 className="text-sm text-tertiary">حذف قیمت پیشنهادی</h3>
+          <button
+            className="btn btn-sm btn-circle btn-ghost"
+            onClick={() => setSelectedCard("")}
+          >
+            <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
+          </button>
+        </form>
+        <p className="text-base font-bold px-8 py-5">
+          از حذف قیمت پیشنهادی اطمینان دارید؟
+        </p>
+        <div className="bg-default-50 border-t-default-300 w-full flex gap-3 px-6 py-4 mb-4">
+          <button onClick={() => {}} className={`button button-danger w-3/5 `}>
+            حذف قیمت
+          </button>
+          <form method="dialog" className="w-2/5">
+            <Button
+              type="button-ghost"
+              text="لغو"
+              width="w-full"
+              onClick={() => setSelectedCard("")}
+            />
+          </form>
+        </div>
+      </BottomModal>
     </div>
   );
 }

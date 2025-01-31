@@ -117,16 +117,13 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
   return (
     <dialog id={id} className="modal modal-bottom max-w-[440px] mx-auto">
       <div className="modal-box p-0">
-        <div className="modal-action mt-4 px-4 flex justify-between items-center">
+        <div className="px-4 flex justify-between items-center border-b border-default-300 h-[46px]">
           <p className="text-tertiary">انتخاب تاریخ</p>
-          <form method="dialog">
-            <button className="">
-              <span className="icon-light-bold-Close text-2xl"></span>
-            </button>
+          <form method="dialog" className="h-6 w-6">
+            <button className="icon-light-bold-Close text-2xl"></button>
           </form>
         </div>
-        <div className="bg-default-300 h-px mt-3"></div>
-        <div className="relative grid grid-cols-3 h-[322px] mt-10 mx-8">
+        <div className="relative grid grid-cols-3 h-[322px] my-6 mx-8">
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full h-[46px] rounded-xl bg-[#3422771A]"></div>
           {/* Day */}
           <Swiper
@@ -178,34 +175,35 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
               return day.length === 31 && index <= 30 ? (
                 <SwiperSlide
                   key={index + 1}
-                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${lastSlideIndexDay === index
-                    ? "text-default-900 scale-150 font-extrabold"
-                    : prev || next
+                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${
+                    lastSlideIndexDay === index
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : prev || next
                       ? "text-default-300 font-light scale-125"
                       : prevTwo || nextTwo
-                        ? "text-default-300 font-light scale-100"
-                        : prevThree || nextThree
-                          ? "text-default-200 scale-95 font-light"
-                          : prevFour || nextFour
-                            ? "text-default-100 scale-90 font-light"
-                            : index === 0
-                              ? "text-default-900 scale-150 font-extrabold"
-                              : index === 1
-                                ? "text-default-300 font-light scale-125"
-                                : index === 2
-                                  ? "text-default-300 font-light scale-100"
-                                  : index === 3
-                                    ? "text-default-200 font-light scale-95"
-                                    : lastSlideIndexDay === 0 && index === days.length - 1
-                                      ? "text-default-900 scale-150 font-extrabold"
-                                      : index === days.length - 2
-                                        ? "text-default-300 font-light scale-125"
-                                        : index === days.length - 3
-                                          ? "text-default-300 font-light scale-100"
-                                          : index === days.length - 4
-                                            ? "text-default-200 font-light scale-95"
-                                            : "scale-0"
-                    }`}
+                      ? "text-default-300 font-light scale-100"
+                      : prevThree || nextThree
+                      ? "text-default-200 scale-95 font-light"
+                      : prevFour || nextFour
+                      ? "text-default-100 scale-90 font-light"
+                      : index === 0
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === 1
+                      ? "text-default-300 font-light scale-125"
+                      : index === 2
+                      ? "text-default-300 font-light scale-100"
+                      : index === 3
+                      ? "text-default-200 font-light scale-95"
+                      : lastSlideIndexDay === 0 && index === days.length - 1
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === days.length - 2
+                      ? "text-default-300 font-light scale-125"
+                      : index === days.length - 3
+                      ? "text-default-300 font-light scale-100"
+                      : index === days.length - 4
+                      ? "text-default-200 font-light scale-95"
+                      : "scale-0"
+                  }`}
                   style={{ transitionProperty: "color, transform" }}
                 >
                   {list}
@@ -213,30 +211,31 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
               ) : day.length === 30 && index <= 29 ? (
                 <SwiperSlide
                   key={index + 1}
-                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${lastSlideIndexDay === index
-                    ? "text-default-900 scale-150 font-extrabold"
-                    : prev || next
+                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${
+                    lastSlideIndexDay === index
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : prev || next
                       ? "text-default-300 font-light scale-125"
                       : prevTwo || nextTwo
-                        ? "text-default-300 font-light scale-100"
-                        : prevThree || nextThree
-                          ? "text-default-200 scale-95 font-light"
-                          : prevFour || nextFour
-                            ? "text-default-100 scale-90 font-light"
-                            : index === 0
-                              ? "text-default-900 scale-150 font-extrabold"
-                              : index === 1
-                                ? "text-default-300 font-light scale-125"
-                                : index === 2
-                                  ? "text-default-300 font-light scale-100"
-                                  : index === 3
-                                    ? "text-default-200 scale-95 font-light"
-                                    : lastSlideIndexDay === 0 && index === days.length - 1
-                                      ? "text-default-900 scale-150 font-extrabold"
-                                      : index === days.length - 2
-                                        ? "text-default-300 font-light scale-125"
-                                        : "scale-0"
-                    }`}
+                      ? "text-default-300 font-light scale-100"
+                      : prevThree || nextThree
+                      ? "text-default-200 scale-95 font-light"
+                      : prevFour || nextFour
+                      ? "text-default-100 scale-90 font-light"
+                      : index === 0
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === 1
+                      ? "text-default-300 font-light scale-125"
+                      : index === 2
+                      ? "text-default-300 font-light scale-100"
+                      : index === 3
+                      ? "text-default-200 scale-95 font-light"
+                      : lastSlideIndexDay === 0 && index === days.length - 1
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === days.length - 2
+                      ? "text-default-300 font-light scale-125"
+                      : "scale-0"
+                  }`}
                   style={{ transitionProperty: "color, transform" }}
                 >
                   {list}
@@ -246,30 +245,31 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
                 index <= 28 && (
                   <SwiperSlide
                     key={index + 1}
-                    className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${lastSlideIndexDay === index
-                      ? "text-default-900 scale-150 font-extrabold"
-                      : prev || next
+                    className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${
+                      lastSlideIndexDay === index
+                        ? "text-default-900 scale-150 font-extrabold"
+                        : prev || next
                         ? "text-default-300 font-light scale-125"
                         : prevTwo || nextTwo
-                          ? "text-default-300 font-light scale-100"
-                          : prevThree || nextThree
-                            ? "text-default-200 scale-95 font-light"
-                            : prevFour || nextFour
-                              ? "text-default-100 scale-90 font-light"
-                              : index === 0
-                                ? "text-default-900 scale-150 font-extrabold"
-                                : index === 1
-                                  ? "text-default-300 font-light scale-125"
-                                  : index === 2
-                                    ? "text-default-300 font-light scale-100"
-                                    : index === 3
-                                      ? "text-default-200 scale-95 font-light"
-                                      : lastSlideIndexDay === 0 && index === days.length - 1
-                                        ? "text-default-900 scale-150 font-extrabold"
-                                        : index === days.length - 2
-                                          ? "text-default-300 font-light scale-125"
-                                          : "scale-0"
-                      }`}
+                        ? "text-default-300 font-light scale-100"
+                        : prevThree || nextThree
+                        ? "text-default-200 scale-95 font-light"
+                        : prevFour || nextFour
+                        ? "text-default-100 scale-90 font-light"
+                        : index === 0
+                        ? "text-default-900 scale-150 font-extrabold"
+                        : index === 1
+                        ? "text-default-300 font-light scale-125"
+                        : index === 2
+                        ? "text-default-300 font-light scale-100"
+                        : index === 3
+                        ? "text-default-200 scale-95 font-light"
+                        : lastSlideIndexDay === 0 && index === days.length - 1
+                        ? "text-default-900 scale-150 font-extrabold"
+                        : index === days.length - 2
+                        ? "text-default-300 font-light scale-125"
+                        : "scale-0"
+                    }`}
                     style={{ transitionProperty: "color, transform" }}
                   >
                     {list}
@@ -337,30 +337,31 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
               return (
                 <SwiperSlide
                   key={index + 1}
-                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${lastSlideIndexMonth === index
-                    ? "text-default-900 scale-150 font-extrabold"
-                    : prev || next
+                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${
+                    lastSlideIndexMonth === index
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : prev || next
                       ? "text-default-300 font-light scale-125"
                       : prevTwo || nextTwo
-                        ? "text-default-300 font-light scale-100"
-                        : prevThree || nextThree
-                          ? "text-default-200 scale-95 font-light"
-                          : prevFour || nextFour
-                            ? "text-default-100 scale-90 font-light"
-                            : lastSlideIndexMonth === 11 && index === 0
-                              ? "text-default-900 scale-150 font-extrabold"
-                              : index === 1
-                                ? "text-default-300 font-light scale-125"
-                                : index === 2
-                                  ? "text-default-300 font-light scale-100"
-                                  : index === 3
-                                    ? "text-default-200 scale-95 font-light"
-                                    : lastSlideIndexMonth === 0 && index === months.length - 1
-                                      ? "text-default-900 scale-150 font-extrabold"
-                                      : index === months.length - 2
-                                        ? "text-default-300 font-light scale-125"
-                                        : "scale-0"
-                    }`}
+                      ? "text-default-300 font-light scale-100"
+                      : prevThree || nextThree
+                      ? "text-default-200 scale-95 font-light"
+                      : prevFour || nextFour
+                      ? "text-default-100 scale-90 font-light"
+                      : lastSlideIndexMonth === 11 && index === 0
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === 1
+                      ? "text-default-300 font-light scale-125"
+                      : index === 2
+                      ? "text-default-300 font-light scale-100"
+                      : index === 3
+                      ? "text-default-200 scale-95 font-light"
+                      : lastSlideIndexMonth === 0 && index === months.length - 1
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === months.length - 2
+                      ? "text-default-300 font-light scale-125"
+                      : "scale-0"
+                  }`}
                   style={{ transitionProperty: "color, transform" }}
                 >
                   {list}
@@ -426,34 +427,35 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
               return (
                 <SwiperSlide
                   key={index + 1}
-                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${lastSlideIndex === index
-                    ? "text-default-900 scale-150 font-extrabold"
-                    : prev || next
+                  className={`px-5 select-none !flex items-center justify-center transition-all duration-[0.02s] ease-in-out ${
+                    lastSlideIndex === index
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : prev || next
                       ? "text-default-300 font-light scale-125"
                       : prevTwo || nextTwo
-                        ? "text-default-300 font-light scale-100"
-                        : prevThree || nextThree
-                          ? "text-default-200 scale-95 font-light"
-                          : prevFour || nextFour
-                            ? "text-default-100 scale-90 font-light"
-                            : index === 0
-                              ? "text-default-900 scale-150 font-extrabold"
-                              : index === 1
-                                ? "text-default-300 font-light scale-125"
-                                : index === 2
-                                  ? "text-default-300 font-light scale-100"
-                                  : index === 3
-                                    ? "text-default-200 scale-95 font-light"
-                                    : index === years.length - 1
-                                      ? "text-default-900 scale-150 font-extrabold"
-                                      : index === years.length - 2
-                                        ? "text-default-300 font-light scale-125"
-                                        : index === years.length - 3
-                                          ? "text-default-300 font-light scale-100"
-                                          : index === years.length - 4
-                                            ? "text-default-200 scale-95 font-light"
-                                            : "scale-0"
-                    }`}
+                      ? "text-default-300 font-light scale-100"
+                      : prevThree || nextThree
+                      ? "text-default-200 scale-95 font-light"
+                      : prevFour || nextFour
+                      ? "text-default-100 scale-90 font-light"
+                      : index === 0
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === 1
+                      ? "text-default-300 font-light scale-125"
+                      : index === 2
+                      ? "text-default-300 font-light scale-100"
+                      : index === 3
+                      ? "text-default-200 scale-95 font-light"
+                      : index === years.length - 1
+                      ? "text-default-900 scale-150 font-extrabold"
+                      : index === years.length - 2
+                      ? "text-default-300 font-light scale-125"
+                      : index === years.length - 3
+                      ? "text-default-300 font-light scale-100"
+                      : index === years.length - 4
+                      ? "text-default-200 scale-95 font-light"
+                      : "scale-0"
+                  }`}
                   style={{ transitionProperty: "color, transform" }}
                 >
                   {list}
@@ -463,14 +465,14 @@ const HistoryModal = ({ id, dateValue, setDateValue }) => {
           </Swiper>
         </div>
         <p
-          className="font-normal mx-auto mt-10 cursor-pointer w-fit"
+          className="font-normal mx-auto mt-4 cursor-pointer w-fit"
           onClick={scrollToCurrentDate}
         >
           برو به تاریخ امروز
         </p>
         <form
           method="dialog"
-          className="mt-14 mb-6 flex justify-center gap-3 px-6 w-full"
+          className="py-4 flex justify-center gap-3 px-6 w-full"
         >
           <Button
             text={"تایید"}

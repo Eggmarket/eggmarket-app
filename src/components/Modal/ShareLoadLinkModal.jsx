@@ -42,7 +42,7 @@ function ShareLoadLinkModal({ selectedCard, setSelectedCard = null }) {
             <span className="icon-light-linear-Document-Align-Right-15 text-tertiary text-2xl"></span>
           )}
           <span
-            className={`font-sans font-medium text-lg text-left ${
+            className={`font-sans font-medium text-left ${
               isLinkCopied ? "text-tertiary" : "text-default-900"
             }`}
           >

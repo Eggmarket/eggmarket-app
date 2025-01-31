@@ -9,32 +9,22 @@ import { formatPrice } from "@/utils/formatPrice";
 import HistoryModal from "../Modal/HistoryModal";
 import moment from "jalali-moment";
 import { monthNames } from "../static";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Axios } from "@/axios";
 
-export default function DepositTabs({}) {
+export default function DepositTabs({ billRegister, setBillRegister }) {
   const j = moment();
   const today = moment().local("fa");
   const [selectedTab, setSelectedTab] = useState(1);
-  const [billRegister, setBillRegister] = useState({
-    depositValue: "",
-    billNumber: "",
-    date: {
-      day: today.jDate(),
-      month: monthNames[today.jMonth()],
-      year: today.jYear(),
-    },
-  });
+
   const [loading, setLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
     document.getElementById("frame").src = URL.createObjectURL(
       event.target.files[0]
     );
     // if (file) {
-    setSelectedImage(event.target.files[0]); // Create a URL to preview the image
+    setBillRegister({ ...billRegister, selectedImage: event.target.files[0] }); // Create a URL to preview the image
     // }
   };
 
@@ -73,45 +63,6 @@ export default function DepositTabs({}) {
         toast.error("مشکلی در درخواست وجود دارد");
         console.log(error);
       });
-
-    // await fetch(`https://new-core.eggmarket.ir/API/paymethods/pay`, {
-    //   method: "POST", // Use GET as indicated in your screenshot
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: token,
-    //   },
-    //   body: JSON.stringify({
-    //     paymethod: "sep",
-    //     amount: 10000,
-    //     // "orderid": 1234,
-    //     callbackurl: "http://localhost:3000/my/wallet",
-    //   }), // Send data as JSON in the body
-    // })
-    //   .then((response) => {
-    //     const data = response.json();
-
-    //     toast("شارژ کیف پول با موفقیت انجام شد.", { autoClose: 2000 });
-    //     // updateHandler();
-    //     document.getElementById("depositModal").close();
-    //     setLoading(false);
-    //     setBillRegister({
-    //       depositValue: "",
-    //       billNumber: "",
-    //       date: "",
-    //       imageUrl: "",
-    //     });
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-
-    //     push(`=${data.params.actionUrl}?token=${data.params.token}`);
-    //     console.log("Success:", data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //     setLoading(false);
-    //   });
   }
 
   async function addDepositRequest() {
@@ -127,7 +78,7 @@ export default function DepositTabs({}) {
       "invoice_date",
       new Date(j.format("YYYY-M-D")).getTime() / 1000
     );
-    formData.append("invoice_pic", selectedImage);
+    formData.append("invoice_pic", billRegister.selectedImage);
     const response = await Axios.post(
       "/API/payment-request/add-deposit-request",
       formData
@@ -159,7 +110,16 @@ export default function DepositTabs({}) {
             }`}
             onClick={() => {
               setSelectedTab(1);
-              setBillRegister({ ...billRegister, depositValue: "" });
+              setBillRegister({
+                depositValue: "",
+                billNumber: "",
+                date: {
+                  day: today.jDate(),
+                  month: monthNames[today.jMonth()],
+                  year: today.jYear(),
+                },
+                selectedImage: "",
+              });
             }}
           >
             واریز آنی
@@ -173,7 +133,16 @@ export default function DepositTabs({}) {
             }`}
             onClick={() => {
               setSelectedTab(2);
-              setBillRegister({ ...billRegister, depositValue: "" });
+              setBillRegister({
+                depositValue: "",
+                billNumber: "",
+                date: {
+                  day: today.jDate(),
+                  month: monthNames[today.jMonth()],
+                  year: today.jYear(),
+                },
+                selectedImage: "",
+              });
             }}
           >
             ثبت فیش واریزی
@@ -248,13 +217,15 @@ export default function DepositTabs({}) {
               </button>
               <label
                 className={`flex items-center ${
-                  selectedImage ? "justify-center" : "justify-between"
+                  billRegister.selectedImage
+                    ? "justify-center"
+                    : "justify-between"
                 } relative w-full mb-2 rounded-xl border border-[#C2C2C2] bg-default-50 cursor-pointer h-[100px] py-2.5 px-4`}
                 htmlFor="fileInput"
               >
                 <span
                   className={`text-default-400 ${
-                    selectedImage ? "hidden" : "block"
+                    billRegister.selectedImage ? "hidden" : "block"
                   }`}
                 >
                   بارگذاری تصویر فیش واریزی
@@ -263,14 +234,14 @@ export default function DepositTabs({}) {
                   id="frame"
                   src=""
                   className={
-                    selectedImage
+                    billRegister.selectedImage
                       ? "block self-center aspect-square max-h-20 justify-self-center"
                       : "hidden"
                   }
                 />
                 <div
                   className={`relative self-center ${
-                    selectedImage ? "hidden" : "block"
+                    billRegister.selectedImage ? "hidden" : "block"
                   }`}
                 >
                   <span className="icon-light-linear-Camera-1 text-2xl text-tertiary"></span>

@@ -5,7 +5,7 @@ import React from "react";
 function Page() {
   const { back } = useRouter();
   return (
-    <div className="bg-default-50">
+    <div className="bg-default-50 min-h-screen">
       <div className="sticky top-0 bg-inherit p-6 z-10 flex gap-4 justify-start items-center">
         <button
           className="icon-light-bold-Right-1 text-2xl"

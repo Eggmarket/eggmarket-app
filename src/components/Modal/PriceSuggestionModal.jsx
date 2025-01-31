@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../UI/Button";
 import { useState } from "react";
 import { useRef } from "react";
@@ -9,8 +9,13 @@ import axios from "axios";
 import { useToken } from "../hook/useToken/useToken";
 import { toast } from "react-toastify";
 
-function PriceSuggestionModal({ selectedCard, setSelectedCard = null }) {
+function PriceSuggestionModal({
+  selectedCard,
+  setSelectedCard = null,
+  source = "edit",
+}) {
   const [suggestedPrice, setSuggestedPrice] = useState("");
+  const [width, setWidth] = useState(0);
   const suggestedPriceRef = useRef();
   const [token, setToken] = useToken();
 
@@ -36,6 +41,40 @@ function PriceSuggestionModal({ selectedCard, setSelectedCard = null }) {
         console.log(error);
       });
   };
+
+  const editPrice = async () => {
+    await axios
+      .post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/price-offer/edit`,
+        {
+          load_id: selectedCard.load_id,
+          amount: Number(`${suggestedPrice.replace(/,/g, "")}`),
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        document.getElementById("priceSuggestionModal").close();
+        toast.info("قیمت پیشنهادی شما ثبت شد.");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    source === "edit" &&
+      selectedCard &&
+      setSuggestedPrice(formatPrice(String(selectedCard.amount)));
+  }, [selectedCard]);
+
+  useEffect(() => {
+    setWidth(suggestedPriceRef.current.offsetWidth);
+  }, [suggestedPrice]);
+
   return (
     <BottomModal
       id="priceSuggestionModal"
@@ -72,11 +111,7 @@ function PriceSuggestionModal({ selectedCard, setSelectedCard = null }) {
                 value={suggestedPrice}
                 className="placeholder:text-default-400 bg-inherit placeholder:font-normal"
                 style={{
-                  width: `${
-                    suggestedPrice
-                      ? `${suggestedPriceRef.current.offsetWidth + 15}px`
-                      : "100%"
-                  }`,
+                  width: `${suggestedPrice ? `${width + 15}px` : "100%"}`,
                   maxWidth: "calc(100% - 40px)",
                 }}
                 onChange={(e) => {
@@ -100,13 +135,23 @@ function PriceSuggestionModal({ selectedCard, setSelectedCard = null }) {
             )}
           </div>
         </div>
-        <Button
-          type="button-primary"
-          text="ثبت قیمت پیشنهادی"
-          width="w-full"
-          disabled={!suggestedPrice}
-          onClick={() => addPrice()}
-        />
+        {source === "add" ? (
+          <Button
+            type="button-primary"
+            text="ثبت قیمت پیشنهادی"
+            width="w-full"
+            disabled={!suggestedPrice}
+            onClick={() => addPrice()}
+          />
+        ) : (
+          <Button
+            type="button-primary"
+            text="ویرایش قیمت پیشنهادی"
+            width="w-full"
+            disabled={!suggestedPrice}
+            onClick={() => editPrice()}
+          />
+        )}
       </div>
     </BottomModal>
   );

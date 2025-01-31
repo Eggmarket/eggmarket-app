@@ -75,7 +75,7 @@ function Page() {
   useEffect(() => {
     async function fetchLoad() {
       const response = await Axios.post(
-        `${process.env.NEXT_PUBLIC_EGG_MARKET}API/loads/load`,
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/loads/load`,
         {
           loadID: Number(id),
         }

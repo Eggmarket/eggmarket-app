@@ -3,10 +3,9 @@ import moment from "jalali-moment";
 import React from "react";
 
 export default function MyRequestCard({ item }) {
-  const date = item.updated_at.split(" ")[0];
-  const j = moment(date, "YYYY-MM-DD");
+  const date = new Date(item.updated_at * 1000);
+  const j = moment(`${date.toLocaleDateString()}`);
 
-  const time = item.updated_at.split(" ")[1];
   return (
     <div className="bg-[#F5F5F5] rounded-xl px-4 py-2 mb-2">
       <div className="mb-2 flex justify-between items-center">
@@ -17,8 +16,8 @@ export default function MyRequestCard({ item }) {
         >
           {item.type ? "واریز" : "برداشت"}
         </span>
-        <span className="text-10px text-default-500">
-          {time.slice(0, 5)} - {j.format("jYYYY-jMM-jDD")}
+        <span className="text-10px text-default-500" dir="ltr">
+          {j.format("jYYYY/jMM/jDD")} - {date.getHours()}: {date.getMinutes()}
         </span>
       </div>
       <div className="flex justify-between items-center">

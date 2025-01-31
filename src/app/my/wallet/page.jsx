@@ -13,10 +13,23 @@ import walletTrxIcon from "@/components/svg/walletTrx.svg";
 import Image from "next/image";
 import MyRequestCard from "@/components/Cards/MyRequestCard";
 import WalletCard from "@/components/wallet/WalletCard";
+import moment from "jalali-moment";
+import { monthNames } from "@/components/static";
 
 export default function Page() {
+  const today = moment().local("fa");
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [billRegister, setBillRegister] = useState({
+    depositValue: "",
+    billNumber: "",
+    date: {
+      day: today.jDate(),
+      month: monthNames[today.jMonth()],
+      year: today.jYear(),
+    },
+    selectedImage: "",
+  });
 
   const { back } = useRouter();
   const { reFetchWallet } = useWallet();
@@ -135,7 +148,21 @@ export default function Page() {
       >
         مشاهده همه درخواست‌های ثبت‌شده
       </Link>
-      <BottomModal id="depositModal">
+      <BottomModal
+        id="depositModal"
+        onClose={() => {
+          // setBillRegister({
+          //   depositValue: "",
+          //   billNumber: "",
+          //   date: {
+          //     day: today.jDate(),
+          //     month: monthNames[today.jMonth()],
+          //     year: today.jYear(),
+          //   },
+          //   selectedImage: "",
+          // });
+        }}
+      >
         <form
           method="dialog"
           className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300"
@@ -145,20 +172,12 @@ export default function Page() {
             <span className="icon-light-bold-Close text-xl text-[#2D264B]"></span>
           </button>
         </form>
-        <DepositTabs updateHandler={updateHandler} />
+        <DepositTabs
+          billRegister={billRegister}
+          setBillRegister={setBillRegister}
+        />
       </BottomModal>
-      <BottomModal id="withdrawModal" onClose={() => {}}>
-        <form
-          method="dialog"
-          className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300"
-        >
-          <h3 className="text-sm text-tertiary">نقد کردن موجودی</h3>
-          <button className="btn btn-sm btn-circle btn-ghost">
-            <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
-          </button>
-        </form>
-        <WithdrawTab />
-      </BottomModal>
+      <WithdrawTab />
     </div>
   );
 }

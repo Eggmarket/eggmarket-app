@@ -57,6 +57,7 @@ export default function RootLayout({ children }) {
                     "/my/wallet/requests",
                     "/aboutUs",
                     "/landing-page",
+                    "/policy",
                   ]}
                   childProp={<Header />}
                 ></Path>

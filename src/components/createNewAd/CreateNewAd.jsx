@@ -10,6 +10,8 @@ import { useToken } from "../hook/useToken/useToken";
 import BottomModal from "../Modal/BottomModal";
 import SelectCity from "../UI/SelectCity";
 import PriceInput from "./PriceInput";
+import { formatPrice } from "@/utils/formatPrice";
+import { toast } from "react-toastify";
 
 export default function CreateNewAd({ profile }) {
   const router = useRouter();
@@ -48,7 +50,12 @@ export default function CreateNewAd({ profile }) {
     pattern: /^[0-9]+$/,
     min: 180,
   });
-  const price = register("price", { required: false, pattern: /^[0-9]+$/ });
+  const price = register("price", {
+    required: false,
+    onChange: (e) => {
+      setValue("price", formatPrice(e.target.value));
+    },
+  });
   const description = register("description", { required: false });
 
   const postData = async (data) => {
@@ -68,7 +75,7 @@ export default function CreateNewAd({ profile }) {
           type: "announcement",
           pack_type: "bulk",
           quality: data.quality,
-          price: data.price, // string
+          price: data.price.replace(/,/g, ""), // string
           description: data.description, // string
           person_owner_name: profile.person_owner_name, // string
           owner_name: data.brand, // string
@@ -83,12 +90,14 @@ export default function CreateNewAd({ profile }) {
       );
       if (response.status === 200) {
         setIsLoading(false);
+        toast.info("آگهی شما با موفقیت اضافه شد.");
         document.getElementById("adModal").close();
         router.push("/");
         router.refresh();
       }
     } catch (error) {
       console.log(error);
+      toast.error("خطایی وجود دارد.");
       setIsLoading(false);
     }
   };
@@ -106,15 +115,12 @@ export default function CreateNewAd({ profile }) {
         setIsDescOpen(false);
       }}
     >
-      <form
-        method="dialog"
-        className="flex-0 flex justify-between items-center h-[46px] px-4 border-b border-default-300 bg-surface-secondary"
-      >
+      <div className="flex justify-between items-center py-2 px-4 border-b border-default-300 bg-surface-secondary">
         <h3 className="text-sm text-tertiary">ثبت آگهی جدید</h3>
-        <button className="btn btn-sm btn-circle btn-ghost">
+        <form method="dialog" className="h-6 w-6">
           <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
-        </button>
-      </form>
+        </form>
+      </div>
       <div className="bg-surface-secondary addLoad">
         <form onSubmit={handleSubmit(onSubmit)}>
           <ScrollBar>
@@ -188,7 +194,19 @@ export default function CreateNewAd({ profile }) {
                 defaultValue={getValues("origin")}
                 isSearch={true}
               />
-              <PriceInput />
+              <PriceInput
+                name={price.name}
+                onChange={price.onChange}
+                inputRef={price.ref}
+              />
+              {/* <input
+                type="number"
+                name={price.name}
+                onChange={price.onChange}
+                inputRef={price.input}
+                value={priceInput}
+                className="hidden"
+              /> */}
               {/* <InputField
                 name={price.name}
                 onChange={price.onChange}

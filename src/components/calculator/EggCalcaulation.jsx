@@ -32,7 +32,7 @@ const eggmarketBasedItems = [
 export default function EggCalcaulation({ values, setValues }) {
   return (
     <>
-      <div className="px-16">
+      <div className="px-6 sm:px-16">
         <div className="flex items-center justify-between mb-4">
           <label htmlFor="weight" className="text-default-900 font-medium">
             وزن کارتن
@@ -110,7 +110,7 @@ export default function EggCalcaulation({ values, setValues }) {
           محاسبه
         </button>
         <button
-          className="border border-default-700 text-default-700 font-medium rounded-xl w-2/5"
+          className="border border-default-700 text-sm sm:text-base text-default-700 font-medium rounded-xl w-2/5"
           onClick={() =>
             setValues({
               weight: "",

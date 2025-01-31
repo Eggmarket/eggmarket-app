@@ -44,13 +44,10 @@ export default function Page() {
         </div>
       </div>
       <div className="flex-1 flex flex-col h-full">
-        <div
-          role="tablist"
-          className="tabs tabs-lifted flex text-sm tabs-custom"
-        >
+        <div role="tablist" className="tabs tabs-lifted flex tabs-custom">
           <a
             role="tab"
-            className={`flex-1 tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] text-xs sm:text-sm ${
+            className={`flex-1 tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] text-10px leading-2 sm:text-sm ${
               activeTab === 1
                 ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
                 : ""
@@ -61,7 +58,7 @@ export default function Page() {
           </a>
           <a
             role="tab"
-            className={`flex-1 tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] text-xs sm:text-sm ${
+            className={`flex-1 tab text-default-500 [--tab-border-color:#F5F5F5] [--tab-border:0px] text-10px leading-2 sm:text-sm ${
               activeTab === 2
                 ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
                 : ""
