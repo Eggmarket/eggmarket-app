@@ -149,7 +149,7 @@ export default function DepositTabs({ billRegister, setBillRegister }) {
           </a>
         </div>
         <div
-          className={`pt-10 pb-2 px-8 bg-default-50 rounded-b-xl h-full min-h-[360px] ${
+          className={`pt-3 sm:pt-10 pb-2 px-8 bg-default-50 rounded-b-xl h-full min-h-[300px] sm:min-h-[360px] ${
             selectedTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
           }`}
         >
@@ -203,7 +203,7 @@ export default function DepositTabs({ billRegister, setBillRegister }) {
                 )}
               </div>
               <button
-                className="flex items-center relative w-full mb-4 gap-1 rounded-xl border border-[#C2C2C2] bg-default-50 px-4 focus-within:border-tertiary h-[50px]"
+                className="flex items-center relative w-full mb-4 gap-1 rounded-xl border border-[#C2C2C2] bg-default-50 px-4 focus-within:border-tertiary h-12 sm:h-[50px]"
                 onClick={() =>
                   document.getElementById("depositByBillDate").showModal()
                 }
@@ -265,7 +265,7 @@ export default function DepositTabs({ billRegister, setBillRegister }) {
       </div>
       <form
         method="dialog"
-        className="flex-0 bg-default-50 border-t-default-300 modalShadow px-6 py-4 w-full"
+        className="sticky bg-default-50 border-t-default-300 modalShadow px-6 py-4 w-full"
       >
         {selectedTab === 1 ? (
           <Button

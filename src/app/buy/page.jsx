@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas-pro";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
+import moment from "jalali-moment";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -20,6 +21,9 @@ export default function Page() {
 
   useEffect(() => {
     if (searchParams.get("0[status]") === "1") {
+      const j = moment(
+        JSON.parse(searchParams.get("0[params]")).date.split(" ")[0]
+      );
       setData([
         {
           name: "شماره فاکتور",
@@ -35,7 +39,7 @@ export default function Page() {
         },
         {
           name: "تاریخ",
-          text: JSON.parse(searchParams.get("0[params]")).date.split(" ")[0], //convert
+          text: j.format("jYYYY/jMM/jDD"), //convert
           second: JSON.parse(searchParams.get("0[params]"))
             .date.split(" ")[1]
             .slice(0, 5),
@@ -110,7 +114,19 @@ export default function Page() {
         ref={captureRef}
         className="relative bg-[#F7F7F7] w-full rounded-tl-2xl rounded-tr-2xl border-solid border-t border-x border-[#C2C2C2]"
       >
-        <button onClick={() => navigator.share()}>
+        <button
+          onClick={() => {
+            navigator.clipboard.writeText(
+              `پرداخت موفق
+      شماره فاکتور ${data[0].text} 
+      شماره پیگیری ${data[1].text}
+      تاریخ ${data[3].text}
+      مبلغ ${data[4].text}
+      اگ مارکت`
+            );
+            toast.success("متن کپی شد.");
+          }}
+        >
           <span className="icon-Share absolute top-4 right-4 text-xl text-default-500 cursor-pointer"></span>
         </button>
         <Image

@@ -141,7 +141,7 @@ export default function WithdrawTab() {
               onClick={() => setShowMenu(!showMenu)}
               className="dropdown-input justify-end"
             >
-              <div className="dropdown-selected-value flex items-center justify-end w-full">
+              <div className="text-sm sm:text-base dropdown-selected-value flex items-center justify-end w-full">
                 <p>{withdrawValues.accountInfo.number}</p>
                 <span className="text-xs text-default-500 mr-1">IR</span>
               </div>

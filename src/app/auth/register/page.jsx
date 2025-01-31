@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
-export default function RegisterPage() {
+export default function Page() {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
   const [disabled, setDisabled] = useState(false);

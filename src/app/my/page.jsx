@@ -248,7 +248,9 @@ export default function Page() {
               }
             }}
           >
-            <span className={`${list.icon} text-xl sm:text-2xl text-default-700`}></span>
+            <span
+              className={`${list.icon} text-xl sm:text-2xl text-default-700`}
+            ></span>
             <p className="mr-3 font-medium text-default-700">{list.text}</p>
             {index < lists.length - 1 && (
               <span className="mr-auto icon-light-linear-Left-2 text-2xl"></span>
