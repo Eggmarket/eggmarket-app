@@ -52,7 +52,11 @@ export default function EditAdForm({ card, setSelected, getData }) {
     required: true,
     pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
   });
-  const count = register("count", { required: true, pattern: /^[0-9]+$/ });
+  const count = register("count", {
+    required: true,
+    pattern: /^[0-9]+$/,
+    min: 180,
+  });
   const brand = register("brand", { required: true });
   const price = register("price", { required: false, pattern: /^[0-9]+$/ });
   const description = register("description", { required: false });
@@ -153,7 +157,7 @@ export default function EditAdForm({ card, setSelected, getData }) {
               onChange={count.onChange}
               inputRef={count.ref}
               label="تعداد کارتن"
-              smallText="(کیلوگرم)"
+              smallText="(حداقل 180)"
               required={true}
               placeholder="مثلا 360"
               space="col-span-1"

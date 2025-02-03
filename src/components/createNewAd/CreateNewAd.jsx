@@ -145,7 +145,7 @@ export default function CreateNewAd({ profile }) {
                 onChange={count.onChange}
                 inputRef={count.ref}
                 label="تعداد کارتن"
-                smallText="(کیلوگرم)"
+                smallText="(حداقل 180)"
                 required={true}
                 placeholder="مثلا ۳۶۰"
                 space="col-span-1"
