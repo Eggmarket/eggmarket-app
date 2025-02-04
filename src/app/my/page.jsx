@@ -187,7 +187,7 @@ export default function Page() {
                 {loading ? (
                   <span className="loading loading-dots loading-xs"></span>
                 ) : (
-                  trimPrice(wallet?.value, ".")
+                  trimPrice(wallet?.balance, ".")
                 )}{" "}
                 <span className="text-default-700 text-xs font-normal">
                   تومان

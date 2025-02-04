@@ -14,6 +14,7 @@ import DoneTradeCard from "@/components/TradesPage/DoneTradeCard";
 import DoneTradeFactorModal from "@/components/TradesPage/DoneTradeFactorModal";
 import UnDoneTradeFactorModal from "@/components/TradesPage/UnDoneTradeFactorModal";
 import moment from "jalali-moment";
+import { useAds } from "@/context/AdsProvider";
 
 const items = [
   {
@@ -46,6 +47,8 @@ export default function Page() {
   const [token, setToken] = useToken();
   const [isFactorLoading, setIsFactorLoading] = useState(false);
   const [factor, setFactor] = useState("");
+
+  const { ads: myAds } = useAds();
 
   useEffect(() => {
     window.addEventListener("scroll", listenToScroll);

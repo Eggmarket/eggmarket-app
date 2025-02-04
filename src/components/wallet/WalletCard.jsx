@@ -73,7 +73,7 @@ function WalletCard() {
             }}
           >
             <span className="text-default-50">
-              {trimPrice(wallet?.value, ",")}
+              {trimPrice(wallet?.balance, ",")}
             </span>
             <span className="text-[#C2C2C2] text-xs">تومان</span>
           </div>
@@ -156,7 +156,7 @@ function WalletCard() {
             }}
           >
             <span className="text-default-50 text-base sm:text-xl">
-              {trimPrice(wallet?.value, ",")}
+              {trimPrice(wallet?.balance, ",")}
             </span>
             <span className="text-[#C2C2C2] text-xs">تومان</span>
           </div>

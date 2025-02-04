@@ -129,7 +129,7 @@ function UnDoneTradeFactorModal({
           )}
         </div>
       )}
-      {factor.status === 2 && (
+      {factor.status === 2 && factor.type === 0 && (
         <div className="mt-5 px-6">
           <Button
             text="پرداخت از کیف پول"
