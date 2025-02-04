@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Button from "../UI/Button";
 import { useRouter } from "next/navigation";
 import { useProductDetail } from "@/store/productDetail";
-import { useToken } from "../hook/useToken/useToken";
 import { toast } from "react-toastify";
 import { trimPrice } from "@/utils/trimPrice";
 import BottomModal from "./BottomModal";
@@ -14,6 +13,7 @@ import { useOrigins } from "@/context/OriginsProvider";
 
 const BuyModal = ({ load, setSelectedCard = null }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [prePurchasePrice, setPrePurchasePrice] = useState(0);
   const router = useRouter();
   const product = useProductDetail((state) => state.product);
   const [list, setList] = useState("");
@@ -75,8 +75,22 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
     }
   };
 
+  async function getPrePurchasePrice() {
+    const response = await Axios.post(
+      "/API/transactions/determination-purchase-amount",
+      {
+        count: Number(
+          load.details.find((item) => item.title === "تعداد کارتن").value
+        ),
+      }
+    );
+    if (response.status === 200) {
+      setPrePurchasePrice(response.data.amount);
+    }
+  }
+
   useEffect(() => {
-    load &&
+    if (load) {
       setList([
         {
           name: "شماره فاکتور",
@@ -110,6 +124,8 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
           second: "تومان",
         },
       ]);
+      getPrePurchasePrice();
+    }
   }, [load]);
 
   return (
@@ -174,20 +190,8 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
               </p>
               <div className="flex items-center gap-2">
                 <p className="text-[32px] text-default-50 font-semibold">
-                  {Number(product.details?.quantity) >= 180 &&
-                  Number(product.details?.quantity) < 360 ? (
-                    trimPrice(100000000, ",")
-                  ) : Number(product.details?.quantity) >= 360 &&
-                    Number(product.details?.quantity) < 700 ? (
-                    trimPrice(200000000, ",")
-                  ) : (
-                    <>
-                      <p className="text-center">{trimPrice(400000000, ",")}</p>
-                      <p className="text-center text-xs font-thin">
-                        پرداخت آنلاین در دو پرداخت 200 میلیون تومانی
-                      </p>
-                    </>
-                  )}
+                  {trimPrice(prePurchasePrice)}{" "}
+                  <span className="text-sm font-light">تومان</span>
                 </p>
               </div>
             </div>

@@ -43,8 +43,6 @@ export default function CustomSearchSelect({
   });
 
   useEffect(() => {
-    console.log("here");
-
     register("origin", { required: true });
   }, [register]);
 

@@ -9,6 +9,7 @@ function WalletCard() {
 
   const { wallet } = useWallet();
   const walletCardRef = useRef();
+  const priceDiv = useRef();
 
   useEffect(() => {
     setWalletCardWidth(walletCardRef.current?.offsetWidth);
@@ -55,13 +56,20 @@ function WalletCard() {
             موجودی کیف پول:
           </p>
           <div
-            className={`absolute flex items-center gap-1 ${
+            ref={priceDiv}
+            className={`absolute flex items-center justify-center gap-1 ${
               walletCard
                 ? "top-8 text-xl font-semibold"
                 : `top-24 text-[28px] font-medium`
             } transition-all duration-300 ease-in-out`}
             style={{
-              left: `${walletCard ? "24px" : `${wallectCardWidth / 2 - 90}px`}`,
+              left: `${
+                walletCard
+                  ? "16px"
+                  : `${
+                      (wallectCardWidth - priceDiv.current?.offsetWidth) / 2
+                    }px`
+              }`,
             }}
           >
             <span className="text-default-50">
@@ -120,7 +128,7 @@ function WalletCard() {
           ></span>
           <p
             className={`absolute ${
-              walletCard ? "top-5" : `top-14`
+              walletCard ? "top-4" : `top-14`
             } text-xs sm:text-sm text-default-300 transition-all duration-300 ease-in-out`}
             style={{
               right: `${
@@ -131,13 +139,20 @@ function WalletCard() {
             موجودی کیف پول:
           </p>
           <div
-            className={`absolute flex items-center gap-1  ${
+            ref={priceDiv}
+            className={`absolute flex items-center justify-center gap-1  ${
               walletCard
-                ? "top-5 font-semibold "
+                ? "top-4 font-semibold "
                 : "bottom-3 top-20 font-medium"
             } transition-all duration-300 ease-in-out`}
             style={{
-              left: `${walletCard ? "16px" : `${wallectCardWidth / 2 - 60}px`}`,
+              left: `${
+                walletCard
+                  ? "16px"
+                  : `${
+                      (wallectCardWidth - priceDiv.current?.offsetWidth) / 2
+                    }px`
+              }`,
             }}
           >
             <span className="text-default-50 text-base sm:text-xl">
@@ -154,7 +169,7 @@ function WalletCard() {
           walletCard ? "opacity-100" : "opacity-0"
         } transition-opacity ease-in-out duration-500 absolute bottom-4 inset-x-4`}
       >
-        <div className="flex items-center justify-between w-full mb-2">
+        <div className="flex items-center justify-between w-full mb-1.5">
           <p className="text-xs sm:text-sm text-default-300">بلوکه شده:</p>
           <p className="flex items-center">
             <span className="font-semibold text-base sm:text-xl ml-2 text-primary">

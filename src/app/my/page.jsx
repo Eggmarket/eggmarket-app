@@ -62,7 +62,6 @@ export default function Page() {
 
   const router = useRouter();
   const [profile, setProfile] = useState({});
-  // const [token, setToken] = useState("");
   const removeAllProfile = useProfile((state) => state.removeAllProfile);
   const removeAll = useField((state) => state.removeAll);
   const { wallet, loading } = useWallet();
