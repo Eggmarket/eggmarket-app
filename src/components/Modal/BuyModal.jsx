@@ -49,10 +49,7 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
       `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
       {
         paymethod: "sep",
-        amount:
-          product.details?.quantity >= 180 && product.details?.quantity < 360
-            ? 100000000
-            : 200000000,
+        amount: prePurchasePrice,
       }
     );
     if (response.status === 200) {
