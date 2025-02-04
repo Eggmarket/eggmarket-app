@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Button from "../UI/Button";
 import BottomModal from "../Modal/BottomModal";
 import { useOrigins } from "@/context/OriginsProvider";

@@ -20,6 +20,7 @@ const billData = [
 ];
 
 function UnDoneTradeFactorModal({
+  selectedTrade,
   setSelectedTrade,
   factor,
   getUserPendingTrades,
@@ -129,7 +130,7 @@ function UnDoneTradeFactorModal({
           )}
         </div>
       )}
-      {factor.status === 2 && factor.type === 0 && (
+      {factor.status === 2 && selectedTrade.type === 0 && (
         <div className="mt-5 px-6">
           <Button
             text="پرداخت از کیف پول"

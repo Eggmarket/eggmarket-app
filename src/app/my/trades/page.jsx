@@ -48,8 +48,6 @@ export default function Page() {
   const [isFactorLoading, setIsFactorLoading] = useState(false);
   const [factor, setFactor] = useState("");
 
-  const { ads: myAds } = useAds();
-
   useEffect(() => {
     window.addEventListener("scroll", listenToScroll);
     return () => window.removeEventListener("scroll", listenToScroll);
@@ -386,6 +384,7 @@ export default function Page() {
         setSelectedTrade={setSelectedTrade}
         getUserDoneTrades={getUserDoneTrades}
         getUserPendingTrades={getUserPendingTrades}
+        selectedTrade={selectedTrade}
         factor={factor}
       />
     </div>
