@@ -63,7 +63,7 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
         "paymentStatus",
         product.details?.quantity < 700 ? "done" : "second"
       );
-      localStorage.setItem("prePurcahsedId", load);
+      localStorage.setItem("prePurcahsedId", load.loadID);
       setIsLoading(false);
     } else {
       setIsLoading(false);
