@@ -59,6 +59,7 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
   const x = parseInt(inputValue.join(""));
 
   const getCode = async () => {
+    !modal && router.push("/");
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/confirm/${phone}/${x}`,
       {
@@ -71,7 +72,6 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
     );
     const data = await response.json();
     console.log(response);
-    !modal && router.push("/");
 
     if (dialogPhone === "add") {
       addProfile(localStorage.getItem("phone"));
