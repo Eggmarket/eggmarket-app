@@ -71,6 +71,7 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
     );
     const data = await response.json();
     console.log(response);
+    !modal && router.push("/");
 
     if (dialogPhone === "add") {
       addProfile(localStorage.getItem("phone"));
@@ -85,7 +86,6 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
         },
         body: JSON.stringify(data.token),
       });
-      !modal && router.push("/");
     } catch (err) {
       console.error(err);
     }
