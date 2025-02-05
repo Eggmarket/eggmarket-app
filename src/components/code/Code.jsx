@@ -85,11 +85,11 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
         },
         body: JSON.stringify(data.token),
       });
+      !modal && router.push("/");
     } catch (err) {
       console.error(err);
     }
     sessionStorage.clear();
-    !modal && router.push("/");
     setError(false);
   };
 
