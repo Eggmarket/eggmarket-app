@@ -24,6 +24,10 @@ export default function PasswordPage() {
         setInputValue={setInputValue}
         inputValue={inputValue}
         inputRef={inputRef}
+        enterPass={() => {
+          inputValue !== "" && router.push("/");
+          sessionStorage.clear();
+        }}
       />
       <Link
         href={"/auth/code"}

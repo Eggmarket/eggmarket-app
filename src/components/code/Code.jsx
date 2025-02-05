@@ -122,6 +122,12 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
               setError(false);
             }}
             onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (inputValue.every((value) => value !== "")) {
+                  getCode();
+                }
+              }
               if (e.key === "ArrowUp" || e.key === "ArrowDown")
                 e.preventDefault();
               if (e.key === "ArrowLeft") {

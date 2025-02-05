@@ -71,6 +71,11 @@ export default function Page() {
             numericValue !== "" && !phoneNumber.safeParse(numericValue).success
           );
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && inputValue.length === 11 && !error) {
+            getCode(); // Call function when Enter is pressed inside the input
+          }
+        }}
       />
       <p className={`${error ? "block" : "hidden"} mt-4 text-danger-900`}>
         شماره وارد شده معتبر نیست.
@@ -81,6 +86,7 @@ export default function Page() {
             getCode();
           }
         }}
+        // onKey={}
         disabled={disabled}
         className={`${!error &&
           inputRef.current &&

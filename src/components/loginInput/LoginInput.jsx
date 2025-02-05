@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, className, disabled, inputClassName, id }) => {
+const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, className, disabled, inputClassName, id, enterPass }) => {
     const [type, setType] = useState(false)
     const [caretPosition, setCaretPosition] = useState(0);
     const [blur, setBlur] = useState(false);
@@ -22,6 +22,9 @@ const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, 
                     onChange && onChange()
                 }}
                 onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        enterPass()
+                    }
                     onKeyDown && onKeyDown(e)
                     setTimeout(() => {
                         if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
