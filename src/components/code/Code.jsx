@@ -101,13 +101,12 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
             key={index}
             dir="ltr"
             value={value}
-            className={`text-center w-[55px] h-[55px] rounded-lg border-[1px] border-solid ${
-              error
-                ? "border-danger-900"
-                : inputValue[index] !== ""
+            className={`text-center w-[55px] h-[55px] rounded-lg border-[1px] border-solid ${error
+              ? "border-danger-900"
+              : inputValue[index] !== ""
                 ? "!border-tertiary"
                 : "!border-default-300"
-            } max-sm:w-12 max-sm:h-12 text-[28px] font-bold`}
+              } max-sm:w-12 max-sm:h-12 text-[28px] font-bold`}
             type="tel"
             maxLength={1}
             onClick={(e) => {
@@ -152,9 +151,8 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
       </div>
       <div className="grid grid-rows-2">
         <div
-          className={`flex items-center gap-2 text-danger-900 font-normal text-sm mt-4 ${
-            error ? "-order-last visible" : "order-last invisible"
-          }`}
+          className={`flex items-center gap-2 text-danger-900 font-normal text-sm mt-4 ${error ? "-order-last visible" : "order-last invisible"
+            }`}
         >
           <span className="icon-caution-empty-danger text-xl"></span>کد وارد‌شده
           نادرست است.
@@ -237,27 +235,26 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
                       getCode();
                     }
                   }}
-                  className={`${
-                    inputValue.every((value) => value !== "")
-                      ? "bg-primary text-default-900"
-                      : "bg-orange-100 text-default-100"
-                  } !mt-0`}
+                  className={`${inputValue.every((value) => value !== "")
+                    ? "bg-primary text-default-900"
+                    : "bg-orange-100 text-default-100"
+                    } !mt-0`}
                   text={"ادامه"}
                 />
               </form>
             </div>
           ) : (
             <LoginButton
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 if (inputValue.every((value) => value !== "")) {
                   getCode();
                 }
               }}
-              className={`${
-                inputValue.every((value) => value !== "")
-                  ? "bg-primary text-default-900"
-                  : "bg-orange-100 text-default-400"
-              } !mt-0`}
+              className={`${inputValue.every((value) => value !== "")
+                ? "bg-primary text-default-900"
+                : "bg-orange-100 text-default-400"
+                } !mt-0`}
               text={"ادامه"}
             />
           )}

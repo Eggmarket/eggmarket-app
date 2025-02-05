@@ -36,7 +36,7 @@ export default function Layout({ children }) {
     //         </form>
     //     </div>
     // </div>
-    <div className="min-h-screen grid grid-rows-1 grid-cols-[1fr] px-8">
+    <div className="min-h-screen grid grid-rows-1 grid-cols-[1fr] px-8 max-md:px-4">
       <div className="flex justify-center items-center flex-col gap-10">
         {path !== "/auth/signup" && (
           <Image className="block" src={LightLogo} alt="Logo" />
@@ -57,8 +57,8 @@ export default function Layout({ children }) {
                   {path === "/auth/code"
                     ? "کد یکبار مصرف"
                     : path === "/auth/password"
-                    ? "رمز عبور"
-                    : path === "/auth/signup" && "تعیین رمز عبور"}
+                      ? "رمز عبور"
+                      : path === "/auth/signup" && "تعیین رمز عبور"}
                 </p>
               </>
             )}
