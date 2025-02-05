@@ -44,6 +44,7 @@ export default function Page() {
       router.push("/auth/code");
     } catch (error) {
       console.error("Error:", error);
+    } finally {
       setDisabled(false);
     }
   };
