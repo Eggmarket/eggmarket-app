@@ -19,7 +19,7 @@ export default function Page() {
     .max(11);
 
   useEffect(() => {
-    sessionStorage.setItem("phone", inputValue);
+    localStorage.setItem("phone", inputValue);
   }, [inputValue]);
 
   const getCode = async () => {
@@ -82,11 +82,11 @@ export default function Page() {
         }}
         disabled={disabled}
         className={`${!error &&
-            inputRef.current &&
-            inputRef.current.value !== "" &&
-            inputRef.current.value.length === 11
-            ? "bg-primary text-default-900"
-            : "bg-orange-100 text-default-400"
+          inputRef.current &&
+          inputRef.current.value !== "" &&
+          inputRef.current.value.length === 11
+          ? "bg-primary text-default-900"
+          : "bg-orange-100 text-default-400"
           } disabled:opacity-50`}
         text={"ورود به اگمارکت"}
       />

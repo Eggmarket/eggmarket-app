@@ -21,7 +21,7 @@ export default function Users() {
         .max(11);
 
     useEffect(() => {
-        sessionStorage.setItem("phone", inputValue);
+        localStorage.setItem("phone", inputValue);
     }, [inputValue]);
 
     useEffect(() => {

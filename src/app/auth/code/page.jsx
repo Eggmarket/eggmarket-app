@@ -12,7 +12,7 @@ export default function CodePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const phoneStored = sessionStorage.getItem("phone");
+    const phoneStored = localStorage.getItem("phone");
     if (!phoneStored) {
       router.push("/auth/register");
     } else {

@@ -73,7 +73,7 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
     console.log(response);
 
     if (dialogPhone === "add") {
-      addProfile(sessionStorage.getItem("phone"));
+      addProfile(localStorage.getItem("phone"));
     }
     setToken(data.token);
     localStorage.setItem("token", JSON.stringify(data.token));
