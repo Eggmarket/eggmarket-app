@@ -56,9 +56,11 @@ export default function Page() {
       </p>
       <input
         dir="ltr"
-        className={`placeholder:text-right mt-8 w-full py-3 px-4 rounded-lg border-solid border-[1px] ${error ? "border-danger" : "border-default-100"
-          } ${inputRef.current && inputRef.current.value !== "" && "border-tertiary"
-          }`}
+        className={`placeholder:text-right mt-8 w-full py-3 px-4 rounded-lg border-solid border-[1px] ${
+          error ? "border-danger" : "border-default-100"
+        } ${
+          inputRef.current && inputRef.current.value !== "" && "border-tertiary"
+        }`}
         type="tel"
         placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
         value={inputValue}
@@ -87,14 +89,15 @@ export default function Page() {
           }
         }}
         // onKey={}
-        disabled={disabled}
-        className={`${!error &&
+        disabled={true}
+        className={`${
+          !error &&
           inputRef.current &&
           inputRef.current.value !== "" &&
           inputRef.current.value.length === 11
-          ? "bg-primary text-default-900"
-          : "bg-orange-100 text-default-400"
-          } disabled:opacity-50`}
+            ? "bg-primary text-default-900"
+            : "bg-orange-100 text-default-400"
+        } disabled:opacity-50`}
         text={"ورود به اگمارکت"}
       />
       <p className="text-xs mt-6">
