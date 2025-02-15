@@ -9,6 +9,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import NoPriceIcon from "@/components/svg/priceSuggestionEmpty.svg";
+import Image from "next/image";
 // import priceSuggestion from "../../../components/svg/priceSuggestion";
 
 export default function Page() {
@@ -36,7 +38,7 @@ export default function Page() {
     const res = await Axios.post(`/API/price-offer/get-received-requests`, {
       per_page: 1000,
     });
-    if (res.status === 200) {
+    if (res?.status === 200) {
       const unique = [
         ...new Set(res.data.reverse().map((item) => item.load_id)),
       ];
@@ -118,10 +120,28 @@ export default function Page() {
             }`}
           ></div>
           {activeTab === 1 ? (
-            <div className="space-y-6">
-              {recievedRequests.map((request, index) => (
-                <ReceivedPriceSuggestionCard key={index} request={request} />
-              ))}
+            recievedRequests.length === 0 ? (
+              <div className="bg-default-50 aspect-square flex flex-col items-center justify-center">
+                <Image src={NoPriceIcon} height={96} width={96} alt="icon" />
+                <p className="text-default-500 text-xl font-medium mt-4">
+                  شما هیچ پیشنهاد قیمت{" "}
+                  <span className="text-success">دریافتی</span> ندارید.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {recievedRequests.map((request, index) => (
+                  <ReceivedPriceSuggestionCard key={index} request={request} />
+                ))}
+              </div>
+            )
+          ) : sentRequests.length === 0 ? (
+            <div className="bg-default-50 aspect-square flex flex-col items-center justify-center">
+              <Image src={NoPriceIcon} height={96} width={96} alt="icon" />
+              <p className="text-default-500 text-xl font-medium mt-4">
+                شما هیچ پیشنهاد قیمت{" "}
+                <span className="text-[#2D60AE]">ارسالی</span> ندارید.
+              </p>
             </div>
           ) : (
             <div className="space-y-6">

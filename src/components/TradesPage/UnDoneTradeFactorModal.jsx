@@ -43,6 +43,37 @@ function UnDoneTradeFactorModal({
     }
   };
 
+  const onlinePay = async () => {
+    if (prePurchasePrice > 200000000) {
+    }
+    const response = await Axios.post(
+      `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
+      {
+        paymethod: "sep",
+        amount:
+          prePurchasePrice > Number(200000000) ? 200000000 : prePurchasePrice,
+      }
+    );
+    if (response.status === 200) {
+      toast.info(response.data[0].message);
+      const payForm = document.getElementById("formPay");
+      const toeknInput = document.getElementById("tokenInput");
+      payForm.setAttribute("action", response.data[0].params.actionURL);
+      toeknInput.setAttribute("value", response.data[0].params.Token);
+      document.getElementById("submitBtn").click();
+      localStorage.setItem(
+        "paymentStatus",
+        prePurchasePrice > Number(200000000)
+          ? `${Number(prePurchasePrice) - 200000000}`
+          : "done"
+      );
+      localStorage.setItem("prePurcahsedId", load.loadID);
+    } else {
+      toast.error("مشکلی در درخواست وجود دارد");
+      console.log(error);
+    }
+  };
+
   return (
     <BottomModal id="unDoneTradeBillModal" onClose={() => setSelectedTrade("")}>
       <form method="post" id="formPay" className="hidden">
@@ -131,7 +162,13 @@ function UnDoneTradeFactorModal({
         </div>
       )}
       {factor.status === 2 && selectedTrade.type === 0 && (
-        <div className="mt-5 px-6">
+        <div className="mt-5 px-6 grid grid-cols-2 items-center justify-center gap-4">
+          <Button
+            text="پرداخت آنلاین"
+            disabled={isLoading ? true : false}
+            type="bg-success text-default-50 font-normal h-12"
+            onClick={() => onlinePay()}
+          />
           <Button
             text="پرداخت از کیف پول"
             type="text-success border-solid border-[2px] border-success w-full"

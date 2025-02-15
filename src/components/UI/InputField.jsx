@@ -20,14 +20,14 @@ export default function InputField({
       onClick={onClick}
     >
       <label htmlFor={name} className="font-medium text-base text-default-900">
+        {required && (
+          <span className="text-danger-900 font-medium text-xs"> *</span>
+        )}{" "}
         {label}{" "}
         {smallText ? (
           <span className="font-medium text-sm">{smallText}</span>
         ) : (
           ""
-        )}
-        {required && (
-          <span className="text-danger-900 font-medium text-xs"> *</span>
         )}
       </label>
       <div

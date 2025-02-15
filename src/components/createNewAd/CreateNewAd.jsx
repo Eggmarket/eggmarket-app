@@ -17,14 +17,16 @@ export default function CreateNewAd({ profile }) {
   const router = useRouter();
   const [isDescOpen, setIsDescOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
   const {
     register,
     handleSubmit,
     setValue,
     reset,
     getValues,
-    formState: { isValid, isDirty },
+    formState: { isValid, isDirty, errors },
   } = useForm({
+    mode: "onChange",
     defaultValues: {
       origin: "",
       yolk_type: "",
@@ -38,11 +40,36 @@ export default function CreateNewAd({ profile }) {
     },
   });
 
+  useEffect(() => {
+    if (errors.count) {
+      errors.count.type === "min" &&
+        setErrorMessages([
+          ...errorMessages,
+          { type: "count", message: "تعداد کارتن باید حداقل 165 باشد." },
+        ]);
+    } else {
+      setErrorMessages(errorMessages.filter((error) => error.type !== "count"));
+    }
+  }, [errors.count]);
+
+  useEffect(() => {
+    if (errors.weight) {
+      errors.weight.type === "min" &&
+        setErrorMessages([
+          ...errorMessages,
+          { type: "weight", message: "وزن باید بیشتر از 0 باشد." },
+        ]);
+    } else {
+      setErrorMessages(errorMessages.filter((error) => error.type !== "count"));
+    }
+  }, [errors.weight]);
+
   const [token, setToken] = useToken();
 
   const weight = register("weight", {
     required: true,
     pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
+    min: 1,
   });
   const brand = register("brand", { required: true });
   const count = register("count", {
@@ -145,7 +172,7 @@ export default function CreateNewAd({ profile }) {
                 onChange={count.onChange}
                 inputRef={count.ref}
                 label="تعداد کارتن"
-                smallText="(حداقل 180)"
+                smallText="(حداقل 165)"
                 required={true}
                 placeholder="مثلا ۳۶۰"
                 space="col-span-1"
@@ -242,6 +269,11 @@ export default function CreateNewAd({ profile }) {
               )}
             </div>
           </ScrollBar>
+          <div className="*:text-danger-900 *:text-xs px-8 space-y-1">
+            {errorMessages.map((error, index) => (
+              <p key={index}>{error.message}</p>
+            ))}
+          </div>
           <div className="px-8 py-3 mb-3 w-full bg-inherit">
             <button
               className={`button button-primary w-full ${

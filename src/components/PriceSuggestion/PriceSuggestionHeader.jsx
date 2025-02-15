@@ -1,7 +1,27 @@
+import { useOrigins } from "@/context/OriginsProvider";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function PriceSuggestionHeader({ id }) {
+  const [load, setLoad] = useState();
+  const { provinces } = useOrigins();
+  useEffect(() => {
+    async function fetchLoad() {
+      const response = await Axios.post(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/loads/load`,
+        {
+          loadID: id,
+        }
+      );
+      if (response.status === 200) {
+        setLoad(response.data.load);
+      } else {
+        console.log(response);
+      }
+    }
+
+    fetchLoad();
+  }, []);
   return (
     <div className="relative">
       <div className="bg-gradient-to-b from-[#FCFCFC] to-[#D3D3D3] px-4 sm:px-6 py-3 rounded-t-lg">
@@ -32,8 +52,12 @@ export default function PriceSuggestionHeader({ id }) {
           </span>
           <span className="bg-default-700 h-4 w-0.5"></span>
           <span className="flex items-center">
-            <span className="text-sm text-default-700 ml-1">مشهد</span>
-            <span className="text-xs text-default-500">(خراسان رضوی)</span>
+            <span className="text-sm text-default-700 ml-1">
+              {load.origin_field2}
+            </span>
+            <span className="text-xs text-default-500">
+              ({provinces.find((item) => item.id === load.origin_field1).title})
+            </span>
           </span>
         </div>
       </div>

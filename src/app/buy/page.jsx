@@ -73,12 +73,12 @@ export default function Page() {
     }
   };
 
-  const onlinePay = async () => {
+  const onlinePay = async (amount) => {
     const response = await Axios.post(
       `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
       {
         paymethod: "sep",
-        amount: 200000000,
+        amount: Number(amount) > 200000000 ? 200000000 : amount,
       }
     );
     if (response.status === 200) {
@@ -88,8 +88,10 @@ export default function Page() {
       payForm.setAttribute("action", response.data[0].params.actionURL);
       toeknInput.setAttribute("value", response.data[0].params.Token);
       document.getElementById("submitBtn").click();
-      localStorage.removeItem("paymentStatus");
-      localStorage.setItem("paymentStatus", "done");
+      localStorage.setItem(
+        "paymentStatus",
+        `${Number(amount) > 200000000 ? Number(amount) - 200000000 : "done"}`
+      );
     } else {
       toast.error("مشکلی در درخواست وجود دارد");
       console.log(error);
@@ -100,6 +102,8 @@ export default function Page() {
     const local = localStorage.getItem("paymentStatus");
     if (local === "done") {
       prePurchaseLoad();
+    } else {
+      onlinePay(local);
     }
     setStatus(localStorage.getItem("paymentStatus"));
   }, []);
@@ -176,19 +180,7 @@ export default function Page() {
           </>
         )}
       </div>
-      {status === "second" ? (
-        <>
-          <p className="text-sm">
-            شما اولین پرداخت علی الحساب برای این بار را انجام دادید. برای انجام
-            پرداخت دوم و پیش خرید بار کلیک کنید.
-          </p>
-          <Button
-            text="پرداخت آنلاین"
-            type="w-full text-tertiary border-solid border-[2px] border-tertiary"
-            onClick={() => onlinePay()}
-          />
-        </>
-      ) : (
+      {status === "done" ? (
         <div className="grid grid-cols-2 gap-3">
           <Button
             text="ذخیره"
@@ -212,6 +204,18 @@ export default function Page() {
             onClick={() => router.push("/")}
           />
         </div>
+      ) : (
+        <>
+          <p className="text-sm">
+            شما اولین پرداخت علی الحساب برای این بار را انجام دادید. برای انجام
+            پرداخت دوم و پیش خرید بار کلیک کنید.
+          </p>
+          <Button
+            text="پرداخت آنلاین"
+            type="w-full text-tertiary border-solid border-[2px] border-tertiary"
+            onClick={() => onlinePay()}
+          />
+        </>
       )}
     </div>
   );

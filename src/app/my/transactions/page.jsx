@@ -12,6 +12,7 @@ import Image from "next/image";
 import BottomModal from "@/components/Modal/BottomModal";
 import Button from "@/components/UI/Button";
 import HistoryModal from "@/components/Modal/HistoryModal";
+import NoTransactionIcon from "@/components/svg/transactionEmpty.svg";
 
 export default function Page() {
   const { back } = useRouter();
@@ -84,9 +85,19 @@ export default function Page() {
             <span className="loading loading-spinner loading-lg"></span>
           </div>
         ) : !filteredTransactions?.length ? (
-          <p className="text-center text-default-400 text-lg mt-4">
-            شما فعالیتی ندارید
-          </p>
+          <div className="p-4">
+            <div className="bg-default-50 cardShadow border border-default-200 rounded-lg aspect-square flex flex-col items-center justify-center">
+              <Image
+                src={NoTransactionIcon}
+                height={96}
+                width={96}
+                alt="icon"
+              />
+              <p className="text-default-500 text-xl font-medium mt-4">
+                هیچ تراکنشی موجود نیست.
+              </p>
+            </div>
+          </div>
         ) : (
           <div className="px-4">
             {filteredTransactions.map((card, index, arr) => {
@@ -182,10 +193,10 @@ export default function Page() {
               <span className="text-sm text-default-500">تا:</span>
               <p className="font-medium text-default-900 text-base">
                 {excelDate.to
-                ? `${excelDate.to.year}/${
-                    monthNames.indexOf(excelDate.to.month) + 1
-                  }/${excelDate.to.day}`
-                : ""}
+                  ? `${excelDate.to.year}/${
+                      monthNames.indexOf(excelDate.to.month) + 1
+                    }/${excelDate.to.day}`
+                  : ""}
               </p>
               <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
             </button>
