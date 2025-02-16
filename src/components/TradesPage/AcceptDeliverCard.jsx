@@ -69,26 +69,33 @@ function AcceptDeliverCard({
           className="absolute w-full h-2.5 -bottom-2 left-0 right-0"
         />
       </div>
-      <p className="pt-4 px-4 pb-1 font-light">
-        <span className="font-bold">یکسان‌بودن</span> مشخصات اعلامی با بار
-        تحویل‌شده را تأیید می‌کنید؟
-      </p>
-      <div className="flex w-full p-4 gap-3">
-        <Button
-          type="button-primary-2"
-          text="تأیید می‌کنم"
-          width="w-full"
-          onClick={() => acceptDelivery()}
-        ></Button>
-        <Button
-          type="button-primary-error"
-          text="تأیید نمی‌کنم"
-          width="w-full"
-          onClick={() =>
-            document.getElementById("DisapprovalLoadModal").showModal()
-          }
-        ></Button>
-      </div>
+      {factor.type === 0 ? (
+        <>
+          <p className="pt-4 px-4 pb-1 font-light">
+            <span className="font-bold">یکسان‌بودن</span> مشخصات اعلامی با بار
+            تحویل‌شده را تأیید می‌کنید؟
+          </p>
+          <div className="flex w-full p-4 gap-3">
+            <Button
+              type="button-primary-2"
+              text="تأیید می‌کنم"
+              width="w-full"
+              onClick={() => acceptDelivery()}
+            ></Button>
+            <Button
+              type="button-primary-error"
+              text="تأیید نمی‌کنم"
+              width="w-full"
+              onClick={() =>
+                document.getElementById("DisapprovalLoadModal").showModal()
+              }
+            ></Button>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+
       <DisapprovalLoadModal />
     </div>
   );

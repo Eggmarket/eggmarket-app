@@ -20,15 +20,18 @@ export default function MyTransactionCard({ item }) {
             : ""}
         </span>
         <span className="text-10px text-default-500">
-          {dateFormat.getHours() === 0
-            ? `${dateFormat.getHours()}0`
+          {dateFormat.getHours() < 10
+            ? `0${dateFormat.getHours()}`
             : dateFormat.getHours()}
-          :{String(dateFormat.getMinutes())} -{" "}
-          {dateFormat.toLocaleDateString("fa-IR")}
+          :
+          {dateFormat.getMinutes() < 10
+            ? `0${dateFormat.getMinutes()}`
+            : dateFormat.getMinutes()}{" "}
+          - {dateFormat.toLocaleDateString("fa-IR")}
         </span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-10px text-default-500">ش. پیگیری ۰۳۲۱۲۳۱۰۴</span>
+        <span className="text-10px text-default-500">ش. پیگیری {item.id}</span>
         <p
           className={`flex items-center gap-1 ${
             item.type ? "text-[#178230]" : "text-[#D33C30]"
