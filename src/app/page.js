@@ -128,9 +128,10 @@ export default function Home() {
                     <SaleCard
                       key={load.loadID}
                       load={load}
-                      province={provinces.find(
-                        (item) => item.id === load.origin_field1
-                      )}
+                      province={
+                        provinces &&
+                        provinces.find((item) => item.id === load.origin_field1)
+                      }
                       setSelectedCard={setSelectedCard}
                     />
                   </div>
