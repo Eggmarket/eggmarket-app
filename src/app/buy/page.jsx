@@ -200,7 +200,10 @@ export default function Page() {
           </>
         )}
       </div>
-      {status === "done" ? (
+      {searchParams.get("0[status]") === "0" ||
+      (searchParams.get("0[status]") === "1" && status === "done") ||
+      (searchParams.get("0[status]") === "1" && status === "depositWallet") ||
+      (searchParams.get("0[status]") === "1" && status === "finalDone") ? (
         <div className="grid grid-cols-2 gap-3">
           <Button
             text="ذخیره"
@@ -224,7 +227,10 @@ export default function Page() {
             onClick={() => router.push("/")}
           />
         </div>
-      ) : status !== "finalDone" && status !== "done" ? (
+      ) : status !== "finalDone" &&
+        status !== "done" &&
+        status !== "depositWallet" &&
+        searchParams.get("0[status]") === "1" ? (
         <>
           <p className="text-sm">
             شما اولین پرداخت علی الحساب برای این بار را انجام دادید. برای انجام

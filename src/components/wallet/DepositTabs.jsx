@@ -60,6 +60,7 @@ export default function DepositTabs({
         toeknInput.setAttribute("value", data[0].params.Token);
 
         document.getElementById("submitBtn").click();
+        localStorage.setItem("paymentStatus", "depositWallet");
         setLoading(false);
       })
       .catch((error) => {
