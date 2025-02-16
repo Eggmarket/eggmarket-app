@@ -2,21 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Badge from "../UI/Badge";
 import { useOrigins } from "@/context/OriginsProvider";
-import axios from "axios";
-import { useToken } from "../hook/useToken/useToken";
-import { toast } from "react-toastify";
-import { Axios } from "@/axios";
-
-const billData = [
-  { title: "کد رهگیری", value: "۱۴۰۳۰۹۹۰۹۱۳۰۴۰۷۳۷۳۵۴۹۱۰۰۰۹۴۰۷" },
-  { title: "شماره بارنامه", value: "۱۴۰۳/۱۱ | ۹۹۰۹۱۳" },
-  { title: "شماره ماشین", value: "۱۶ | ۱۵۳ ع ۳۴" },
-  { title: "شماره تماس راننده", value: "۰۹۱۲ ۳۴۵ ۶۷۸۹" },
-  { title: "شماره فاکتور", value: "۱۴۰۳۰۷۱۴۰۰۴-۲" },
-  { title: "مقصد", value: "تهران" },
-  { title: "فی بار", value: "۴۹,۵۰۰" },
-  { title: "مبلغ کل", value: "۲۵۷,۵۰۰,۰۰۰" },
-];
 
 export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
   const { provinces } = useOrigins();
@@ -97,7 +82,7 @@ export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
           >
             مشاهده فاکتور اولیه
           </button>
-        ) : (
+        ) : card.type === 0 && card.status === 2 ? (
           <button
             className="bg-green-100 rounded-xl w-full h-12 text-default-50 font-bold"
             onClick={() => {
@@ -108,6 +93,8 @@ export default function UnDoneTradeCard({ card, setSelectedTrade, getFactor }) {
           >
             مشاهده فاکتور نهایی و پرداخت
           </button>
+        ) : (
+          ""
         )}
       </div>
     </div>

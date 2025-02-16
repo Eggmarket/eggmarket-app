@@ -58,6 +58,20 @@ export default function Page() {
     }
   }, [searchParams]);
 
+  const completePayment = async () => {
+    const response = await Axios.post(`/API/transactions/complete-payment`, {
+      factor_id: Number(localStorage.getItem("prePurcahsedId")),
+    });
+    if (response.status === 200) {
+      toast.info("پرداخت نهایی شما انجام شد.");
+      document.getElementById("unDoneTradeBillModal").close();
+      getUserPendingTrades();
+      getUserDoneTrades();
+    } else {
+      toast.error(response.data.message);
+    }
+  };
+
   const prePurchaseLoad = async () => {
     const response = await Axios.post("/API/transactions/purchase", {
       load_id: Number(localStorage.getItem("prePurcahsedId")),
@@ -100,9 +114,15 @@ export default function Page() {
 
   useEffect(() => {
     const local = localStorage.getItem("paymentStatus");
-    if (local === "done") {
+    if (local === "done" && searchParams.get("0[status]") !== "0") {
       prePurchaseLoad();
-    } else {
+    } else if (local === "finalDone" && searchParams.get("0[status]") !== "0") {
+      completePayment();
+    } else if (
+      searchParams.get("0[status]") !== "0" &&
+      local !== "done" &&
+      local !== "finalDone"
+    ) {
       onlinePay(local);
     }
     setStatus(localStorage.getItem("paymentStatus"));
@@ -204,7 +224,7 @@ export default function Page() {
             onClick={() => router.push("/")}
           />
         </div>
-      ) : (
+      ) : status !== "finalDone" && status !== "done" ? (
         <>
           <p className="text-sm">
             شما اولین پرداخت علی الحساب برای این بار را انجام دادید. برای انجام
@@ -216,6 +236,8 @@ export default function Page() {
             onClick={() => onlinePay()}
           />
         </>
+      ) : (
+        ""
       )}
     </div>
   );

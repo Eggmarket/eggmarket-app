@@ -95,10 +95,6 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
     if (load) {
       setList([
         {
-          name: "شماره فاکتور",
-          text: "۱۴۰۳۰۷۱۴۰۰۴-۱",
-        },
-        {
           name: "فی بار",
           text: load.details.find((item) => item.title === "قیمت")
             ? load.details.find((item) => item.title === "قیمت").value

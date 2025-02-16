@@ -157,6 +157,7 @@ export default function SaleCard({
                   type="button-primary-ghost"
                   text="پیشنهاد قیمت"
                   width="flex-1"
+                  disabled={true}
                   onClick={() => {
                     if (token) {
                       setSelectedCard !== null && setSelectedCard(load);

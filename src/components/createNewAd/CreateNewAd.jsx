@@ -75,7 +75,7 @@ export default function CreateNewAd({ profile }) {
   const count = register("count", {
     required: true,
     pattern: /^[0-9]+$/,
-    min: 180,
+    min: 1,
   });
   const price = register("price", {
     required: false,

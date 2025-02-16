@@ -43,15 +43,12 @@ function UnDoneTradeFactorModal({
     }
   };
 
-  const onlinePay = async () => {
-    if (prePurchasePrice > 200000000) {
-    }
+  const onlinePay = async (price) => {
     const response = await Axios.post(
       `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
       {
         paymethod: "sep",
-        amount:
-          prePurchasePrice > Number(200000000) ? 200000000 : prePurchasePrice,
+        amount: price > Number(200000000) ? 200000000 : price,
       }
     );
     if (response.status === 200) {
@@ -63,11 +60,9 @@ function UnDoneTradeFactorModal({
       document.getElementById("submitBtn").click();
       localStorage.setItem(
         "paymentStatus",
-        prePurchasePrice > Number(200000000)
-          ? `${Number(prePurchasePrice) - 200000000}`
-          : "done"
+        price > Number(200000000) ? `${Number(price) - 200000000}` : "finalDone"
       );
-      localStorage.setItem("prePurcahsedId", load.loadID);
+      localStorage.setItem("prePurcahsedId", factor.id);
     } else {
       toast.error("مشکلی در درخواست وجود دارد");
       console.log(error);
@@ -92,7 +87,10 @@ function UnDoneTradeFactorModal({
         </button>
       </form>
       {factor && (
-        <div ref={tableRef} className="flex flex-col gap-5 px-6 py-2">
+        <div
+          ref={tableRef}
+          className="flex flex-col gap-5 px-6 py-2 overflow-y-scroll"
+        >
           <div className="flex gap-1 items-center">
             <span className="text-xl font-semibold text-default-900 ml-1">
               {factor.load.owner_name}
@@ -150,10 +148,23 @@ function UnDoneTradeFactorModal({
                 </p>
               </div>
               <div className="flex justify-between items-center">
+                <p className="text-sm text-default-500">کارمزد اگ مارکت</p>
+                <p className="text-base font-semibold text-default-900">
+                  {Math.floor((factor.fianl_price * 0.5) / 100)}
+                  <span className="text-10px text-default-500">تومان</span>
+                  <span className="text-10px text-default-500">
+                    (0.5% قیمت کل)
+                  </span>
+                </p>
+              </div>
+              <div className="flex justify-between items-center">
                 <p className="text-sm text-default-500">باقیمانده</p>
                 <p className="text-base font-semibold text-default-900">
-                  {trimPrice(factor.fianl_price - factor.pre_purchase_amount) ||
-                    "--"}{" "}
+                  {trimPrice(
+                    factor.fianl_price -
+                      factor.pre_purchase_amount +
+                      Math.floor((factor.fianl_price * 0.5) / 100)
+                  ) || "--"}{" "}
                   <span className="text-10px text-default-500">تومان</span>
                 </p>
               </div>
@@ -165,9 +176,14 @@ function UnDoneTradeFactorModal({
         <div className="mt-5 px-6 grid grid-cols-2 items-center justify-center gap-4">
           <Button
             text="پرداخت آنلاین"
-            disabled={isLoading ? true : false}
             type="bg-success text-default-50 font-normal h-12"
-            onClick={() => onlinePay()}
+            onClick={() =>
+              onlinePay(
+                factor.fianl_price -
+                  factor.pre_purchase_amount +
+                  Math.floor((factor.fianl_price * 0.5) / 100)
+              )
+            }
           />
           <Button
             text="پرداخت از کیف پول"

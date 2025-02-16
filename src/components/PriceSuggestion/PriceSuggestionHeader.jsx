@@ -1,9 +1,10 @@
+import { Axios } from "@/axios";
 import { useOrigins } from "@/context/OriginsProvider";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function PriceSuggestionHeader({ id }) {
-  const [load, setLoad] = useState();
+  const [load, setLoad] = useState(null);
   const { provinces } = useOrigins();
   useEffect(() => {
     async function fetchLoad() {
@@ -53,10 +54,13 @@ export default function PriceSuggestionHeader({ id }) {
           <span className="bg-default-700 h-4 w-0.5"></span>
           <span className="flex items-center">
             <span className="text-sm text-default-700 ml-1">
-              {load.origin_field2}
+              {load && load.origin_field2}
             </span>
             <span className="text-xs text-default-500">
-              ({provinces.find((item) => item.id === load.origin_field1).title})
+              (
+              {load &&
+                provinces.find((item) => item.id === load.origin_field1).title}
+              )
             </span>
           </span>
         </div>
