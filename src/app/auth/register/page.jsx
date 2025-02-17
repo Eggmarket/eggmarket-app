@@ -89,7 +89,7 @@ export default function Page() {
           }
         }}
         // onKey={}
-        disabled={disabled}
+        disabled={true}
         className={`${
           !error &&
           inputRef.current &&
