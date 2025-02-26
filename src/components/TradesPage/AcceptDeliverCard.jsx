@@ -4,12 +4,15 @@ import Button from "../UI/Button";
 import DisapprovalLoadModal from "../Modal/DisapprovalLoadModal";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
+import { useOrigins } from "@/context/OriginsProvider";
 
 function AcceptDeliverCard({
   factor,
   getUserPendingTrades,
   getUserDoneTrades,
 }) {
+  const { provinces } = useOrigins();
+
   const acceptDelivery = async () => {
     const response = await Axios.post(`/API/transactions/accept-delivery`, {
       factor_id: factor.id,
@@ -22,6 +25,7 @@ function AcceptDeliverCard({
       toast.error(response.data.message);
     }
   };
+
   return (
     <div className="bg-default-50 cardShadow border border-default-200 py-3 rounded-lg mb-4">
       <div className="flex items-center justify-between px-4 pb-2">
@@ -40,27 +44,38 @@ function AcceptDeliverCard({
           <div className="flex gap-1 items-center">
             <span className="flex items-center">
               <span className="text-base font-semibold text-default-700 ml-1">
-                12.5
+                {factor.load.weight}
               </span>
               <span className="text-xs text-default-500">کیلو</span>
             </span>
             <span className="bg-default-700 h-4 w-0.5"></span>
             <span className="flex items-center">
               <span className="text-base font-semibold text-default-700 ml-1">
-                260
+                {factor.load.count}
               </span>
               <span className="text-xs text-default-500">کارتن</span>
             </span>
             <span className="bg-default-700 h-4 w-0.5"></span>
             <span className="flex items-center">
-              <span className="text-sm text-default-700 ml-1">مشهد</span>
-              <span className="text-xs text-default-500">(خراسان رضوی)</span>
+              <span className="text-sm text-default-700 ml-1">
+                {factor.load.origin_field2}
+              </span>
+              <span className="text-xs text-default-500">
+                (
+                {
+                  provinces.find(
+                    (item) => item.id === factor.load.origin_field1
+                  )?.title
+                }
+                )
+              </span>
             </span>
           </div>
-          <div className="flex gap-2 flex-wrap items-stretch mt-4">
-            <Badge text="بدون پرینت" />
-            <Badge text="زرده ساده" />
-            <Badge text="لوکس" />
+          <div className="flex gap-1 flex-wrap items-stretch mt-4">
+            <Badge text={factor.load.pack_type || ""} />
+            <Badge text={factor.load.yolk_type || ""} />
+            <Badge text={factor.load.print_type || ""} />
+            <Badge text={factor.load.quality || ""} />
           </div>
         </div>
         <img
