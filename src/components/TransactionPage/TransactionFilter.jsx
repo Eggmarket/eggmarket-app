@@ -25,12 +25,12 @@ export default function TransactionFilter({
     let tempData = transactions;
     if (filters.dateFrom) {
       tempData = tempData.filter((item) =>
-        compareDate(item.updated_at, filters.dateFrom, "from")
+        compareDate(item.time, filters.dateFrom, "from")
       );
     }
     if (filters.dateTo) {
       tempData = tempData.filter((item) =>
-        compareDate(item.updated_at, filters.dateTo, "to")
+        compareDate(item.time, filters.dateTo, "to")
       );
     }
     if (filters.priceFrom.replace(/,/g, "")) {
