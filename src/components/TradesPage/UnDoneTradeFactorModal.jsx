@@ -28,8 +28,11 @@ function UnDoneTradeFactorModal({
 }) {
   const { provinces } = useOrigins();
   const tableRef = useRef(null);
+  const [isOnlinePayLoading,setIsOnlinePayLoading] = useState(false);
+  const [isWalletPayLoading,setIsWalletPayLoading] = useState(false);
 
   const completePayment = async () => {
+    setIsWalletPayLoading(true);
     const response = await Axios.post(`/API/transactions/complete-payment`, {
       factor_id: factor.id,
     });
@@ -38,12 +41,15 @@ function UnDoneTradeFactorModal({
       document.getElementById("unDoneTradeBillModal").close();
       getUserPendingTrades();
       getUserDoneTrades();
+      setIsWalletPayLoading(true);
     } else {
       toast.error(response.data.message);
+      setIsWalletPayLoading(true);
     }
   };
 
   const onlinePay = async (price) => {
+    setIsOnlinePayLoading(true);
     const response = await Axios.post(
       `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/paymethods/pay`,
       {
@@ -63,9 +69,11 @@ function UnDoneTradeFactorModal({
         price > Number(200000000) ? `${Number(price) - 200000000}` : "finalDone"
       );
       localStorage.setItem("prePurcahsedId", factor.id);
+      setIsOnlinePayLoading(false);
     } else {
       toast.error("مشکلی در درخواست وجود دارد");
       console.log(error);
+      setIsOnlinePayLoading(false);
     }
   };
 
@@ -176,6 +184,7 @@ function UnDoneTradeFactorModal({
         <div className="mt-5 px-6 grid grid-cols-2 items-center justify-center gap-4">
           <Button
             text="پرداخت آنلاین"
+            disabled={isOnlinePayLoading}
             type="bg-success text-default-50 font-normal h-12"
             onClick={() =>
               onlinePay(
@@ -186,6 +195,7 @@ function UnDoneTradeFactorModal({
             }
           />
           <Button
+            disabled={isWalletPayLoading}
             text="پرداخت از کیف پول"
             type="text-success border-solid border-[2px] border-success w-full"
             onClick={() => completePayment()}

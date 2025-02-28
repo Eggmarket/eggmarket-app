@@ -16,7 +16,7 @@ export default function DoneTradeCard({ card, setSelectedTrade, getFactor }) {
           </span>
           <span
             className={`text-sm font-semibold ${
-              card.status === "sold" ? "text-[#178230]" : " text-[#D33C30]"
+              card.type === 0 ? "text-[#178230]" : " text-[#D33C30]"
             }`}
           >
             {card.type === 0 ? "(خرید)" : "(فروش)"}

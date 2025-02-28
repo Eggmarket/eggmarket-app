@@ -9,6 +9,7 @@ import html2canvas from "html2canvas-pro";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
 import moment from "jalali-moment";
+import { trimPrice } from "@/utils/trimPrice";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -46,10 +47,10 @@ export default function Page() {
         },
         {
           name: "مبلغ",
-          text: JSON.parse(searchParams.get("0[params]")).Amount.substring(
+          text: trimPrice(JSON.parse(searchParams.get("0[params]")).Amount.substring(
             0,
             JSON.parse(searchParams.get("0[params]")).Amount.length - 1
-          ),
+          )),
           second: "تومان",
         },
       ]);

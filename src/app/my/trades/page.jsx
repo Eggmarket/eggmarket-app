@@ -301,7 +301,7 @@ export default function Page() {
             ) : (
               <>
                 {pendingFiltered.map((card) => {
-                  if (true) {
+                  if (card.status === 4) {
                     return (
                       <AcceptDeliverCard
                         key={card.id}
