@@ -5,11 +5,13 @@ import { formatPrice } from "@/utils/formatPrice";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
 import BottomModal from "../Modal/BottomModal";
+import useUserProfile from "../hook/useUserProfile";
+import { useSheba } from "@/context/ShebaProvider";
 
-const options = [
-  { number: "123456789123456789123456", bankName: "کشاورزی" },
-  { number: "123456789123456789123456", bankName: "صادرات" },
-];
+// const options = [
+//   { number: "123456789123456789123456", bankName: "کشاورزی" },
+//   { number: "123456789123456789123456", bankName: "صادرات" },
+// ];
 
 export default function WithdrawTab({ updateHandler }) {
   const [withdrawValues, setWithdrawValues] = useState({
@@ -19,13 +21,14 @@ export default function WithdrawTab({ updateHandler }) {
   const [showMenu, setShowMenu] = useState(false);
   const inputRef = useRef();
   const withdrwRef = useRef();
+  const { sheba: options } = useSheba();
 
   async function withdrawRequest() {
     const response = await Axios.post(
       `/API/payment-request/add-withdrawal-request`,
       {
         amount: Number(withdrawValues.value.replace(/,/g, "")),
-        shaba: withdrawValues.accountInfo.number,
+        shaba: withdrawValues.accountInfo.shaba,
       }
     );
     setWithdrawValues({
@@ -145,35 +148,38 @@ export default function WithdrawTab({ updateHandler }) {
               className="dropdown-input justify-end"
             >
               <div className="text-sm sm:text-base dropdown-selected-value flex items-center justify-end w-full">
-                <p>{withdrawValues.accountInfo.number}</p>
+                <p>{withdrawValues.accountInfo.shaba}</p>
                 <span className="text-xs text-default-500 mr-1">IR</span>
               </div>
               <span className="icon-Open-List text-default-700 text-base"></span>
             </div>
             {showMenu && (
               <div className="dropdown-menu alignment--auto">
-                {options.map((option, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      setWithdrawValues({
-                        ...withdrawValues,
-                        accountInfo: option,
-                      });
-                    }}
-                    className="dropdown-item flex justify-between"
-                  >
-                    <span className="text-default-900 text-sm">
-                      {option.bankName}
-                    </span>
-                    <div className="flex-1">
-                      <span className="text-xs text-default-500 mr-1">IR</span>
-                      <span className="text-xs text-default-900">
-                        {option.number}
+                {options &&
+                  options.map((option, index) => (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        setWithdrawValues({
+                          ...withdrawValues,
+                          accountInfo: option,
+                        });
+                      }}
+                      className="dropdown-item flex justify-between"
+                    >
+                      <span className="text-default-900 text-sm">
+                        {option.bank_name}
                       </span>
+                      <div className="flex-1">
+                        <span className="text-xs text-default-500 mr-1">
+                          IR
+                        </span>
+                        <span className="text-xs text-default-900">
+                          {option.shaba}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             )}
           </div>

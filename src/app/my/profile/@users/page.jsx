@@ -4,7 +4,9 @@ import LoginButton from "@/components/loginButton/LoginButton";
 import { useContext, useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { ToggleShow } from "../layout";
-import { useProfile } from "@/store/profileState";
+import { Axios } from "@/axios";
+import { toast } from "react-toastify";
+import { useSheba } from "@/context/ShebaProvider";
 
 export default function Users() {
   const [inputValue, setInputValue] = useState("");
@@ -12,7 +14,20 @@ export default function Users() {
   const [disabled, setDisabled] = useState(false);
   const inputRef = useRef(inputValue);
   const [toggle, onClick, dialogPhone] = useContext(ToggleShow);
-  const addSheba = useProfile((state) => state.addSheba);
+  const { fetchSheba } = useSheba();
+  // const addSheba = useProfile((state) => state.addSheba);
+
+  const addSheba = async (sheba) => {
+    const response = await Axios.post("/API/customers/shaba/add", {
+      shaba: sheba,
+    });
+    if (response.status === 200) {
+      toast.success("شبا با موفقیت اضافه شد.");
+      fetchSheba();
+    } else {
+      console.log("error");
+    }
+  };
 
   const phoneNumber = z
     .string()
@@ -61,35 +76,76 @@ export default function Users() {
           ? "شماره موبایل جدید خود را وارد کنید"
           : "شماره شبا جدید خود را وارد کنید"}
       </p>
-      <input
-        dir="ltr"
-        className={`placeholder:text-right mt-4 w-full py-3 px-4 rounded-lg border-solid border-[1px] ${
-          error ? "border-danger" : "border-default-100"
-        } ${
-          inputRef.current && inputRef.current.value !== "" && "border-tertiary"
-        }`}
-        type="text"
-        placeholder={dialogPhone === "sheba" ? "" : "مثلا ۰۹۱۲۳۴۵۶۷۸۹"}
-        value={inputValue}
-        ref={inputRef}
-        onChange={(e) => {
-          const value = e.target.value;
-          const numericValue = value.replace(/[^0-9]/g, "");
-          if (dialogPhone !== "sheba") {
-            setInputValue(numericValue);
-            setError(
-              numericValue !== "" &&
-                !phoneNumber.safeParse(numericValue).success
-            );
-          } else {
-            setError(false);
-            const regex = /^0\d*$/g;
-            if (!regex.test(e.target.value)) {
-              setInputValue(e.target.value);
+      {dialogPhone === "sheba" ? (
+        <div
+          className={`flex gap-2 items-center mt-4 py-3 px-4 rounded-lg border-solid border-[1px] ${
+            error ? "border-danger" : "border-default-100"
+          } ${
+            inputRef.current &&
+            inputRef.current.value !== "" &&
+            "border-tertiary"
+          }`}
+        >
+          <input
+            dir="ltr"
+            className={`placeholder:text-right w-full  `}
+            type="text"
+            placeholder={dialogPhone === "sheba" ? "" : "مثلا ۰۹۱۲۳۴۵۶۷۸۹"}
+            value={inputValue}
+            ref={inputRef}
+            onChange={(e) => {
+              const value = e.target.value;
+              const numericValue = value.replace(/[^0-9]/g, "");
+              if (dialogPhone !== "sheba") {
+                setInputValue(numericValue);
+                setError(
+                  numericValue !== "" &&
+                    !phoneNumber.safeParse(numericValue).success
+                );
+              } else {
+                setError(false);
+                const regex = /^0\d*$/g;
+                if (!regex.test(e.target.value)) {
+                  setInputValue(e.target.value);
+                }
+              }
+            }}
+          />
+          <span>IR</span>
+        </div>
+      ) : (
+        <input
+          dir="ltr"
+          className={`placeholder:text-right mt-4 w-full py-3 px-4 rounded-lg border-solid border-[1px] ${
+            error ? "border-danger" : "border-default-100"
+          } ${
+            inputRef.current &&
+            inputRef.current.value !== "" &&
+            "border-tertiary"
+          }`}
+          type="text"
+          placeholder={dialogPhone === "sheba" ? "" : "مثلا ۰۹۱۲۳۴۵۶۷۸۹"}
+          value={inputValue}
+          ref={inputRef}
+          onChange={(e) => {
+            const value = e.target.value;
+            const numericValue = value.replace(/[^0-9]/g, "");
+            if (dialogPhone !== "sheba") {
+              setInputValue(numericValue);
+              setError(
+                numericValue !== "" &&
+                  !phoneNumber.safeParse(numericValue).success
+              );
+            } else {
+              setError(false);
+              const regex = /^0\d*$/g;
+              if (!regex.test(e.target.value)) {
+                setInputValue(e.target.value);
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      )}
       <p
         className={`${
           error ? "visible" : "invisible"
@@ -109,6 +165,7 @@ export default function Users() {
           } else if (inputRef.current && inputRef.current.value.length === 24) {
             addSheba(inputRef.current?.value);
             document.getElementById("phone_id").close();
+            setInputValue("");
           }
         }}
         disabled={disabled}

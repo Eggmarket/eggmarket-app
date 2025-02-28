@@ -10,6 +10,7 @@ import Button from "@/components/UI/Button";
 import { Axios } from "@/axios";
 import { toast } from "react-toastify";
 import useUserProfile from "@/components/hook/useUserProfile";
+import { useSheba } from "@/context/ShebaProvider";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -17,7 +18,6 @@ export default function ProfilePage() {
   const [inputToggle, setInputToggle] = useState(false);
   const [, setDialogPhone] = useContext(DialogPhone);
   const userProfileP = useProfile((state) => state.userProfile);
-  const userSheba = useProfile((state) => state.userSheba);
   const inputShebaRef = useRef();
   const { userProfile, fetchProfile, isLoading } = useUserProfile();
   const [userData, setUserData] = useState({
@@ -25,6 +25,7 @@ export default function ProfilePage() {
     type: [],
   });
   const [isEditLoading, setIsEditLoading] = useState(false);
+  const { sheba: shebaList } = useSheba();
 
   useEffect(() => {
     const storedPhone = JSON.parse(localStorage.getItem("profile"));
@@ -208,18 +209,19 @@ export default function ProfilePage() {
                   </InputText>
                 ))}
               {list.sheba &&
-                userSheba.map((value, index) => (
+                shebaList &&
+                shebaList.map((shaba, index) => (
                   <InputText
                     disabled={true}
                     className={`${list.icon && "pr-11"} ${
                       list.sheba && "placeholder:text-default-900"
                     } ${list.readOnly && " placeholder:text-red-500"}`}
                     key={index + 1}
-                    placeholder={value}
+                    placeholder={shaba.shaba}
                     modal={true}
                     del={true}
                   >
-                    {value}
+                    {shaba.shaba}
                   </InputText>
                 ))}
               {list.add && (

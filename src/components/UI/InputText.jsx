@@ -1,5 +1,8 @@
+import { Axios } from "@/axios";
+import { useSheba } from "@/context/ShebaProvider";
 import { useProfile } from "@/store/profileState";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function InputText({
   placeholder = "",
@@ -27,11 +30,24 @@ export default function InputText({
   value,
 }) {
   const removeProfile = useProfile((state) => state.removeProfile);
-  const removeSheba = useProfile((state) => state.removeSheba);
+  // const removeSheba = useProfile((state) => state.removeSheba);
   const [provinces, setProvinces] = useState({});
   const [cities, setCities] = useState({});
   const [testInput, setTestInput] = useState("");
   const defaultInputRef = useRef();
+  const { fetchSheba } = useSheba();
+
+  const removeSheba = async (sheba) => {
+    const response = await Axios.post("/API/customers/shaba/delete", {
+      shaba: sheba,
+    });
+    if (response.status === 200) {
+      toast.error("شبا با موفقیت حذف شد.");
+      fetchSheba();
+    } else {
+      console.log("error");
+    }
+  };
 
   useEffect(() => {
     const getProvinces = async () => {
