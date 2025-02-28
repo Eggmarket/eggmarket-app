@@ -12,23 +12,27 @@ import { Axios } from "@/axios";
 import { useOrigins } from "@/context/OriginsProvider";
 
 const BuyModal = ({ load, setSelectedCard = null }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isOnlinePayLoading, setIsOnlinePayLoading] = useState(false);
   const [prePurchasePrice, setPrePurchasePrice] = useState(0);
   const router = useRouter();
   const product = useProductDetail((state) => state.product);
   const [list, setList] = useState("");
   const { provinces } = useOrigins();
+  const [isWalletPayLoading,setIsWalletPayLoading] = useState(false)
 
   const payFromWallet = async () => {
+    setIsWalletPayLoading(true);
     const response = await Axios.post("/API/transactions/purchase", {
       load_id: load.loadID,
     });
     if (response.status === 200) {
       toast.info("بار شما خریداری شد.");
       router.push("/my/trades");
+      setIsWalletPayLoading(false);
     } else if (response.status === 400) {
       toast.error("موجودی کیف پول شما کافی نیست");
       document.getElementById("modal_buy").close();
+      setIsWalletPayLoading(false);
     } else if (response.status === 403) {
       const errorData = await response.json(); // Parse the error response
       toast.error(
@@ -36,15 +40,17 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
           errorData.message || "You are not authorized to perform this action."
         }`
       );
+      setIsWalletPayLoading(false);
     } else {
       // Handle other errors
       console.error("Error occurred:", response);
       toast.error("Unexpected error occurred. Please try again.");
+      setIsWalletPayLoading(false);
     }
   };
 
   const onlinePay = async () => {
-    setIsLoading(true);
+    setIsOnlinePayLoading(true);
     if (prePurchasePrice > 200000000) {
     }
     const response = await Axios.post(
@@ -69,9 +75,9 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
           : "done"
       );
       localStorage.setItem("prePurcahsedId", load.loadID);
-      setIsLoading(false);
+      setIsOnlinePayLoading(false);
     } else {
-      setIsLoading(false);
+      setIsOnlinePayLoading(false);
       toast.error("مشکلی در درخواست وجود دارد");
       console.log(error);
     }
@@ -201,11 +207,12 @@ const BuyModal = ({ load, setSelectedCard = null }) => {
           <div className="grid grid-cols-2 items-center justify-center gap-4 mt-5 pb-4">
             <Button
               text="پرداخت آنلاین"
-              disabled={isLoading ? true : false}
+              disabled={isOnlinePayLoading ? true : false}
               type="bg-success text-default-50 font-normal h-12"
               onClick={() => onlinePay()}
             />
             <Button
+              disabled={isWalletPayLoading}
               text="پرداخت از کیف پول"
               type="text-success border-solid border-[2px] border-success h-12"
               onClick={() => payFromWallet()}
