@@ -24,13 +24,14 @@ export default function InputText({
   inputToggle,
   setInputToggle,
   sheba,
+  value,
 }) {
   const removeProfile = useProfile((state) => state.removeProfile);
   const removeSheba = useProfile((state) => state.removeSheba);
   const [provinces, setProvinces] = useState({});
   const [cities, setCities] = useState({});
   const [testInput, setTestInput] = useState("");
-  const defaultInputRef = useRef()
+  const defaultInputRef = useRef();
 
   useEffect(() => {
     const getProvinces = async () => {
@@ -95,7 +96,9 @@ export default function InputText({
               e.preventDefault();
             }
           }}
-          className={`${inputToggle ? "visible" : "invisible"} absolute inset-x-0 top-[100%] bg-default-50 z-20 searchShadow rounded-xl px-4 py-2 h-52 overflow-y-scroll`}
+          className={`${
+            inputToggle ? "visible" : "invisible"
+          } absolute inset-x-0 top-[100%] bg-default-50 z-20 searchShadow rounded-xl px-4 py-2 h-52 overflow-y-scroll`}
         >
           {
             // provinces.provinces.map((value, index) => (<div key={value.id} className="h-10 text-default-900">{value.title}</div>))
@@ -121,22 +124,28 @@ export default function InputText({
             <span className="icon-light-linear-Delete-2-custom text-xl"></span>
           </div>
         )}
-        <div className={`absolute flex justify-center items-center size-9 ${IR ? 'right-1' : 'left-1'} top-[50%] translate-y-[-50%] cursor-pointer ${testInput !== '' ? 'visible' : 'invisible'}`}>
+        <div
+          className={`absolute flex justify-center items-center size-9 ${
+            IR ? "right-1" : "left-1"
+          } top-[50%] translate-y-[-50%] cursor-pointer ${
+            testInput !== "" ? "visible" : "invisible"
+          }`}
+        >
           <span
             className={`icon-light-outline-Close size-4`}
-            onClick={() => setTestInput('')}>
-          </span>
+            onClick={() => onChange("")}
+          ></span>
         </div>
         <input
           disabled={disabled}
-          value={testInput}
+          value={value}
           id={name}
           dir={dir}
           name={name}
           ref={inputRef ?? defaultInputRef}
           type={type}
           onChange={(e) => {
-            onChange && onChange();
+            onChange && onChange(e.target.value);
             if (sheba) {
               const regex = /^0\d*$/g;
               if (!regex.test(e.target.value)) {
@@ -148,8 +157,9 @@ export default function InputText({
           }}
           onBlur={() => search && setInputToggle(false)}
           onClick={() => search && setInputToggle(true)}
-          className={`bg-default-50 ${IR && "!px-9"
-            } w-full px-4 h-[50px] text-default-900 font-normal text-base ${className}`}
+          className={`bg-default-50 ${
+            IR && "!px-9"
+          } w-full px-4 h-[50px] text-default-900 font-normal text-base ${className}`}
           placeholder={placeholder}
         />
       </div>

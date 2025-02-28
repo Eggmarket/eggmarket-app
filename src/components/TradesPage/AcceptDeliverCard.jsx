@@ -12,6 +12,7 @@ function AcceptDeliverCard({
   getUserDoneTrades,
 }) {
   const { provinces } = useOrigins();
+  let dateFormat = new Date(factor.time * 1000);
 
   const acceptDelivery = async () => {
     const response = await Axios.post(`/API/transactions/accept-delivery`, {
@@ -30,9 +31,18 @@ function AcceptDeliverCard({
     <div className="bg-default-50 cardShadow border border-default-200 py-3 rounded-lg mb-4">
       <div className="flex items-center justify-between px-4 pb-2">
         <p>
-          <span className="text-default-500 text-xs ml-1">برند</span>
+          <span
+            className={`text-sm font-semibold ${
+              factor.type === 0 ? "text-[#178230]" : " text-[#D33C30]"
+            }`}
+          >
+            {factor.type === 0 ? " خرید" : " فروش"}
+          </span>
           <span className="text-default-700 text-sm">
             {factor.load.owner_name}
+          </span>
+          <span className="text-default-500 text-xs">
+            | {dateFormat.toLocaleDateString("fa-IR")}
           </span>
         </p>
         <div>

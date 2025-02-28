@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export default function Page() {
   const [myToken, setToken] = useToken();
-  const [userProfile, setUserProfile] = useUserProfile();
+  const { userProfile: profile } = useUserProfile();
 
   const lists = [
     {
@@ -61,7 +61,6 @@ export default function Page() {
   ];
 
   const router = useRouter();
-  const [profile, setProfile] = useState({});
   const removeAllProfile = useProfile((state) => state.removeAllProfile);
   const removeAll = useField((state) => state.removeAll);
   const { wallet, loading } = useWallet();
@@ -75,37 +74,37 @@ export default function Page() {
     return storedProfile ? JSON.parse(storedProfile) : null;
   };
 
-  useEffect(() => {
-    if (myToken || !profile) {
-      const getData = async () => {
-        if (myToken) {
-          try {
-            const res = await fetch(
-              `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/profile`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: myToken,
-                },
-                cache: "force-cache",
-              }
-            );
-            const data = await res.json();
-            setProfile(data.profile);
-            setUserProfile(data.profile);
-            saveProfileToLocalStorage(data.profile);
-            // console.log('this is the data', data)
-          } catch (err) {
-            console.error("Failed to fetch profile data:", err);
-          }
-        } else {
-          console.log("no token found");
-        }
-      };
-      getData();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (myToken || !profile) {
+  //     const getData = async () => {
+  //       if (myToken) {
+  //         try {
+  //           const res = await fetch(
+  //             `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/profile`,
+  //             {
+  //               method: "POST",
+  //               headers: {
+  //                 "Content-Type": "application/json",
+  //                 Authorization: myToken,
+  //               },
+  //               cache: "force-cache",
+  //             }
+  //           );
+  //           const data = await res.json();
+  //           setProfile(data.profile);
+  //           setUserProfile(data.profile);
+  //           saveProfileToLocalStorage(data.profile);
+  //           // console.log('this is the data', data)
+  //         } catch (err) {
+  //           console.error("Failed to fetch profile data:", err);
+  //         }
+  //       } else {
+  //         console.log("no token found");
+  //       }
+  //     };
+  //     getData();
+  //   }
+  // }, []);
 
   useEffect(() => {
     // console.log(Object.entries(profile).length === 0 ? "true" : "false");
@@ -167,7 +166,21 @@ export default function Page() {
                   {profile?.name ? profile.name : ""}
                 </p>
                 <p className="text-default-700 font-normal text-xs mt-1">
-                  {["مرغدار", "بنکدار"].join(" - ")}
+                  {profile.type &&
+                    JSON.parse(profile.type).map((item, index) => (
+                      <>
+                        <span>{item}</span>
+                        <span
+                          className={`${
+                            index === JSON.parse(profile.type).length - 1 &&
+                            "hidden"
+                          }`}
+                        >
+                          {" "}
+                          -{" "}
+                        </span>
+                      </>
+                    ))}
                 </p>
               </div>
             </div>

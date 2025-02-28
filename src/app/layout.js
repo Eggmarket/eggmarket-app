@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { OriginsProvider } from "@/context/OriginsProvider";
 import { BrandsProvider } from "@/context/BrandsProvider";
 import { AdsProvider } from "@/context/AdsProvider";
+import ProfileProvider from "@/context/ProfileProvider";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -28,70 +29,72 @@ export default function RootLayout({ children }) {
     >
       <body className={`relative font-[vazir] overflow-x-hidden`}>
         <TokenProvider>
-          <BrandsProvider>
-            <WalletProvider>
-              <OriginsProvider>
-                <Path
-                  excludePath={[
-                    "/about",
-                    // "/calculator",
-                    "/auth/register",
-                    "/auth/code",
-                    "/auth/password",
-                    "/auth/signup",
-                    "/my",
-                    "/my/ads",
-                    "/my/trades",
-                    "/my/transactions",
-                    "/my/wallet/transactions",
-                    "/my/wallet",
-                    "/buy",
-                    "/price",
-                    "/my/security",
-                    "/my/security/set-password",
-                    "/my/security/change-password",
-                    "/calculator",
-                    "/my/priceSuggestion",
-                    "/my/messages",
-                    "/my/messages/",
-                    "/my/profile",
-                    "/my/wallet/requests",
-                    "/aboutUs",
-                    "/landing-page",
-                    "/policy",
-                  ]}
-                  childProp={<Header />}
-                ></Path>
-                {children}
-                <Path
-                  excludePath={[
-                    "/about",
-                    // '/calculator',
-                    "/auth/register",
-                    "/auth/code",
-                    "/auth/password",
-                    "/auth/signup",
-                    "/buy",
-                    "/my/ads",
-                    "/my/trades",
-                    "/my/transactions",
-                    "/my/wallet",
-                    "/my/wallet/transactions",
-                    "/my/wallet/requests",
-                    "/my/security",
-                    "/my/security/set-password",
-                    "/my/security/change-password",
-                    "/my/priceSuggestion",
-                    "/my/messages",
-                    "/my/messages/",
-                    "/my/profile",
-                    "/landing-page",
-                  ]}
-                  childProp={<Footer />}
-                ></Path>
-              </OriginsProvider>
-            </WalletProvider>
-          </BrandsProvider>
+          <ProfileProvider>
+            <BrandsProvider>
+              <WalletProvider>
+                <OriginsProvider>
+                  <Path
+                    excludePath={[
+                      "/about",
+                      // "/calculator",
+                      "/auth/register",
+                      "/auth/code",
+                      "/auth/password",
+                      "/auth/signup",
+                      "/my",
+                      "/my/ads",
+                      "/my/trades",
+                      "/my/transactions",
+                      "/my/wallet/transactions",
+                      "/my/wallet",
+                      "/buy",
+                      "/price",
+                      "/my/security",
+                      "/my/security/set-password",
+                      "/my/security/change-password",
+                      "/calculator",
+                      "/my/priceSuggestion",
+                      "/my/messages",
+                      "/my/messages/",
+                      "/my/profile",
+                      "/my/wallet/requests",
+                      "/aboutUs",
+                      "/landing-page",
+                      "/policy",
+                    ]}
+                    childProp={<Header />}
+                  ></Path>
+                  {children}
+                  <Path
+                    excludePath={[
+                      "/about",
+                      // '/calculator',
+                      "/auth/register",
+                      "/auth/code",
+                      "/auth/password",
+                      "/auth/signup",
+                      "/buy",
+                      "/my/ads",
+                      "/my/trades",
+                      "/my/transactions",
+                      "/my/wallet",
+                      "/my/wallet/transactions",
+                      "/my/wallet/requests",
+                      "/my/security",
+                      "/my/security/set-password",
+                      "/my/security/change-password",
+                      "/my/priceSuggestion",
+                      "/my/messages",
+                      "/my/messages/",
+                      "/my/profile",
+                      "/landing-page",
+                    ]}
+                    childProp={<Footer />}
+                  ></Path>
+                </OriginsProvider>
+              </WalletProvider>
+            </BrandsProvider>
+          </ProfileProvider>
         </TokenProvider>
         <ToastContainer />
       </body>
