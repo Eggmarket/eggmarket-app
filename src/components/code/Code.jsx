@@ -59,25 +59,34 @@ const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
   const x = parseInt(inputValue.join(""));
 
   const getCode = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/confirm/${phone}/${x}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phone, x }),
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/confirm/${phone}/${x}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phone, x }),
+        }
+      );
+
+      if (response.status !== 200 && response.status !== 203) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
-    );
-    const data = await response.json();
-    !modal && router.push("/");
 
-    if (dialogPhone === "add") {
-      addProfile(localStorage.getItem("phone"));
+      const data = await response.json();
+      !modal && router.push("/");
+
+      if (dialogPhone === "add") {
+        addProfile(localStorage.getItem("phone"));
+      }
+      setToken(data.token);
+      localStorage.setItem("token", JSON.stringify(data.token));
+    } catch (error) {
+      setError(true);
     }
-    setToken(data.token);
-    localStorage.setItem("token", JSON.stringify(data.token));
-
     // try {
     //   await fetch(`${process.env.NEXT_PUBLIC_EGG_MARKET}/api/token`, {
     //     method: "POST",
